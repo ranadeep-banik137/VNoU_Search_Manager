@@ -17,9 +17,9 @@
             align-items: center;
         }
         h1 {
-            margin: 0 0 20px;
+            margin: 0;
             font-weight: 400;
-            color: #1c87c9;
+            color: white;
         }
         .background-video {
             position: absolute;
@@ -35,11 +35,22 @@
             max-height: 80vh;
             overflow-y: auto;
             padding: 30px;
-            background-color: rgba(255, 255, 255, 0.9);
+            background-color: rgba(255, 255, 255, 0.7);
             border-radius: 10px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             position: relative;
             z-index: 1;
+        }
+        .header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 20px;
+            background-color: rgba(0, 123, 255, 0.8);
+            border-radius: 10px;
+            color: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
         .form-group {
             margin-bottom: 20px;
@@ -89,7 +100,9 @@
         Your browser does not support HTML5 video.
     </video>
     <div class="container">
-        <h1>VNoU Search Box</h1>
+        <div class="header">
+            <h1>VNoU Search Box</h1>
+        </div>
         <form action="/search" method="post">
             <div class="form-group">
                 <label for="name">Name</label>
