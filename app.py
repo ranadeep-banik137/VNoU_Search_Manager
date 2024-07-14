@@ -15,11 +15,6 @@ def search_data(name=None, detection_time=None, frame_number=None, user_id=None,
     all_jsons = get_json_objects_from_directory(file_dest)
     results = filter_jsons_by_attrs(all_jsons, attr_values)
     print(f'Results {results}')
-    #results = [
-    #    {'timestamp': '2024-07-12T13:24:37', 'frame_number': 36688, 'user_id': 6, 'name': 'Ranadeep Banik',
-    #     'contact': '7378332802', 'email': 'ranadeep.banik137@yahoo.com', 'detected_at': '2024-07-12T13:24:40',
-    #     'total_visit_count': 4, 'model': 'VNoU', 'is_repeated_user': True, 'name_announced': False}
-    #]
     return results
 
 
