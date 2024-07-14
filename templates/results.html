@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-top: 50px;
+        }
+        .table-responsive {
+            overflow-x: auto; /* Enable horizontal scrolling */
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Search Results</h1>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Timestamp</th>
+                        <th>Frame Number</th>
+                        <th>User ID</th>
+                        <th>Name</th>
+                        <th>Contact</th>
+                        <th>Email</th>
+                        <th>Detected At</th>
+                        <th>Total Visit Count</th>
+                        <th>Model</th>
+                        <th>Is Repeated User</th>
+                        <th>Name Announced</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for result in results %}
+                    <tr>
+                        <td>{{ result.timestamp }}</td>
+                        <td>{{ result.frame_number }}</td>
+                        <td>{{ result.user_id }}</td>
+                        <td>{{ result.name }}</td>
+                        <td>{{ result.contact }}</td>
+                        <td>{{ result.email }}</td>
+                        <td>{{ result.detected_at }}</td>
+                        <td>{{ result.total_visit_count }}</td>
+                        <td>{{ result.model }}</td>
+                        <td>{{ result.is_repeated_user }}</td>
+                        <td>{{ result.name_announced }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
