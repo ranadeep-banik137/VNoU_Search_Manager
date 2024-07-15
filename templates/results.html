@@ -6,6 +6,17 @@
     <title>Search Results</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #0056b3;
+            --background-color: rgba(255, 255, 255, 0.8);
+            --header-color: #007bff;
+            --text-color: black;
+            --table-header-background: #007bff;
+            --table-header-color: white;
+            --table-row-background: rgba(255, 255, 255, 0.8);
+            --table-row-hover: rgba(0, 123, 255, 0.1);
+        }
         body {
             font-family: 'Roboto', sans-serif;
             margin: 0;
@@ -30,7 +41,7 @@
             width: 80%;
             max-height: 80vh;
             padding: 30px;
-            background-color: rgba(255, 255, 255, 0.7);
+            background-color: var(--background-color);
             border-radius: 10px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             position: relative;
@@ -39,40 +50,95 @@
         }
         .header {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
-            padding: 20px;
-            background-color: rgba(0, 123, 255, 0.8);
+            padding: 10px 20px;
+            background-color: var(--primary-color);
             border-radius: 10px;
             color: white;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center; /* Center the header text */
         }
-        h1 {
+        .header h1 {
             margin: 0;
-            font-weight: 400;
+            font-weight: 700;
+            flex: 1; /* Allow header title to take space */
         }
         .table-responsive {
             overflow-x: auto;
+            position: relative;
         }
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
-        }
-        table, th, td {
-            border: 1px solid black;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            background-color: white;
         }
         th, td {
-            padding: 10px;
+            padding: 12px;
             text-align: left;
         }
         th {
-            background-color: #007bff;
-            color: white;
+            background-color: var(--table-header-background);
+            color: var(--table-header-color);
+            position: sticky;
+            top: 0;
+            z-index: 1;
         }
-        td {
-            background-color: rgba(255, 255, 255, 0.8);
+        tbody tr:nth-child(even) {
+            background-color: var(--table-row-background);
+        }
+        tbody tr:hover {
+            background-color: var(--table-row-hover);
+        }
+        tbody tr {
+            border-bottom: 1px solid #ddd;
+        }
+        .filter-tab {
+            position: relative;
+            margin-left: auto;
+        }
+        .filter-tab button {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+        .filter-tab button span {
+            margin-left: 5px;
+        }
+        .filter-tab button:focus + .dropdown,
+        .dropdown:hover {
+            display: block;
+        }
+        .dropdown {
+            display: none;
+            position: absolute;
+            background-color: white;
+            color: black;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            top: 100%;
+            right: 0;
+            z-index: 2;
+            padding: 10px;
+            margin-top: 5px;
+        }
+        .dropdown label {
+            display: block;
+            padding: 5px;
+            cursor: pointer;
+        }
+        .dropdown input {
+            margin-right: 5px;
         }
     </style>
 </head>
@@ -84,43 +150,88 @@
     <div class="container">
         <div class="header">
             <h1>Search Results</h1>
+            <div class="filter-tab">
+                <button onclick="toggleDropdown()">Filter <span>▼</span></button>
+                <div class="dropdown">
+                    <label><input type="checkbox" value="timestamp" onchange="filterResults()"> Timestamp</label>
+                    <label><input type="checkbox" value="frame_number" onchange="filterResults()"> Frame Number</label>
+                    <label><input type="checkbox" value="user_id" onchange="filterResults()"> User ID</label>
+                    <label><input type="checkbox" value="name" onchange="filterResults()"> Name</label>
+                    <label><input type="checkbox" value="contact" onchange="filterResults()"> Contact</label>
+                    <label><input type="checkbox" value="email" onchange="filterResults()"> Email</label>
+                    <label><input type="checkbox" value="detected_at" onchange="filterResults()"> Detected At</label>
+                    <label><input type="checkbox" value="total_visit_count" onchange="filterResults()"> Total Visit Count</label>
+                    <label><input type="checkbox" value="model" onchange="filterResults()"> Model</label>
+                    <label><input type="checkbox" value="is_repeated_user" onchange="filterResults()"> Is Repeated User</label>
+                    <label><input type="checkbox" value="name_announced" onchange="filterResults()"> Name Announced</label>
+                </div>
+            </div>
         </div>
         <div class="table-responsive">
             <table>
                 <thead>
                     <tr>
-                        <th>Timestamp</th>
-                        <th>Frame Number</th>
-                        <th>User ID</th>
-                        <th>Name</th>
-                        <th>Contact</th>
-                        <th>Email</th>
-                        <th>Detected At</th>
-                        <th>Total Visit Count</th>
-                        <th>Model</th>
-                        <th>Is Repeated User</th>
-                        <th>Name Announced</th>
+                        <th data-column="timestamp">Timestamp</th>
+                        <th data-column="frame_number">Frame Number</th>
+                        <th data-column="user_id">User ID</th>
+                        <th data-column="name">Name</th>
+                        <th data-column="contact">Contact</th>
+                        <th data-column="email">Email</th>
+                        <th data-column="detected_at">Detected At</th>
+                        <th data-column="total_visit_count">Total Visit Count</th>
+                        <th data-column="model">Model</th>
+                        <th data-column="is_repeated_user">Is Repeated User</th>
+                        <th data-column="name_announced">Name Announced</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for result in results %}
                     <tr>
-                        <td>{{ result.timestamp }}</td>
-                        <td>{{ result.frame_number }}</td>
-                        <td>{{ result.user_id }}</td>
-                        <td>{{ result.name }}</td>
-                        <td>{{ result.contact }}</td>
-                        <td>{{ result.email }}</td>
-                        <td>{{ result.detected_at }}</td>
-                        <td>{{ result.total_visit_count }}</td>
-                        <td>{{ result.model }}</td>
-                        <td>{{ result.is_repeated_user }}</td>
-                        <td>{{ result.name_announced }}</td>
+                        <td data-column="timestamp">{{ result.timestamp }}</td>
+                        <td data-column="frame_number">{{ result.frame_number }}</td>
+                        <td data-column="user_id">{{ result.user_id }}</td>
+                        <td data-column="name">{{ result.name }}</td>
+                        <td data-column="contact">{{ result.contact }}</td>
+                        <td data-column="email">{{ result.email }}</td>
+                        <td data-column="detected_at">{{ result.detected_at }}</td>
+                        <td data-column="total_visit_count">{{ result.total_visit_count }}</td>
+                        <td data-column="model">{{ result.model }}</td>
+                        <td data-column="is_repeated_user">{{ result.is_repeated_user }}</td>
+                        <td data-column="name_announced">{{ result.name_announced }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
     </div>
+    <script>
+        function toggleDropdown() {
+            const dropdown = document.querySelector('.dropdown');
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function filterResults() {
+            const selectedOptions = Array.from(document.querySelectorAll('.dropdown input:checked')).map(option => option.value);
+            const rows = document.querySelectorAll('tbody tr');
+            const headers = document.querySelectorAll('th');
+
+            // Show or hide columns based on selected checkboxes
+            headers.forEach((header, index) => {
+                const column = header.getAttribute('data-column');
+                header.style.display = selectedOptions.includes(column) ? '' : 'none';
+                rows.forEach(row => {
+                    const cell = row.cells[index];
+                    cell.style.display = selectedOptions.includes(column) ? '' : 'none';
+                });
+            });
+        }
+
+        document.addEventListener('click', function(event) {
+            const isClickInside = document.querySelector('.filter-tab').contains(event.target);
+            if (!isClickInside) {
+                document.querySelector('.dropdown').style.display = 'none';
+            }
+        });
+    </script>
 </body>
 </html>
