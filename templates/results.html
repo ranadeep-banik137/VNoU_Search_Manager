@@ -140,6 +140,14 @@
         .dropdown input {
             margin-right: 5px;
         }
+        .sortable {
+            cursor: pointer;
+        }
+        .sort-arrow {
+            margin-left: 5px;
+            font-size: 0.8em;
+            vertical-align: middle;
+        }
     </style>
 </head>
 <body>
@@ -172,37 +180,37 @@
                 <thead>
                     <tr>
                         {% if results[0].timestamp %}
-                            <th data-column="timestamp">Timestamp</th>
+                            <th class="sortable" data-column="timestamp" onclick="sortTable('timestamp')">Timestamp <span class="sort-arrow" id="arrow-timestamp"></span></th>
                         {% endif %}
                         {% if results[0].frame_number %}
-                            <th data-column="frame_number">Frame Number</th>
+                            <th class="sortable" data-column="frame_number" onclick="sortTable('frame_number')">Frame Number <span class="sort-arrow" id="arrow-frame_number"></span></th>
                         {% endif %}
                         {% if results[0].user_id %}
-                            <th data-column="user_id">User ID</th>
+                            <th class="sortable" data-column="user_id" onclick="sortTable('user_id')">User ID <span class="sort-arrow" id="arrow-user_id"></span></th>
                         {% endif %}
                         {% if results[0].name %}
-                            <th data-column="name">Name</th>
+                            <th class="sortable" data-column="name" onclick="sortTable('name')">Name <span class="sort-arrow" id="arrow-name"></span></th>
                         {% endif %}
                         {% if results[0].contact %}
-                            <th data-column="contact">Contact</th>
+                            <th class="sortable" data-column="contact" onclick="sortTable('contact')">Contact <span class="sort-arrow" id="arrow-contact"></span></th>
                         {% endif %}
                         {% if results[0].email %}
-                            <th data-column="email">Email</th>
+                            <th class="sortable" data-column="email" onclick="sortTable('email')">Email <span class="sort-arrow" id="arrow-email"></span></th>
                         {% endif %}
                         {% if results[0].detected_at %}
-                            <th data-column="detected_at">Detected At</th>
+                            <th class="sortable" data-column="detected_at" onclick="sortTable('detected_at')">Detected At <span class="sort-arrow" id="arrow-detected_at"></span></th>
                         {% endif %}
                         {% if results[0].total_visit_count %}
-                            <th data-column="total_visit_count">Total Visit Count</th>
+                            <th class="sortable" data-column="total_visit_count" onclick="sortTable('total_visit_count')">Total Visit Count <span class="sort-arrow" id="arrow-total_visit_count"></span></th>
                         {% endif %}
                         {% if results[0].model %}
-                            <th data-column="model">Model</th>
+                            <th class="sortable" data-column="model" onclick="sortTable('model')">Model <span class="sort-arrow" id="arrow-model"></span></th>
                         {% endif %}
                         {% if results[0].is_repeated_user %}
-                            <th data-column="is_repeated_user">Is Repeated User</th>
+                            <th class="sortable" data-column="is_repeated_user" onclick="sortTable('is_repeated_user')">Is Repeated User <span class="sort-arrow" id="arrow-is_repeated_user"></span></th>
                         {% endif %}
                         {% if results[0].name_announced %}
-                            <th data-column="name_announced">Name Announced</th>
+                            <th class="sortable" data-column="name_announced" onclick="sortTable('name_announced')">Name Announced <span class="sort-arrow" id="arrow-name_announced"></span></th>
                         {% endif %}
                     </tr>
                 </thead>
@@ -249,6 +257,8 @@
         </div>
     </div>
     <script>
+        let sortDirection = true; // true for ascending, false for descending
+
         function toggleDropdown() {
             const dropdown = document.querySelector('.dropdown');
             dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
@@ -268,6 +278,39 @@
                     cell.style.display = selectedOptions.includes(column) ? '' : 'none';
                 });
             });
+        }
+
+        function sortTable(column) {
+            const table = document.querySelector('table');
+            const tbody = table.querySelector('tbody');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+            const isNumeric = column === 'frame_number' || column === 'user_id' || column === 'total_visit_count';
+
+            rows.sort((a, b) => {
+                const aValue = a.querySelector(`td[data-column="${column}"]`).innerText;
+                const bValue = b.querySelector(`td[data-column="${column}"]`).innerText;
+
+                return isNumeric
+                    ? (sortDirection ? aValue - bValue : bValue - aValue)
+                    : (sortDirection ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue));
+            });
+
+            // Append sorted rows back to tbody
+            rows.forEach(row => tbody.appendChild(row));
+
+            // Update the sort arrow
+            updateSortArrow(column);
+
+            // Toggle sort direction for next click
+            sortDirection = !sortDirection;
+        }
+
+        function updateSortArrow(column) {
+            const arrows = document.querySelectorAll('.sort-arrow');
+            arrows.forEach(arrow => arrow.innerHTML = ''); // Clear all arrows
+
+            const arrow = document.getElementById(`arrow-${column}`);
+            arrow.innerHTML = sortDirection ? ' ▲' : ' ▼'; // Set the arrow based on direction
         }
 
         document.addEventListener('click', function(event) {
