@@ -86,6 +86,18 @@
             position: sticky;
             top: 0;
             z-index: 1;
+            text-align: center; /* Center the header text */
+            font-family: 'Noto Sans', sans-serif; /* Change font family */
+            font-size: 1.0em; /* Change font size */
+            font-weight: 700; /* Change font weight */
+            padding: 15px; /* Adjust padding if needed */
+        }
+        td {
+            padding: 12px;
+            text-align: center; /* Center the cell text */
+            font-family: 'Roboto', sans-serif; /* Change font family */
+            font-size: 1em; /* Change font size */
+            font-weight: 400; /* Change font weight */
         }
         tbody tr:nth-child(even) {
             background-color: var(--table-row-background);
@@ -148,6 +160,14 @@
             font-size: 0.8em;
             vertical-align: middle;
         }
+        .no-results {
+            text-align: center;
+            padding: 20px;
+        }
+        .no-results img {
+            max-width: 300px; /* Adjust as needed */
+            height: auto;
+        }
     </style>
 </head>
 <body>
@@ -176,84 +196,91 @@
             </div>
         </div>
         <div class="table-responsive">
-            <table>
-                <thead>
-                    <tr>
-                        {% if results[0].timestamp %}
-                            <th class="sortable" data-column="timestamp" onclick="sortTable('timestamp')">Timestamp <span class="sort-arrow" id="arrow-timestamp"></span></th>
-                        {% endif %}
-                        {% if results[0].frame_number %}
-                            <th class="sortable" data-column="frame_number" onclick="sortTable('frame_number')">Frame Number <span class="sort-arrow" id="arrow-frame_number"></span></th>
-                        {% endif %}
-                        {% if results[0].user_id %}
-                            <th class="sortable" data-column="user_id" onclick="sortTable('user_id')">User ID <span class="sort-arrow" id="arrow-user_id"></span></th>
-                        {% endif %}
-                        {% if results[0].name %}
-                            <th class="sortable" data-column="name" onclick="sortTable('name')">Name <span class="sort-arrow" id="arrow-name"></span></th>
-                        {% endif %}
-                        {% if results[0].contact %}
-                            <th class="sortable" data-column="contact" onclick="sortTable('contact')">Contact <span class="sort-arrow" id="arrow-contact"></span></th>
-                        {% endif %}
-                        {% if results[0].email %}
-                            <th class="sortable" data-column="email" onclick="sortTable('email')">Email <span class="sort-arrow" id="arrow-email"></span></th>
-                        {% endif %}
-                        {% if results[0].detected_at %}
-                            <th class="sortable" data-column="detected_at" onclick="sortTable('detected_at')">Detected At <span class="sort-arrow" id="arrow-detected_at"></span></th>
-                        {% endif %}
-                        {% if results[0].total_visit_count %}
-                            <th class="sortable" data-column="total_visit_count" onclick="sortTable('total_visit_count')">Total Visit Count <span class="sort-arrow" id="arrow-total_visit_count"></span></th>
-                        {% endif %}
-                        {% if results[0].model %}
-                            <th class="sortable" data-column="model" onclick="sortTable('model')">Model <span class="sort-arrow" id="arrow-model"></span></th>
-                        {% endif %}
-                        {% if results[0].is_repeated_user %}
-                            <th class="sortable" data-column="is_repeated_user" onclick="sortTable('is_repeated_user')">Is Repeated User <span class="sort-arrow" id="arrow-is_repeated_user"></span></th>
-                        {% endif %}
-                        {% if results[0].name_announced %}
-                            <th class="sortable" data-column="name_announced" onclick="sortTable('name_announced')">Name Announced <span class="sort-arrow" id="arrow-name_announced"></span></th>
-                        {% endif %}
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for result in results %}
-                    <tr>
-                        {% if result.timestamp %}
-                            <td data-column="timestamp">{{ result.timestamp }}</td>
-                        {% endif %}
-                        {% if result.frame_number %}
-                            <td data-column="frame_number">{{ result.frame_number }}</td>
-                        {% endif %}
-                        {% if result.user_id %}
-                            <td data-column="user_id">{{ result.user_id }}</td>
-                        {% endif %}
-                        {% if result.name %}
-                            <td data-column="name">{{ result.name }}</td>
-                        {% endif %}
-                        {% if result.contact %}
-                            <td data-column="contact">{{ result.contact }}</td>
-                        {% endif %}
-                        {% if result.email %}
-                            <td data-column="email">{{ result.email }}</td>
-                        {% endif %}
-                        {% if result.detected_at %}
-                            <td data-column="detected_at">{{ result.detected_at }}</td>
-                        {% endif %}
-                        {% if result.total_visit_count %}
-                            <td data-column="total_visit_count">{{ result.total_visit_count }}</td>
-                        {% endif %}
-                        {% if result.model %}
-                            <td data-column="model">{{ result.model }}</td>
-                        {% endif %}
-                        {% if result.is_repeated_user %}
-                            <td data-column="is_repeated_user">{{ result.is_repeated_user }}</td>
-                        {% endif %}
-                        {% if result.name_announced %}
-                            <td data-column="name_announced">{{ result.name_announced }}</td>
-                        {% endif %}
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            {% if results %}
+                <table>
+                    <thead>
+                        <tr>
+                            {% if results and results[0].timestamp %}
+                                <th class="sortable" data-column="timestamp" onclick="sortTable('timestamp')">Timestamp <span class="sort-arrow" id="arrow-timestamp"></span></th>
+                            {% endif %}
+                            {% if results and results[0].frame_number %}
+                                <th class="sortable" data-column="frame_number" onclick="sortTable('frame_number')">Frame Number <span class="sort-arrow" id="arrow-frame_number"></span></th>
+                            {% endif %}
+                            {% if results and results[0].user_id %}
+                                <th class="sortable" data-column="user_id" onclick="sortTable('user_id')">User ID <span class="sort-arrow" id="arrow-user_id"></span></th>
+                            {% endif %}
+                            {% if results and results[0].name %}
+                                <th class="sortable" data-column="name" onclick="sortTable('name')">Name <span class="sort-arrow" id="arrow-name"></span></th>
+                            {% endif %}
+                            {% if results and results[0].contact %}
+                                <th class="sortable" data-column="contact" onclick="sortTable('contact')">Contact <span class="sort-arrow" id="arrow-contact"></span></th>
+                            {% endif %}
+                            {% if results and results[0].email %}
+                                <th class="sortable" data-column="email" onclick="sortTable('email')">Email <span class="sort-arrow" id="arrow-email"></span></th>
+                            {% endif %}
+                            {% if results and results[0].detected_at %}
+                                <th class="sortable" data-column="detected_at" onclick="sortTable('detected_at')">Detected At <span class="sort-arrow" id="arrow-detected_at"></span></th>
+                            {% endif %}
+                            {% if results and results[0].total_visit_count %}
+                                <th class="sortable" data-column="total_visit_count" onclick="sortTable('total_visit_count')">Total Visit Count <span class="sort-arrow" id="arrow-total_visit_count"></span></th>
+                            {% endif %}
+                            {% if results and results[0].model %}
+                                <th class="sortable" data-column="model" onclick="sortTable('model')">Model <span class="sort-arrow" id="arrow-model"></span></th>
+                            {% endif %}
+                            {% if results and results[0].is_repeated_user %}
+                                <th class="sortable" data-column="is_repeated_user" onclick="sortTable('is_repeated_user')">Is Repeated User <span class="sort-arrow" id="arrow-is_repeated_user"></span></th>
+                            {% endif %}
+                            {% if results and results[0].name_announced %}
+                                <th class="sortable" data-column="name_announced" onclick="sortTable('name_announced')">Name Announced <span class="sort-arrow" id="arrow-name_announced"></span></th>
+                            {% endif %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for result in results %}
+                        <tr>
+                            {% if result.timestamp %}
+                                <td data-column="timestamp">{{ result.timestamp }}</td>
+                            {% endif %}
+                            {% if result.frame_number %}
+                                <td data-column="frame_number">{{ result.frame_number }}</td>
+                            {% endif %}
+                            {% if result.user_id %}
+                                <td data-column="user_id">{{ result.user_id }}</td>
+                            {% endif %}
+                            {% if result.name %}
+                                <td data-column="name">{{ result.name }}</td>
+                            {% endif %}
+                            {% if result.contact %}
+                                <td data-column="contact">{{ result.contact }}</td>
+                            {% endif %}
+                            {% if result.email %}
+                                <td data-column="email">{{ result.email }}</td>
+                            {% endif %}
+                            {% if result.detected_at %}
+                                <td data-column="detected_at">{{ result.detected_at }}</td>
+                            {% endif %}
+                            {% if result.total_visit_count %}
+                                <td data-column="total_visit_count">{{ result.total_visit_count }}</td>
+                            {% endif %}
+                            {% if result.model %}
+                                <td data-column="model">{{ result.model }}</td>
+                            {% endif %}
+                            {% if result.is_repeated_user %}
+                                <td data-column="is_repeated_user">{{ result.is_repeated_user }}</td>
+                            {% endif %}
+                            {% if result.name_announced %}
+                                <td data-column="name_announced">{{ result.name_announced }}</td>
+                            {% endif %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="no-results">
+                    <img src="https://www.shutterstock.com/shutterstock/photos/1595649697/display_1500/stock-vector-doodle-stick-figure-no-search-results-page-not-found-concept-sad-man-with-search-magnifying-1595649697.jpg" alt="No Results Found" style="max-width: 100%; height: auto;">
+                    <p>No results found. Please try again.</p>
+                </div>
+            {% endif %}
         </div>
     </div>
     <script>
