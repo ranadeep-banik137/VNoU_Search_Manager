@@ -36,7 +36,7 @@ def filter_jsons_by_ranges(json_objs, attr_ranges):
                         match = False
                         break
                 else:
-                    match = json_obj[attribute_name] != start
+                    match = json_obj[attribute_name] == start
                     # break
             else:
                 match = False

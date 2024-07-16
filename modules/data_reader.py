@@ -179,20 +179,20 @@ def is_input_within_range(current_val, start, end=None):
     return start <= current_val if end is None else start <= current_val <= end
 
 
-def get_active_attributes(name=None, detection_time=None, frame_number=None, user_id=None, email=None, has_saved_image=None, unidentified_reason=None):
+def get_active_attributes(name=None, start_detection_time=None, end_detection_time=None, start_frame_number=None, end_frame_number=None, user_id=None, email=None, has_saved_image=False, unidentified_reason=None):
     attr_values = {}
     if name:  # This checks for both None and empty string
-        attr_values['name'] = name
-    if detection_time:
-        attr_values['detected_at'] = detection_time
-    if frame_number is not None:  # Keep this to check for None explicitly
-        attr_values['frame_number'] = frame_number
+        attr_values['name'] = (name, None)
+    if start_detection_time or end_detection_time:
+        attr_values['detected_at'] = (start_detection_time, end_detection_time)
+    if start_frame_number or end_frame_number:  # Keep this to check for None explicitly
+        attr_values['frame_number'] = (start_frame_number, end_frame_number)
     if user_id is not None:
-        attr_values['user_id'] = user_id
+        attr_values['user_id'] = (user_id, None)
     if email:
-        attr_values['email'] = email
+        attr_values['email'] = (email, None)
     if has_saved_image is not None:  # Keep this to check for None explicitly
-        attr_values['is_img_saved_in_local'] = has_saved_image
+        attr_values['is_img_saved_in_local'] = (has_saved_image, None)
     if unidentified_reason:
-        attr_values['unidentified_reason'] = unidentified_reason
+        attr_values['unidentified_reason'] = (unidentified_reason, None)
     return attr_values

@@ -113,20 +113,28 @@
                 <input type="text" id="name" name="name">
             </div>
             <div class="form-group">
-                <label for="detection_time">Detection Time</label>
-                <input type="text" id="detection_time" name="detection_time">
+                <label for="start_detection_time">Start Detection Time</label>
+                <input type="datetime-local" id="start_detection_time" name="start_detection_time">
             </div>
             <div class="form-group">
-                <label for="frame_number">Frame Number</label>
-                <input type="text" id="frame_number" name="frame_number">
+                <label for="end_detection_time">End Detection Time</label>
+                <input type="datetime-local" id="end_detection_time" name="end_detection_time">
+            </div>
+            <div class="form-group">
+                <label for="start_frame_number">Start Frame Number</label>
+                <input type="number" id="start_frame_number" name="start_frame_number">
+            </div>
+            <div class="form-group">
+                <label for="end_frame_number">End Frame Number</label>
+                <input type="number" id="end_frame_number" name="end_frame_number">
             </div>
             <div class="form-group">
                 <label for="user_id">User ID</label>
-                <input type="text" id="user_id" name="user_id">
+                <input type="number" id="user_id" name="user_id">
             </div>
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="text" id="email" name="email">
+                <input type="email" id="email" name="email">
             </div>
             <div class="form-group">
                 <label for="has_saved_image">Has Saved Image In Local</label>
@@ -143,8 +151,10 @@
     <script>
         function resetForm() {
             document.getElementById('name').value = '';
-            document.getElementById('detection_time').value = '';
-            document.getElementById('frame_number').value = '';
+            document.getElementById('start_detection_time').value = '';
+            document.getElementById('end_detection_time').value = '';
+            document.getElementById('start_frame_number').value = '';
+            document.getElementById('end_frame_number').value = '';
             document.getElementById('user_id').value = '';
             document.getElementById('email').value = '';
             document.getElementById('has_saved_image').value = '';

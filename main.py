@@ -38,14 +38,15 @@ if __name__ == '__main__':
     mul_filtered1 = filter_jsons_by_attrs(all_jsons, attr_values1)
     print(f'Detected with multiple filters 1 {mul_filtered1}')
     # attr_values2 = attr_values = {'name': 'Ranadeep Banik', 'detected_at': None, 'frame_number': None, 'user_id': 6, 'email': None, 'is_img_saved_in_local': None, 'unidentified_reason': None}
-    attr_values2 = get_active_attributes(name='Ranadeep Banik', detection_time=None, frame_number=None, user_id=6, email=None, has_saved_image=None, unidentified_reason=None)
-    mul_filtered2 = filter_jsons_by_attrs(all_jsons, attr_values2)
-    print(f'Detected with multiple filters 1 {mul_filtered2}')
+    #attr_values2 = get_active_attributes(name='Ranadeep Banik', detection_time=None, frame_number=None, user_id=6, email=None, has_saved_image=None, unidentified_reason=None)
+    #mul_filtered2 = filter_jsons_by_attrs(all_jsons, attr_values2)
+    #print(f'Detected with multiple filters 1 {mul_filtered2}')
     att_vals = {
         'timestamp': ('2024-07-14T15:31:44', '2024-07-14T15:36:44'),
         'frame_number': (800, 900),
         'name': ('Ranadeep Banik', None)
     }
+    att_vals = {'timestamp': ('2024-07-05T12:07', '2024-07-05T12:08')}
     mul_filtered_values3 = filter_jsons_by_ranges(all_jsons, att_vals)
     print(f'Multiple ranges values {mul_filtered_values3}')
 
