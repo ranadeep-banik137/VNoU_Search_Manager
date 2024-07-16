@@ -35,6 +35,9 @@ def filter_jsons_by_ranges(json_objs, attr_ranges):
                     if not is_input_within_range(json_obj[attribute_name], start, end):
                         match = False
                         break
+                else:
+                    match = json_obj[attribute_name] != start
+                    # break
             else:
                 match = False
                 break

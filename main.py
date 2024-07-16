@@ -1,7 +1,7 @@
 import logging
 from datetime import datetime
 from modules.data_reader import get_json_objects_from_directory, get_active_attributes
-from modules.json_filtering import filter_jsons_by_range, filter_jsons_by_attr, filter_jsons_by_attrs
+from modules.json_filtering import filter_jsons_by_range, filter_jsons_by_attr, filter_jsons_by_attrs, filter_jsons_by_ranges
 from modules.search_util import search_value_by_attributes, search_value_by_attr
 
 
@@ -41,3 +41,11 @@ if __name__ == '__main__':
     attr_values2 = get_active_attributes(name='Ranadeep Banik', detection_time=None, frame_number=None, user_id=6, email=None, has_saved_image=None, unidentified_reason=None)
     mul_filtered2 = filter_jsons_by_attrs(all_jsons, attr_values2)
     print(f'Detected with multiple filters 1 {mul_filtered2}')
+    att_vals = {
+        'timestamp': ('2024-07-14T15:31:44', '2024-07-14T15:36:44'),
+        'frame_number': (800, 900),
+        'name': ('Ranadeep Banik', None)
+    }
+    mul_filtered_values3 = filter_jsons_by_ranges(all_jsons, att_vals)
+    print(f'Multiple ranges values {mul_filtered_values3}')
+
