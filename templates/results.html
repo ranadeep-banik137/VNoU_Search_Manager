@@ -145,12 +145,14 @@
             margin-top: 5px;
         }
         .dropdown label {
-            display: block;
-            padding: 5px;
+            display: flex;
+            align-items: center;
+            padding: 6px;
             cursor: pointer;
+            border-bottom: 1px solid #ddd;
         }
         .dropdown input {
-            margin-right: 5px;
+            margin-right: 10px;
         }
         .sortable {
             cursor: pointer;
@@ -181,6 +183,7 @@
             <div class="filter-tab">
                 <button onclick="toggleDropdown()">Filter <span>▼</span></button>
                 <div class="dropdown">
+                    <label><input type="checkbox" id="select-all" onchange="toggleSelectAll(this)"> Select All</label>
                     <label><input type="checkbox" value="timestamp" onchange="filterResults()"> Timestamp</label>
                     <label><input type="checkbox" value="frame_number" onchange="filterResults()"> Frame Number</label>
                     <label><input type="checkbox" value="user_id" onchange="filterResults()"> User ID</label>
@@ -289,6 +292,14 @@
         function toggleDropdown() {
             const dropdown = document.querySelector('.dropdown');
             dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function toggleSelectAll(selectAllCheckbox) {
+            const checkboxes = document.querySelectorAll('.dropdown input[type="checkbox"]:not(#select-all)');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = selectAllCheckbox.checked;
+                filterResults(); // Update the filter display each time
+            });
         }
 
         function filterResults() {
