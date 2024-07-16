@@ -138,11 +138,23 @@
             </div>
             <div class="form-group">
                 <label for="has_saved_image">Has Saved Image In Local</label>
-                <input type="text" id="has_saved_image" name="has_saved_image">
+                <select id="has_saved_image" name="has_saved_image">
+                    <option value="">--Select--</option>
+                    <option value="true">True</option>
+                    <option value="false">False</option>
+                </select>
             </div>
             <div class="form-group">
                 <label for="unidentified_reason">Unidentified Reason</label>
-                <input type="text" id="unidentified_reason" name="unidentified_reason">
+                <select id="unidentified_reason" name="unidentified_reason">
+                    <option value="">--Select--</option>
+                    <option value="No Face Detected">No Face Detected</option>
+                    <option value="Frame Skipped">Frame Skipped</option>
+                    <option value="Frame Invalid">Frame Invalid</option>
+                    <option value="Face Tilted">Face Tilted</option>
+                    <option value="Image Blurred">Image Blurred</option>
+                    <option value="Face Not Identified">Face Not Identified</option>
+                </select>
             </div>
             <button type="submit">Search</button>
             <button type="button" class="reset" onclick="resetForm()">Reset</button>
