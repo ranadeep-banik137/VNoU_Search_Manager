@@ -171,33 +171,77 @@
             <table>
                 <thead>
                     <tr>
-                        <th data-column="timestamp">Timestamp</th>
-                        <th data-column="frame_number">Frame Number</th>
-                        <th data-column="user_id">User ID</th>
-                        <th data-column="name">Name</th>
-                        <th data-column="contact">Contact</th>
-                        <th data-column="email">Email</th>
-                        <th data-column="detected_at">Detected At</th>
-                        <th data-column="total_visit_count">Total Visit Count</th>
-                        <th data-column="model">Model</th>
-                        <th data-column="is_repeated_user">Is Repeated User</th>
-                        <th data-column="name_announced">Name Announced</th>
+                        {% if results[0].timestamp %}
+                            <th data-column="timestamp">Timestamp</th>
+                        {% endif %}
+                        {% if results[0].frame_number %}
+                            <th data-column="frame_number">Frame Number</th>
+                        {% endif %}
+                        {% if results[0].user_id %}
+                            <th data-column="user_id">User ID</th>
+                        {% endif %}
+                        {% if results[0].name %}
+                            <th data-column="name">Name</th>
+                        {% endif %}
+                        {% if results[0].contact %}
+                            <th data-column="contact">Contact</th>
+                        {% endif %}
+                        {% if results[0].email %}
+                            <th data-column="email">Email</th>
+                        {% endif %}
+                        {% if results[0].detected_at %}
+                            <th data-column="detected_at">Detected At</th>
+                        {% endif %}
+                        {% if results[0].total_visit_count %}
+                            <th data-column="total_visit_count">Total Visit Count</th>
+                        {% endif %}
+                        {% if results[0].model %}
+                            <th data-column="model">Model</th>
+                        {% endif %}
+                        {% if results[0].is_repeated_user %}
+                            <th data-column="is_repeated_user">Is Repeated User</th>
+                        {% endif %}
+                        {% if results[0].name_announced %}
+                            <th data-column="name_announced">Name Announced</th>
+                        {% endif %}
                     </tr>
                 </thead>
                 <tbody>
                     {% for result in results %}
                     <tr>
-                        <td data-column="timestamp">{{ result.timestamp }}</td>
-                        <td data-column="frame_number">{{ result.frame_number }}</td>
-                        <td data-column="user_id">{{ result.user_id }}</td>
-                        <td data-column="name">{{ result.name }}</td>
-                        <td data-column="contact">{{ result.contact }}</td>
-                        <td data-column="email">{{ result.email }}</td>
-                        <td data-column="detected_at">{{ result.detected_at }}</td>
-                        <td data-column="total_visit_count">{{ result.total_visit_count }}</td>
-                        <td data-column="model">{{ result.model }}</td>
-                        <td data-column="is_repeated_user">{{ result.is_repeated_user }}</td>
-                        <td data-column="name_announced">{{ result.name_announced }}</td>
+                        {% if result.timestamp %}
+                            <td data-column="timestamp">{{ result.timestamp }}</td>
+                        {% endif %}
+                        {% if result.frame_number %}
+                            <td data-column="frame_number">{{ result.frame_number }}</td>
+                        {% endif %}
+                        {% if result.user_id %}
+                            <td data-column="user_id">{{ result.user_id }}</td>
+                        {% endif %}
+                        {% if result.name %}
+                            <td data-column="name">{{ result.name }}</td>
+                        {% endif %}
+                        {% if result.contact %}
+                            <td data-column="contact">{{ result.contact }}</td>
+                        {% endif %}
+                        {% if result.email %}
+                            <td data-column="email">{{ result.email }}</td>
+                        {% endif %}
+                        {% if result.detected_at %}
+                            <td data-column="detected_at">{{ result.detected_at }}</td>
+                        {% endif %}
+                        {% if result.total_visit_count %}
+                            <td data-column="total_visit_count">{{ result.total_visit_count }}</td>
+                        {% endif %}
+                        {% if result.model %}
+                            <td data-column="model">{{ result.model }}</td>
+                        {% endif %}
+                        {% if result.is_repeated_user %}
+                            <td data-column="is_repeated_user">{{ result.is_repeated_user }}</td>
+                        {% endif %}
+                        {% if result.name_announced %}
+                            <td data-column="name_announced">{{ result.name_announced }}</td>
+                        {% endif %}
                     </tr>
                     {% endfor %}
                 </tbody>
