@@ -2,11 +2,14 @@ from flask import Flask, request, jsonify, render_template, redirect, url_for, s
 from modules.json_filtering import filter_jsons_by_ranges
 from modules.data_reader import get_json_objects_from_directory, get_active_attributes
 from modules.config_reader import read_config
+from flask_session import Session
+
 
 config = read_config()
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # Needed for session management
-
+app.config['SESSION_TYPE'] = 'filesystem'  # Or use 'redis' or 'sqlalchemy'
+Session(app)
 
 # Dummy function to represent your search function
 def search_data(name=None, start_detection_time=None, end_detection_time=None, start_frame_number=None, end_frame_number=None, user_id=None, email=None, has_saved_image=False, unidentified_reason=None):
