@@ -25,7 +25,7 @@ def search_data(name=None, start_detection_time=None, end_detection_time=None, s
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('full.html')
 
 
 @app.route('/search', methods=['POST'])
