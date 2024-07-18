@@ -1,7 +1,10 @@
-from flask import Flask, request, jsonify, render_template, redirect, url_for, session
+import os
+import yaml
+from flask import Flask, request, jsonify, render_template, redirect, url_for, session, flash
 from modules.json_filtering import filter_jsons_by_ranges
 from modules.data_reader import get_json_objects_from_directory, get_active_attributes
 from modules.config_reader import read_config
+from modules.data_reader import make_dir_if_not_exist
 from flask_session import Session
 
 
@@ -63,6 +66,64 @@ def search():
 def results():
     results = session.get('results', [])
     return render_template('results.html', results=results)
+
+
+# Hardcoded credentials for login
+HARD_CODED_EMAIL = 'test@example.com'
+HARD_CODED_PASSWORD = 'password'
+
+@app.route('/login', methods=['POST'])
+def login():
+    email = request.form['email']
+    password = request.form['password']
+
+    if email == HARD_CODED_EMAIL and password == HARD_CODED_PASSWORD:
+        session['logged_in'] = True
+        return redirect(url_for('onboarding'))
+    else:
+        flash('Invalid credentials. Please try again.', 'danger')
+        return redirect(url_for('index'))
+
+@app.route('/onboarding')
+def onboarding():
+    if not session.get('logged_in'):
+        return redirect(url_for('index'))
+    return render_template('onboarding.html')
+
+@app.route('/submit_onboarding', methods=['POST'])
+def submit_onboarding():
+    if not session.get('logged_in'):
+        return redirect(url_for('index'))
+
+    first_name = request.form['first_name']
+    middle_name = request.form['middle_name']
+    last_name = request.form['last_name']
+    phone = request.form['phone']
+    email = request.form['email']
+    dob = request.form['dob']
+    image = request.files['image']
+    make_dir_if_not_exist('templates/uploads/')
+    # Save the image
+    image_path = os.path.join('templates/uploads', image.filename)
+    image.save(image_path)
+
+    # Create a YAML file with the details
+    details = {
+        'first_name': first_name,
+        'middle_name': middle_name,
+        'last_name': last_name,
+        'phone': phone,
+        'email': email,
+        'dob': dob,
+        'image_path': image_path
+    }
+
+    yaml_path = os.path.join('templates/uploads', 'details.yml')
+    with open(yaml_path, 'w') as yaml_file:
+        yaml.dump(details, yaml_file)
+
+    flash('Onboarding data submitted successfully!', 'success')
+    return redirect(url_for('onboarding'))
 
 
 if __name__ == '__main__':
