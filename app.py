@@ -93,8 +93,8 @@ def dashboard():
 
 
 # Hardcoded credentials for login
-HARD_CODED_EMAIL = 'test@example.com'
-HARD_CODED_PASSWORD = 'password'
+HARD_CODED_EMAIL = 'ranadeep.banik@vnousolutions.com'
+HARD_CODED_PASSWORD = 'rana#123'
 
 
 @app.route('/login', methods=['POST'])
