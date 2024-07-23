@@ -43,6 +43,14 @@
         .container::-webkit-scrollbar {
             display: none;
         }
+        .logo {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .logo img {
+            width: 150px;
+        }
         .form-group {
             margin-bottom: 15px;
         }
@@ -101,15 +109,15 @@
         Your browser does not support HTML5 video.
     </video>
     <div class="container">
+        <div class="logo">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Netflix_logo.svg/1200px-Netflix_logo.svg.png" alt="VNoU Solutions">
+        </div>
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
                 <a class="nav-link active" id="login-tab" data-toggle="tab" href="#login" role="tab" aria-controls="login" aria-selected="true">Login</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="signup-tab" data-toggle="tab" href="#signup" role="tab" aria-controls="signup" aria-selected="false">Signup</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="search-tab" data-toggle="tab" href="#search" role="tab" aria-controls="search" aria-selected="false">Search</a>
             </li>
         </ul>
         <div class="tab-content" id="myTabContent">
@@ -137,60 +145,6 @@
                         <input type="password" id="new_password" name="password" required>
                     </div>
                     <button type="submit">Signup</button>
-                </form>
-            </div>
-            <div class="tab-pane fade" id="search" role="tabpanel" aria-labelledby="search-tab">
-                <form action="/search" method="post">
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" id="name" name="name">
-                    </div>
-                    <div class="form-group">
-                        <label for="start_detection_time">Start Detection Time</label>
-                        <input type="datetime-local" id="start_detection_time" name="start_detection_time">
-                    </div>
-                    <div class="form-group">
-                        <label for="end_detection_time">End Detection Time</label>
-                        <input type="datetime-local" id="end_detection_time" name="end_detection_time">
-                    </div>
-                    <div class="form-group">
-                        <label for="start_frame_number">Start Frame Number</label>
-                        <input type="number" id="start_frame_number" name="start_frame_number">
-                    </div>
-                    <div class="form-group">
-                        <label for="end_frame_number">End Frame Number</label>
-                        <input type="number" id="end_frame_number" name="end_frame_number">
-                    </div>
-                    <div class="form-group">
-                        <label for="user_id">User ID</label>
-                        <input type="number" id="user_id" name="user_id">
-                    </div>
-                    <div class="form-group">
-                        <label for="search_email">Email</label>
-                        <input type="email" id="search_email" name="email">
-                    </div>
-                    <div class="form-group">
-                        <label for="has_saved_image">Has Saved Image</label>
-                        <select id="has_saved_image" name="has_saved_image">
-                            <option value="">Select</option>
-                            <option value="true">True</option>
-                            <option value="false">False</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="unidentified_reason">Unidentified Reason</label>
-                        <select id="unidentified_reason" name="unidentified_reason">
-                            <option value="">Select</option>
-                            <option value="No Face Detected">No Face Detected</option>
-                            <option value="Frame Skipped">Frame Skipped</option>
-                            <option value="Frame Invalid">Frame Invalid</option>
-                            <option value="Face Tilted">Face Tilted</option>
-                            <option value="Image Blurred">Image Blurred</option>
-                            <option value="Face Not Identified">Face Not Identified</option>
-                        </select>
-                    </div>
-                    <button type="submit">Search</button>
-                    <button type="button" class="reset" onclick="resetForm()">Reset</button>
                 </form>
             </div>
         </div>

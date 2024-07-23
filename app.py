@@ -27,7 +27,7 @@ def search_data(name=None, start_detection_time=None, end_detection_time=None, s
 
 
 @app.route('/')
-def index():
+def home():
     return render_template('full.html')
 
 
@@ -68,6 +68,11 @@ def results():
     return render_template('results.html', results=results)
 
 
+@app.route('/dashboard')
+def dashboard():
+    return render_template('dashboard.html')
+
+
 # Hardcoded credentials for login
 HARD_CODED_EMAIL = 'test@example.com'
 HARD_CODED_PASSWORD = 'password'
@@ -79,21 +84,32 @@ def login():
 
     if email == HARD_CODED_EMAIL and password == HARD_CODED_PASSWORD:
         session['logged_in'] = True
-        return redirect(url_for('onboarding'))
+        return redirect(url_for('dashboard'))
     else:
         flash('Invalid credentials. Please try again.', 'danger')
-        return redirect(url_for('index'))
+        return redirect(url_for('home'))
+
+@app.route('/signup', methods=['POST'])
+def signup():
+    flash('Signing up failed', 'danger')
+    return redirect(url_for('home'))
 
 @app.route('/onboarding')
 def onboarding():
     if not session.get('logged_in'):
-        return redirect(url_for('index'))
+        return redirect(url_for('home'))
     return render_template('onboarding.html')
+
+@app.route('/search_index')
+def search_log():
+    if not session.get('logged_in'):
+        return redirect(url_for('home'))
+    return render_template('index.html')
 
 @app.route('/submit_onboarding', methods=['POST'])
 def submit_onboarding():
     if not session.get('logged_in'):
-        return redirect(url_for('index'))
+        return redirect(url_for('home'))
 
     first_name = request.form['first_name']
     middle_name = request.form['middle_name']
@@ -124,6 +140,11 @@ def submit_onboarding():
 
     flash('Onboarding data submitted successfully!', 'success')
     return redirect(url_for('onboarding'))
+
+@app.route('/logout')
+def logout():
+    session.pop('logged_in', None)
+    return redirect(url_for('home'))
 
 
 if __name__ == '__main__':
