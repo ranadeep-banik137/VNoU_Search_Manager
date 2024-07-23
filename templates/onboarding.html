@@ -65,6 +65,28 @@
             border-color: #0056b3;
             outline: none;
         }
+        .header {
+            width: 100%;
+            position: absolute;
+            top: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .logout-button {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .logout-button:hover {
+            background-color: #c82333;
+        }
         button {
             padding: 10px 18px;
             background-color: #007bff;
@@ -91,6 +113,12 @@
         <source src="https://videos.pexels.com/video-files/3129576/3129576-sd_640_360_30fps.mp4" type="video/mp4">
         Your browser does not support HTML5 video.
     </video>
+    <div class="header">
+        <div class="logo">VNoU</div>
+            <form action="/logout">
+                <button class="logout-button">Logout</button>
+            </form>
+    </div>
     <div class="container">
         <form action="/submit_onboarding" method="post" enctype="multipart/form-data">
             <div class="form-group">

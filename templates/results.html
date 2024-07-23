@@ -58,12 +58,25 @@
             border-radius: 10px;
             color: white;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            text-align: center; /* Center the header text */
         }
         .header h1 {
             margin: 0;
             font-weight: 700;
             flex: 1; /* Allow header title to take space */
+            text-align: center; /* Center the header text */
+        }
+        .logout-button {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        .logout-button:hover {
+            background-color: #c82333;
         }
         .table-responsive {
             overflow-x: auto;
@@ -180,6 +193,7 @@
     <div class="container">
         <div class="header">
             <h1>Search Results</h1>
+            <button class="logout-button" onclick="window.location.href='/logout'">Logout</button>
             <div class="filter-tab">
                 <button onclick="toggleDropdown()">Filter <span>▼</span></button>
                 <div class="dropdown">

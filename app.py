@@ -7,12 +7,12 @@ from modules.config_reader import read_config
 from modules.data_reader import make_dir_if_not_exist
 from flask_session import Session
 
-
 config = read_config()
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # Needed for session management
 app.config['SESSION_TYPE'] = 'filesystem'  # Or use 'redis' or 'sqlalchemy'
 Session(app)
+
 
 # Dummy function to represent your search function
 def search_data(name=None, start_detection_time=None, end_detection_time=None, start_frame_number=None, end_frame_number=None, user_id=None, email=None, has_saved_image=False, unidentified_reason=None):
@@ -28,6 +28,8 @@ def search_data(name=None, start_detection_time=None, end_detection_time=None, s
 
 @app.route('/')
 def home():
+    if 'logged_in' in session:
+        return redirect(url_for('dashboard'))
     return render_template('full.html')
 
 
@@ -64,18 +66,23 @@ def search():
 
 @app.route('/results')
 def results():
+    if 'logged_in' not in session:
+        return redirect(url_for('home'))
     results = session.get('results', [])
     return render_template('results.html', results=results)
 
 
 @app.route('/dashboard')
 def dashboard():
+    if 'logged_in' not in session:
+        return redirect(url_for('home'))
     return render_template('dashboard.html')
 
 
 # Hardcoded credentials for login
 HARD_CODED_EMAIL = 'test@example.com'
 HARD_CODED_PASSWORD = 'password'
+
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -89,22 +96,30 @@ def login():
         flash('Invalid credentials. Please try again.', 'danger')
         return redirect(url_for('home'))
 
+
 @app.route('/signup', methods=['POST'])
 def signup():
     flash('Signing up failed', 'danger')
     return redirect(url_for('home'))
 
+
 @app.route('/onboarding')
 def onboarding():
+    if 'logged_in' not in session:
+        return redirect(url_for('home'))
     if not session.get('logged_in'):
         return redirect(url_for('home'))
     return render_template('onboarding.html')
 
+
 @app.route('/search_index')
 def search_log():
+    if 'logged_in' not in session:
+        return redirect(url_for('home'))
     if not session.get('logged_in'):
         return redirect(url_for('home'))
     return render_template('index.html')
+
 
 @app.route('/submit_onboarding', methods=['POST'])
 def submit_onboarding():
@@ -140,6 +155,7 @@ def submit_onboarding():
 
     flash('Onboarding data submitted successfully!', 'success')
     return redirect(url_for('onboarding'))
+
 
 @app.route('/logout')
 def logout():
