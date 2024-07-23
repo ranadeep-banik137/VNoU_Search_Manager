@@ -76,7 +76,20 @@ def results():
 def dashboard():
     if 'logged_in' not in session:
         return redirect(url_for('home'))
-    return render_template('dashboard.html')
+    user_data = {
+        'user_name': 'John Doe',
+        'profile_picture_url': 'https://media.licdn.com/dms/image/C4D03AQF_aRH-ovJl6w/profile-displayphoto-shrink_800_800/0/1656588367653?e=1727308800&v=beta&t=EojZIwZbDuPS6Ns3yEo_yQB8ZBj_NkG0heGbqBODidc', # Default picture
+        'user_details': {
+            'Name': 'Example User',
+            'Email': 'test@example.com',
+            'Phone': '123-456-7890',
+            'DOB': '01/01/1980',
+            'Address': '123 Main St',
+            'Extra Info': 'Additional info',
+            'More Info': 'More details'
+        }
+    }
+    return render_template('dashboard.html', **user_data)
 
 
 # Hardcoded credentials for login

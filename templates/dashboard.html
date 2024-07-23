@@ -57,7 +57,7 @@
             width: 70%;
             max-height: 80%;
             padding: 20px;
-            background-color: rgba(255, 255, 255, 0.3);
+            background-color: rgba(255, 255, 255, 0.2);
             border-radius: 10px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             position: relative;
@@ -117,20 +117,25 @@
             margin: 10px;
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            width: 120px;
+            min-width: 120px; /* Minimum width */
+            max-width: 200px; /* Adjust as needed */
             text-align: center;
+            display: inline-block; /* Allows box to grow/shrink based on content */
+            white-space: nowrap; /* Prevent text from wrapping */
+            overflow: hidden; /* Hide overflowing text */
+            text-overflow: ellipsis; /* Adds ellipsis (...) if text is too long */
         }
         .detail-box:nth-child(1) {
             transform: translate(-300px, -150px); /* Left Top */
         }
         .detail-box:nth-child(2) {
-            transform: translate(-300px, -100px); /* Left Middle */
+            transform: translate(-300px, -115px); /* Left Middle */
         }
         .detail-box:nth-child(3) {
             transform: translate(-6px, -105px); /* Left Bottom */
         }
         .detail-box:nth-child(4) {
-            transform: translate(300px, -345px); /* Right Bottom */
+            transform: translate(300px, -320px); /* Right Bottom */
         }
         .detail-box:nth-child(5) {
             transform: translate(300px, -300px); /* Right Middle */
@@ -185,16 +190,16 @@
         </div>
         <div class="profile-container">
             <div class="profile-picture">
-                <img src="https://via.placeholder.com/120" alt="Profile Picture">
+                <img src="{{ profile_picture_url if profile_picture_url else 'https://via.placeholder.com/150' }}" alt="Profile Picture">
             </div>
             <div class="details">
-                <div class="detail-box">Name: Example</div>
-                <div class="detail-box">Email: example@test.com</div>
-                <div class="detail-box">Phone: xxxxxxx</div>
-                <div class="detail-box">DOB: something</div>
-                <div class="detail-box">Address: something</div>
-                <div class="detail-box">Extra Info: something</div>
-                <div class="detail-box">More Info: something</div>
+                <div class="detail-box">Name: {{ user_details.get('Name', 'N/A') }}</div>
+                <div class="detail-box">Email: {{ user_details.get('Email', 'N/A') }}</div>
+                <div class="detail-box">Phone: {{ user_details.get('Phone', 'N/A') }}</div>
+                <div class="detail-box">DOB: {{ user_details.get('DOB', 'N/A') }}</div>
+                <div class="detail-box">Address: {{ user_details.get('Address', 'N/A') }}</div>
+                <div class="detail-box">Extra Info: {{ user_details.get('Extra Info', 'N/A') }}</div>
+                <div class="detail-box">More Info: {{ user_details.get('More Info', 'N/A') }}</div>
             </div>
         </div>
         <div class="line-separator"></div>
