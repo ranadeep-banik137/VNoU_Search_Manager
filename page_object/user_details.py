@@ -1,3 +1,5 @@
+from modules.image_utils import profile_picture
+
 
 user_data = {}
 
@@ -27,7 +29,7 @@ def get_user_data(_id):
     return data.get(_id)
 
 
-def update_data(user_id, name, gender, email, phone, address_l1, address_l2, dob, city, country, state):
+def update_data(user_id, picture_binary, name, gender, email, phone, address_l1, address_l2, dob, city, country, state):
     user_details = {
         'Name': name,
         'Gender': gender,
@@ -42,6 +44,6 @@ def update_data(user_id, name, gender, email, phone, address_l1, address_l2, dob
     }
     user_data[user_id] = {
         'user_name': 'ranadeep.banik@vnousolutions.com',
-        'profile_picture_url': 'https://media.licdn.com/dms/image/C4D03AQF_aRH-ovJl6w/profile-displayphoto-shrink_800_800/0/1656588367653?e=1727308800&v=beta&t=EojZIwZbDuPS6Ns3yEo_yQB8ZBj_NkG0heGbqBODidc',  # Default picture
+        'profile_picture_url': profile_picture() if picture_binary is None else picture_binary,
         'user_details': user_details
     }

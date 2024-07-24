@@ -166,7 +166,8 @@
                 </div>
             </div>
 			<div class="form-container">
-                <form action="/update_details" method="post">
+                <form action="/update_details" method="post" enctype="multipart/form-data">
+                    <input type="hidden" id="image-edited" name="image_edited" value="false">
                     <div class="form-group">
                         <label for="name">Name:</label>
                         <input type="text" id="name" name="name" value="{{ user_details.get('Name', '') }}">
@@ -236,6 +237,7 @@
         });
 
         document.getElementById('profile-upload').addEventListener('change', function() {
+            document.getElementById('image-edited').value = 'true';
             const file = this.files[0];
             if (file) {
                 const reader = new FileReader();

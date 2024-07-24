@@ -4,6 +4,7 @@ from flask import Flask, request, jsonify, render_template, redirect, url_for, s
 from modules.data_reader import make_dir_if_not_exist
 from page_object.search_utils import search_data
 from page_object.user_details import get_user_data, update_data
+from modules.image_utils import convert_img_to_binary
 from flask_session import Session
 
 
@@ -26,9 +27,9 @@ def search():
     print(f'Received form data: {data}')
     name = data.get('name') or None
     start_detection_time = data.get('start_detection_time') or None
-    print(f'Start detected at : {start_detection_time}')
+    print(f'Start detected at: {start_detection_time}')
     end_detection_time = data.get('end_detection_time') or None
-    print(f'End detected at : {end_detection_time}')
+    print(f'End detected at: {end_detection_time}')
     start_frame_number = data.get('start_frame_number')
     end_frame_number = data.get('end_frame_number')
     user_id = data.get('user_id')
@@ -151,6 +152,7 @@ def update_details():
         return redirect(url_for('home'))
     data = request.form
     print(f'Received form data {data}')
+    print(f'Profile pic in files: {request.files}')
     name = data.get('name')
     gender = ''
     phone = data.get('phone')
@@ -161,7 +163,15 @@ def update_details():
     city = data.get('city')
     country = data.get('country')
     state = data.get('state')
-    update_data(1, name=name, gender=gender, phone=phone, email=email, address_l1=address_l1, address_l2=address_l2, dob=dob, city=city, state=state, country=country)
+    image_edited = request.form.get('image_edited') == 'true'
+    picture_binary = None
+    if 'profile_picture' not in request.files:
+        flash(f'No file part {"but image was uploaded" if image_edited else "as no image uploaded"}')
+    if image_edited and 'profile_picture' in request.files:
+        file = request.files['profile_picture']
+        if file and file.filename:
+            picture_binary = convert_img_to_binary(file)
+    update_data(1, picture_binary=picture_binary, name=name, gender=gender, phone=phone, email=email, address_l1=address_l1, address_l2=address_l2, dob=dob, city=city, state=state, country=country)
     flash('Data updated successfully!', 'success')
     return redirect(url_for('edit'))
 
@@ -178,7 +188,6 @@ def edit():
 def logout():
     session.pop('logged_in', None)
     return redirect(url_for('home'))
-
 
 
 if __name__ == '__main__':
