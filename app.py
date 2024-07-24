@@ -58,10 +58,7 @@ def results():
     return render_template('results.html', results=results)
 
 
-@app.route('/dashboard')
-def dashboard():
-    if 'logged_in' not in session:
-        return redirect(url_for('home'))
+def get_user_data():
     user_data = {
         'user_name': 'John Doe',
         'profile_picture_url': 'https://media.licdn.com/dms/image/C4D03AQF_aRH-ovJl6w/profile-displayphoto-shrink_800_800/0/1656588367653?e=1727308800&v=beta&t=EojZIwZbDuPS6Ns3yEo_yQB8ZBj_NkG0heGbqBODidc', # Default picture
@@ -78,6 +75,14 @@ def dashboard():
             'Country': 'India'
         }
     }
+    return user_data
+
+
+@app.route('/dashboard')
+def dashboard():
+    if 'logged_in' not in session:
+        return redirect(url_for('home'))
+    user_data = get_user_data()
     return render_template('dashboard.html', **user_data)
 
 
@@ -157,6 +162,14 @@ def submit_onboarding():
 
     flash('Onboarding data submitted successfully!', 'success')
     return redirect(url_for('onboarding'))
+
+
+@app.route('/edit')
+def edit():
+    if 'logged_in' not in session:
+        return redirect(url_for('home'))
+    user_data = get_user_data()
+    return render_template('edit_details.html', **user_data)
 
 
 @app.route('/logout')

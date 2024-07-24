@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update details</title>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Raleway', sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.5);
+        }
+        .background-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+        .container {
+            width: 40%;
+            max-height: 90vh;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 1;
+            overflow: auto;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .container::-webkit-scrollbar {
+            display: none;
+        }
+        .form-container {
+            margin-top: 180px; /* Add space between profile picture and form fields */
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #FFFFFF;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 2px solid #007bff;
+            border-radius: 5px;
+            font-size: 14px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+        .form-group input:focus, .form-group select:focus {
+            border-color: #0056b3;
+            outline: none;
+        }
+        .header {
+            width: 100%;
+            position: absolute;
+            top: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .logo {
+            font-family: 'Tangerine', serif;
+            font-size: 35px;
+            color: white;
+        }
+        .logout-button {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .logout-button:hover {
+            background-color: #c82333;
+        }
+        button {
+            padding: 10px 18px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .content h1 {
+            font-family: 'Raleway', sans-serif;
+            margin-bottom: 180px;
+            position: absolute;
+            top: 30px;
+            right: 50px;
+        }
+		.profile-container {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+        .profile-picture {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 5px solid white;
+            position: relative;
+        }
+        .profile-picture img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            cursor: pointer;
+        }
+        .success-message {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <video autoplay muted loop class="background-video">
+        <source src="https://videos.pexels.com/video-files/3129576/3129576-sd_640_360_30fps.mp4" type="video/mp4">
+        Your browser does not support HTML5 video.
+    </video>
+    <div class="header">
+        <div class="logo">VNoU</div>
+        <form action="/logout">
+            <button class="logout-button">Logout</button>
+        </form>
+    </div>
+    <div class="container">
+        <div class="content">
+			<h1>Update Details</h1>
+            <div class="profile-container">
+                <div class="profile-picture">
+                    <img src="{{ profile_picture_url if profile_picture_url else 'https://via.placeholder.com/150' }}" alt="Profile Picture" onclick="document.getElementById('profile-upload').click();">
+                    <input type="file" id="profile-upload" name="profile_picture" style="display: none;">
+                </div>
+            </div>
+			<div class="form-container">
+                <form action="/update_details" method="post">
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" value="{{ user_details.get('Name', '') }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone:</label>
+                        <input type="tel" id="phone" name="phone" value="{{ user_details.get('Phone', '') }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email ID:</label>
+                        <input type="email" id="email" name="email" value="{{ user_details.get('Email', '') }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="address-l1">Address L1:</label>
+                        <input type="text" id="address-l1" name="address_l1" value="{{ user_details.get('Address L1', '') }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="address-l2">Address L2:</label>
+                        <input type="text" id="address-l2" name="address_l2" value="{{ user_details.get('Address L2', '') }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="dob">DOB:</label>
+                        <input type="date" id="dob" name="dob" value="{{ user_details.get('DOB', '') }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="city">City:</label>
+                        <input type="text" id="city" name="city" value="{{ user_details.get('City', '') }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="country">Country:</label>
+                        <input type="text" id="country" name="country" value="{{ user_details.get('Country', '') }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="state">State:</label>
+                        <input type="text" id="state" name="state" value="{{ user_details.get('State', '') }}">
+                    </div>
+                    <div class="button-container">
+                        <button type="submit" class="submit-button">Submit</button>
+                        <button type="button" class="cancel-button" onclick="window.location.href='/dashboard';">Cancel</button>
+                    </div>
+                    <div class="success-message" id="success-message">Details updated</div>
+                </form>
+            </div>
+		</div>
+    </div>
+    <script>
+        document.querySelector('form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            document.getElementById('success-message').style.display = 'block';
+            setTimeout(function() {
+                document.getElementById('success-message').style.display = 'none';
+            }, 2000);
+        });
+
+        document.getElementById('profile-upload').addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.querySelector('.profile-picture img').src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+</body>
+</html>

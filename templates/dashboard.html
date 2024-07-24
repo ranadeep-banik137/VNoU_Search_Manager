@@ -109,6 +109,8 @@
             overflow: hidden;
             border: 5px solid white; /* Added white border */
             background-color: #ccc; /* Fallback color if image fails to load */
+            cursor: pointer;
+            z-index: 4;
         }
         .profile-picture img {
             width: 100%;
@@ -240,6 +242,7 @@
         <div class="profile-container">
             <div class="profile-picture">
                 <img src="{{ profile_picture_url if profile_picture_url else 'https://via.placeholder.com/150' }}" alt="Profile Picture">
+                <a href="{{ profile_picture_url if profile_picture_url else 'https://via.placeholder.com/150' }}" target="_blank"></a>
             </div>
         </div>
         <div class="details">
@@ -254,7 +257,7 @@
             <div class="detail-box">State: {{ user_details.get('State', 'N/A') }}</div>
             <div class="detail-box">Country: {{ user_details.get('Country', 'N/A') }}</div>
             <div class="edit-button-container">
-                <form action="/search_index" method="get">
+                <form action="/edit" method="get">
                     <button type="Edit" class="edit-button">✏ Edit</button>
                 </form>
             </div>
@@ -269,5 +272,13 @@
             </form>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('profile-picture').addEventListener('click', function() {
+                const imgSrc = this.querySelector('img').src;
+                window.open(imgSrc, '_blank');
+            });
+        });
+    </script>
 </body>
 </html>
