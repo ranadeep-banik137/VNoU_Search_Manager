@@ -3,6 +3,7 @@ import yaml
 from flask import Flask, request, jsonify, render_template, redirect, url_for, session, flash
 from modules.data_reader import make_dir_if_not_exist
 from page_object.search_utils import search_data
+from page_object.user_details import get_user_data, update_data
 from flask_session import Session
 
 
@@ -58,31 +59,11 @@ def results():
     return render_template('results.html', results=results)
 
 
-def get_user_data():
-    user_data = {
-        'user_name': 'John Doe',
-        'profile_picture_url': 'https://media.licdn.com/dms/image/C4D03AQF_aRH-ovJl6w/profile-displayphoto-shrink_800_800/0/1656588367653?e=1727308800&v=beta&t=EojZIwZbDuPS6Ns3yEo_yQB8ZBj_NkG0heGbqBODidc', # Default picture
-        'user_details': {
-            'Name': 'Ranadeep Banikjhasiufd',
-            'Gender': 'Male',
-            'Email': 'test@exampleigaosgaosjdg.com',
-            'Phone': '123-456-7890',
-            'DOB': '01/01/1980',
-            'Address L1': '123 Main Street gsiugsiug',
-            'Address L2': 'Additional infoihvasixusxkjgasiugas',
-            'City': 'Agartala',
-            'State': 'Tripura',
-            'Country': 'India'
-        }
-    }
-    return user_data
-
-
 @app.route('/dashboard')
 def dashboard():
     if 'logged_in' not in session:
         return redirect(url_for('home'))
-    user_data = get_user_data()
+    user_data = get_user_data(1)
     return render_template('dashboard.html', **user_data)
 
 
@@ -164,11 +145,32 @@ def submit_onboarding():
     return redirect(url_for('onboarding'))
 
 
+@app.route('/update_details', methods=['POST'])
+def update_details():
+    if not session.get('logged_in'):
+        return redirect(url_for('home'))
+    data = request.form
+    print(f'Received form data {data}')
+    name = data.get('name')
+    gender = ''
+    phone = data.get('phone')
+    email = data.get('email')
+    address_l1 = data.get('address_l1')
+    address_l2 = data.get('address_l2')
+    dob = data.get('dob')
+    city = data.get('city')
+    country = data.get('country')
+    state = data.get('state')
+    update_data(1, name=name, gender=gender, phone=phone, email=email, address_l1=address_l1, address_l2=address_l2, dob=dob, city=city, state=state, country=country)
+    flash('Data updated successfully!', 'success')
+    return redirect(url_for('edit'))
+
+
 @app.route('/edit')
 def edit():
     if 'logged_in' not in session:
         return redirect(url_for('home'))
-    user_data = get_user_data()
+    user_data = get_user_data(1)
     return render_template('edit_details.html', **user_data)
 
 
@@ -176,6 +178,7 @@ def edit():
 def logout():
     session.pop('logged_in', None)
     return redirect(url_for('home'))
+
 
 
 if __name__ == '__main__':
