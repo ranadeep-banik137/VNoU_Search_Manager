@@ -1,29 +1,15 @@
 import os
 import yaml
 from flask import Flask, request, jsonify, render_template, redirect, url_for, session, flash
-from modules.json_filtering import filter_jsons_by_ranges
-from modules.data_reader import get_json_objects_from_directory, get_active_attributes
-from modules.config_reader import read_config
 from modules.data_reader import make_dir_if_not_exist
+from page_object.search_utils import search_data
 from flask_session import Session
 
-config = read_config()
+
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # Needed for session management
 app.config['SESSION_TYPE'] = 'filesystem'  # Or use 'redis' or 'sqlalchemy'
 Session(app)
-
-
-# Dummy function to represent your search function
-def search_data(name=None, start_detection_time=None, end_detection_time=None, start_frame_number=None, end_frame_number=None, user_id=None, email=None, has_saved_image=False, unidentified_reason=None):
-    # This should be replaced with your actual search function logic
-    attr_values = get_active_attributes(name, start_detection_time, end_detection_time, start_frame_number, end_frame_number, user_id, email, has_saved_image, unidentified_reason)
-    print(f'Attrs {attr_values}')
-    file_dest = config['file_transfer']['dest']
-    all_jsons = get_json_objects_from_directory(file_dest)
-    results = filter_jsons_by_ranges(all_jsons, attr_values)
-    print(f'Results {results}')
-    return results
 
 
 @app.route('/')
@@ -80,13 +66,16 @@ def dashboard():
         'user_name': 'John Doe',
         'profile_picture_url': 'https://media.licdn.com/dms/image/C4D03AQF_aRH-ovJl6w/profile-displayphoto-shrink_800_800/0/1656588367653?e=1727308800&v=beta&t=EojZIwZbDuPS6Ns3yEo_yQB8ZBj_NkG0heGbqBODidc', # Default picture
         'user_details': {
-            'Name': 'Example User',
-            'Email': 'test@example.com',
+            'Name': 'Ranadeep Banikjhasiufd',
+            'Gender': 'Male',
+            'Email': 'test@exampleigaosgaosjdg.com',
             'Phone': '123-456-7890',
             'DOB': '01/01/1980',
-            'Address': '123 Main St',
-            'Extra Info': 'Additional info',
-            'More Info': 'More details'
+            'Address L1': '123 Main Street gsiugsiug',
+            'Address L2': 'Additional infoihvasixusxkjgasiugas',
+            'City': 'Agartala',
+            'State': 'Tripura',
+            'Country': 'India'
         }
     }
     return render_template('dashboard.html', **user_data)
