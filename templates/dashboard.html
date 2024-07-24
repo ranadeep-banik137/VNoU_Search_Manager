@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&family=Roboto:wght@700&display=swap" rel="stylesheet"> <!-- Added Roboto bold font -->
     <link href="https://fonts.googleapis.com/css2?family=Tangerine&effect=emboss|3d-float" rel="stylesheet">
     <style>
         body {
@@ -123,8 +123,8 @@
             top: 130px; /* Position the details below the profile picture */
         }
         .detail-box {
-            background-color: white;
-            color: black;
+            background-color: rgba(255, 255, 255, 0.5);
+            color: white; /* Changed text color to white */
             padding: 10px 15px;
             margin: 10px;
             border-radius: 1px;
@@ -135,6 +135,9 @@
             white-space: nowrap; /* Prevent text from wrapping */
             overflow: hidden; /* Hide overflowing text */
             text-overflow: ellipsis; /* Adds ellipsis (...) if text is too long */
+            border: 1px solid white; /* Added white border */
+            font-family: 'Roboto', sans-serif; /* Changed font to Roboto bold */
+            font-weight: bold; /* Made text bold */
         }
         .detail-box:nth-child(1) {
             transform: translate(-100px, 0px); /* Left Top */
