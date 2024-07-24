@@ -107,7 +107,7 @@
             height: 170px;
             border-radius: 50%;
             overflow: hidden;
-            border: 90px solid white
+            border: 5px solid white; /* Added white border */
             background-color: #ccc; /* Fallback color if image fails to load */
         }
         .profile-picture img {
@@ -127,7 +127,7 @@
             color: black; /* Changed text color to white */
             padding: 10px 15px;
             margin: 10px;
-            border-radius: 2px;
+            border-radius: 5px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             width: 300px;
             text-align: center;
@@ -138,6 +138,7 @@
             border: 1px solid white; /* Added white border */
             font-family: 'Roboto', sans-serif; /* Changed font to Roboto bold */
             font-weight: bold; /* Made text bold */
+            /* clip-path: polygon(10% 0%, 90% 0%, 100% 10%, 100% 90%, 90% 100%, 10% 100%, 0% 90%, 0% 10%); */
         }
         .detail-box:nth-child(1) {
             transform: translate(-100px, 0px); /* Left Top */
@@ -199,6 +200,24 @@
             background-color: #003f7f;
             transform: translateY(1px);
         }
+        .edit-button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .edit-button:hover {
+            background-color: #0056b3;
+        }
+        .edit-button:active {
+            background-color: #003f7f;
+        }
     </style>
 </head>
 <body>
@@ -236,7 +255,7 @@
             <div class="detail-box">Country: {{ user_details.get('Country', 'N/A') }}</div>
             <div class="edit-button-container">
                 <form action="/search_index" method="get">
-                    <button type="Edit" class="styled-button">Edit</button>
+                    <button type="Edit" class="edit-button">✏ Edit</button>
                 </form>
             </div>
         </div>
