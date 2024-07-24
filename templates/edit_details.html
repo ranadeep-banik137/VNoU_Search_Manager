@@ -6,6 +6,7 @@
     <title>Update details</title>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&family=Pacifico&display=swap" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <style>
         body {
             font-family: 'Raleway', sans-serif;
@@ -83,6 +84,10 @@
             font-size: 35px;
             color: white;
         }
+        .logo a {
+            text-decoration: none;
+            color: inherit;
+        }
         .logout-button {
             background-color: #dc3545;
             color: white;
@@ -151,7 +156,9 @@
         Your browser does not support HTML5 video.
     </video>
     <div class="header">
-        <div class="logo">VNoU</div>
+        <div class="logo">
+            <a href="/dashboard" style="text-decoration: none; color: inherit;">VNoU</a>
+        </div>
         <form action="/logout">
             <button class="logout-button">Logout</button>
         </form>
@@ -207,6 +214,9 @@
                     <div class="button-container">
                         <button type="submit" class="submit-button">Submit</button>
                         <button type="button" class="cancel-button" onclick="window.location.href='/dashboard';">Cancel</button>
+                        <button type="button" class="dashboard-button" onclick="window.location.href='/dashboard';">
+                            Move to Dashboard <i class="fa fa-arrow-left"></i>
+                        </button>
                     </div>
                     <div class="success-message" id="success-message">Details updated</div>
                 </form>
