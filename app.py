@@ -135,7 +135,7 @@ def update_details():
     print(f'Received form data {data}')
     print(f'Profile pic in files: {request.files}')
     name = data.get('name')
-    gender = ''
+    gender = data.get('gender')
     phone = data.get('phone')
     email = data.get('email')
     address_l1 = data.get('address_l1')
@@ -155,7 +155,6 @@ def update_details():
     update_data(session.get('user_id'), picture_binary=picture_binary, name=name, gender=gender, phone=phone, email=email, address_l1=address_l1, address_l2=address_l2, dob=dob, city=city, state=state, country=country)
     flash('Data updated successfully!', 'success')
     return redirect(url_for('edit'))
-
 
 
 @app.route('/search', methods=['POST'])

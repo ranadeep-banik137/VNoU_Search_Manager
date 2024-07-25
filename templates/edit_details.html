@@ -188,6 +188,13 @@
                         <input type="email" id="email" name="email" value="{{ user_details.get('Email', '') }}">
                     </div>
                     <div class="form-group">
+                        <label for="gender">Gender:</label>
+                        <select id="gender" name="gender" class="form-control">
+                            <option value="Male" {% if user_details.get('Gender') == 'Male' %}selected{% endif %}>Male</option>
+                            <option value="Female" {% if user_details.get('Gender') == 'Female' %}selected{% endif %}>Female</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label for="address-l1">Address L1:</label>
                         <input type="text" id="address-l1" name="address_l1" value="{{ user_details.get('Address L1', '') }}">
                     </div>
