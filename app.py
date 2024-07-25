@@ -47,9 +47,6 @@ def login():
 
 @app.route('/signup', methods=['POST'])
 def signup():
-    if 'logged_in' in session:
-        if session.get('logged_in'):
-            flash('User session already exist. Please sign out first', 'danger')
     identifier = request.form['identifier']
     _id, creds = get_user_creds(identifier)
     creds = creds.get('creds')
@@ -58,7 +55,7 @@ def signup():
         return redirect(url_for('home'))
     else:
         # Code to handle new user signup
-        flash('Signup successful!', 'success')
+        flash('Please provide valid sign up details', 'success')
         return redirect(url_for('new_user'))
 
 
@@ -89,11 +86,9 @@ def register():
 
     # Save the profile picture
     profile_picture = request.files['profile_picture']
-    print(f'picture found {profile_picture}')
     profile_picture_binary = None
     if profile_picture:
         filename = secure_filename(profile_picture.filename)
-        print(f'Filename uploaded: {filename}')
         profile_picture_binary = convert_img_to_binary(profile_picture)
         # profile_picture.save('templates/uploads/', filename)
     if new_password != confirm_password:
@@ -160,12 +155,9 @@ def update_details():
 @app.route('/search', methods=['POST'])
 def search():
     data = request.form
-    print(f'Received form data: {data}')
     name = data.get('name') or None
     start_detection_time = data.get('start_detection_time') or None
-    print(f'Start detected at: {start_detection_time}')
     end_detection_time = data.get('end_detection_time') or None
-    print(f'End detected at: {end_detection_time}')
     start_frame_number = data.get('start_frame_number')
     end_frame_number = data.get('end_frame_number')
     user_id = data.get('user_id')
