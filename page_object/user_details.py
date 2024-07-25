@@ -46,6 +46,7 @@ def default_data():
 
 def get_user_data(_id):
     data = default_data() if len(user_data.items()) == 0 else user_data
+    print(f'Printing all data {data}')
     return data.get(_id)
 
 
@@ -80,7 +81,10 @@ def get_user_creds(identifier):
             val = dt.get('creds')
             if val.get('user_name') == identifier or val.get('Email') == identifier or val.get('Phone') == identifier:
                 data = dt
-    return _id, data if data is not None else 'default', datas.get('default')
+        if data is None:
+            return 'default', datas.get('default')
+        else:
+            return _id, data
 
 
 def add_data(picture_binary, name, gender, email, phone, address_l1, address_l2, dob, city, country, state, new_password):
