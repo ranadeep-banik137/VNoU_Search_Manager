@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Onboarding</title>
+    <title>Signup Page</title>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&family=Pacifico&display=swap" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -65,28 +65,6 @@
             border-color: #0056b3;
             outline: none;
         }
-        .header {
-            width: 100%;
-            position: absolute;
-            top: 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-        .logout-button {
-            background-color: #dc3545;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        .logout-button:hover {
-            background-color: #c82333;
-        }
         button {
             padding: 10px 18px;
             background-color: #007bff;
@@ -106,6 +84,35 @@
         .reset:hover {
             background-color: #c82333;
         }
+        .nav-tabs {
+            margin-bottom: 15px;
+        }
+        .tab-content > .tab-pane {
+            display: none;
+        }
+        .tab-content > .active {
+            display: block;
+        }
+        .logo {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .logo img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            cursor: pointer;
+        }
+        .upload-btn-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .upload-btn-wrapper input[type=file] {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -113,44 +120,66 @@
         <source src="https://videos.pexels.com/video-files/3129576/3129576-sd_640_360_30fps.mp4" type="video/mp4">
         Your browser does not support HTML5 video.
     </video>
-    <div class="header">
-        <div class="logo">VNoU</div>
-            <form action="/logout">
-                <button class="logout-button">Logout</button>
-            </form>
-    </div>
     <div class="container">
-        <form action="/submit_onboarding" method="post" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="first_name">First Name</label>
-                <input type="text" id="first_name" name="first_name" required>
+        <form action="/register" method="post" enctype="multipart/form-data">
+            <div class="upload-btn-wrapper">
+                <label for="profile-picture">
+                    <img src="https://via.placeholder.com/150" alt="Profile Picture" id="profile-pic-preview">
+                </label>
+                <input type="file" id="profile-picture" name="profile_picture" accept="image/*" onchange="previewImage(event)">
             </div>
             <div class="form-group">
-                <label for="middle_name">Middle Name</label>
-                <input type="text" id="middle_name" name="middle_name">
+                <label for="full_name">Full Name</label>
+                <input type="text" id="full_name" name="full_name" required>
             </div>
             <div class="form-group">
-                <label for="last_name">Last Name</label>
-                <input type="text" id="last_name" name="last_name" required>
-            </div>
-            <div class="form-group">
-                <label for="phone">Phone</label>
-                <input type="text" id="phone" name="phone">
-            </div>
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email">
+                <label for="email">Email ID</label>
+                <input type="email" id="email" name="email" required>
             </div>
             <div class="form-group">
                 <label for="dob">Date Of Birth</label>
-                <input type="date" id="dob" name="dob">
+                <input type="date" id="dob" name="dob" required>
             </div>
             <div class="form-group">
-                <label for="image">Upload Image</label>
-                <input type="file" id="image" name="image" accept="image/*" required>
+                <label for="gender">Gender</label>
+                <select id="gender" name="gender" required>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
             </div>
-            <button type="submit">Submit</button>
-            <button type="button" class="reset" onclick="resetForm()">Reset</button>
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="text" id="phone" name="phone" required>
+            </div>
+            <div class="form-group">
+                <label for="address1">Address Line 1</label>
+                <input type="text" id="address1" name="address1">
+            </div>
+            <div class="form-group">
+                <label for="address2">Address Line 2</label>
+                <input type="text" id="address2" name="address2">
+            </div>
+            <div class="form-group">
+                <label for="city">City</label>
+                <input type="text" id="city" name="city">
+            </div>
+            <div class="form-group">
+                <label for="state">State</label>
+                <input type="text" id="state" name="state">
+            </div>
+            <div class="form-group">
+                <label for="country">Country</label>
+                <input type="text" id="country" name="country">
+            </div>
+            <div class="form-group">
+                <label for="new_password">New password</label>
+                <input type="text" id="new_password" name="new_password" required>
+            </div>
+            <div class="form-group">
+                <label for="confirm_password">Confirm password</label>
+                <input type="text" id="confirm_password" name="confirm_password" required>
+            </div>
+            <button type="submit">Signup</button>
         </form>
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
@@ -167,19 +196,18 @@
             {% endif %}
         {% endwith %}
     </div>
-    <script>
-        function resetForm() {
-            document.getElementById('first_name').value = '';
-            document.getElementById('middle_name').value = '';
-            document.getElementById('last_name').value = '';
-            document.getElementById('phone').value = '';
-            document.getElementById('email').value = '';
-            document.getElementById('dob').value = '';
-            document.getElementById('image').value = '';
-        }
-    </script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function previewImage(event) {
+            var reader = new FileReader();
+            reader.onload = function() {
+                var output = document.getElementById('profile-pic-preview');
+                output.src = reader.result;
+            }
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
 </body>
 </html>

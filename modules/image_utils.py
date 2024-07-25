@@ -24,3 +24,9 @@ def profile_picture(user_id=None):
 
     # Return the base64 string
     return f"data:image/jpeg;base64,{base64_image}"
+
+
+def get_picture_url_from_binary(picture_binary):
+    base64_image = base64.b64encode(picture_binary).decode('utf-8')
+    # Return the base64 string
+    return f"data:image/jpeg;base64,{base64_image}"
