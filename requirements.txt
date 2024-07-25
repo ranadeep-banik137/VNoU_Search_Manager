@@ -3,4 +3,4 @@ Flask~=3.0.3
 PyYAML~=6.0.1
 Flask-Session
 werkzeug~=3.0.3
-mysql
+mysql-connector-python~=8.1.0

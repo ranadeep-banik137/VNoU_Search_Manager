@@ -10,6 +10,12 @@ def convert_img_from_img_path_to_binary(img_path):
     return binary_data
 
 
+def convert_img_file_to_binary(filename):
+    with open(filename, 'rb') as file:
+        binary_data = file.read()
+    return binary_data
+
+
 def convert_img_to_binary(file):
     binary_data = file.read()
     return binary_data
