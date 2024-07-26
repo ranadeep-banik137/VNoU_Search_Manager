@@ -26,6 +26,11 @@ def cache_db_data():
     return cached_data
 
 
+def force_refresh_cache():
+    global cached_data
+    cached_data = get_all_db_data()
+
+
 def get_all_db_data():
     data_tuple_user_cred = get_data_in_tuples(Table_name.user_creds)
     data = {}
@@ -104,7 +109,7 @@ def update_db(userid, picture_binary, name, gender, email, phone, address_l1, ad
     update_data(Update_table_queries.update_all_in_user_records_with_id, (name, gender, email, phone, dob, address_l1, address_l2, city, state, country, userid))
     if picture_binary is not None:
         update_data(Update_table_queries.update_all_in_dp_table_with_id, (picture_binary, userid))
-    print('Update Db done')
+    force_refresh_cache()
 
 
 def add_user_to_db(picture_binary, name, gender, email, phone, address_l1, address_l2, dob, city, country, state, username, new_password):
@@ -113,3 +118,4 @@ def add_user_to_db(picture_binary, name, gender, email, phone, address_l1, addre
     insert_data(Insert_table_queries.insert_all_in_user_creds, (user_id, username, hash_password(new_password)))
     insert_data(Insert_table_queries.insert_all_in_user_records, (user_id, name, gender, email, phone, dob, address_l1, address_l2, city, state, country))
     insert_data(Insert_table_queries.insert_all_in_dp_table, (user_id, default_binary if picture_binary is None else picture_binary))
+    force_refresh_cache()
