@@ -9,6 +9,8 @@ from page_object.dashboard_utils import get_user_details
 from page_object.edit_details_utils import update_user_details
 from modules.image_utils import convert_img_to_binary, get_picture_url_from_binary
 from modules.session_manager import get_session
+from modules.database_util import create_table
+from constants.database_constants import Create_table_queries
 from flask_session import Session
 from werkzeug.utils import secure_filename
 
@@ -115,13 +117,10 @@ def register():
 
 @app.route('/dashboard')
 def dashboard():
-    print(f'First Entry {session}')
     if 'logged_in' in session:
         if session.get('logged_in'):
-            print(f'User ID {session.get("user_id")}')
             # user_data = get_user_data(session.get('user_id'))
             user_data = get_user_details(session.get('user_id'))
-            print(f'After login user_data {user_data.get("Name")}, {user_data.get("UserName")}, {user_data.get("Salt")}')
             return render_template('dashboard.html', **user_data)
     else:
         return redirect(url_for('home'))
@@ -143,8 +142,6 @@ def update_details():
     if not session.get('logged_in'):
         return redirect(url_for('home'))
     data = request.form
-    print(f'Received form data {data}')
-    print(f'Profile pic in files: {request.files}')
     name = data.get('name')
     gender = data.get('gender')
     phone = data.get('phone')
@@ -266,4 +263,7 @@ def logout():
 
 
 if __name__ == '__main__':
+    create_table(Create_table_queries.user_creds)
+    create_table(Create_table_queries.dp_table)
+    create_table(Create_table_queries.user_records)
     app.run(debug=True)

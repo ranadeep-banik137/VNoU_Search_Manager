@@ -3,7 +3,7 @@ class Create_table_queries:
     CREATE TABLE user_creds (
         UserID VARCHAR(255) PRIMARY KEY,
         UserName VARCHAR(255) UNIQUE NOT NULL,
-        Salt VARCHAR(255) NOT NULL
+        Salt LONGBLOB NOT NULL
     )
     """
     user_records = "CREATE TABLE IF NOT EXISTS user_records (UserID VARCHAR(255), FOREIGN KEY (UserID) REFERENCES user_creds(UserID), Name VARCHAR(255) NOT NULL, Gender VARCHAR(255), Email VARCHAR(255) UNIQUE NOT NULL, Phone VARCHAR(255) NOT NULL, DOB VARCHAR(255), Address_L1 VARCHAR(255), Address_L2 VARCHAR(255), City VARCHAR(255), State VARCHAR(255), Country VARCHAR(255))"

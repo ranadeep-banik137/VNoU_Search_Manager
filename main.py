@@ -9,6 +9,7 @@ from modules.data_cache import get_all_db_data, search_merged_data, cache_db_dat
 from constants.database_constants import Search_variable, Search_table_queries, Table_name, User_creds
 from modules.database_util import create_table, insert_data, get_data_in_tuples, get_pk_id, update_data
 from modules.image_utils import get_picture_url_from_binary, convert_img_file_to_binary
+from modules.hash_encrypter import hash_password, check_password
 
 if __name__ == '__main__':
     # start_time = datetime.fromisoformat('2024-07-12T13:40:49')
@@ -67,7 +68,7 @@ if __name__ == '__main__':
 
     # Example: Insert data
     insert_sql = "INSERT INTO user_creds (UserID, UserName, Salt) VALUES (%s, %s, %s)"
-    user_data = ("XFDSR987RTS", "ranadeep.banik@vnousolutions.com", 'rana#123')
+    user_data = ("XFDSR987RTS", "ranadeep.banik@vnousolutions.com", hash_password('rana#123'))
 
     insert_data(insert_sql=insert_sql, data=user_data)
     tupler = get_data_in_tuples(table_name='user_creds')
@@ -88,7 +89,7 @@ if __name__ == '__main__':
     print(tupler_user_records)
 
     insert_user_image_data_sql = "INSERT INTO dp_table (UserID, Img) VALUES (%s, %s)"
-    insert_user_image_data_val = (tupler[0][0], get_picture_url_from_binary(convert_img_file_to_binary('templates/uploads/rana.jpg')))
+    insert_user_image_data_val = (tupler[0][0], convert_img_file_to_binary('templates/uploads/rana.jpg'))
 
     insert_data(insert_sql=insert_user_image_data_sql, data=insert_user_image_data_val)
     tupler_user_img_records = get_data_in_tuples(table_name='dp_table')
@@ -99,38 +100,53 @@ if __name__ == '__main__':
     print(f'User in records with phone {get_pk_id(Search_variable.phone, "7378332802")}')
     print(f'User in records with Invalid {get_pk_id(Search_variable.username, "ranadeep.banik")}')
 
-    print(f'User_records data {get_data_in_tuples(query=Search_table_queries.search_records_with_id % _id)[0]}')
-    all_data = get_all_db_data()
-    print(f'All data {all_data}')
-    cache_db_data()
-    _id, search_data = search_merged_data(email='test@example.c')
-    print(f'Searched data 1 {_id} {search_data}')
+    #print(f'User_records data {get_data_in_tuples(query=Search_table_queries.search_records_with_id % _id)[0]}')
+    #all_data = get_all_db_data()
+    #rint(f'All data {all_data}')
+    #cache_db_data()
+    #_id, search_data = search_merged_data(email='test@example.c')
+    #print(f'Searched data 1 {_id} {search_data}')
 
-    _id2, search_data2 = search_merged_data(email='ranadeep.banik@vnousolutions.com')
-    print(f'Searched data 2 {_id2} {search_data2}')
+    #_id2, search_data2 = search_merged_data(email='ranadeep.banik@vnousolutions.com')
+    #print(f'Searched data 2 {_id2} {search_data2}')
 
-    _id3, search_data3 = search_merged_data(phone='7378332802', userid='jhf')
-    print(f'Searched data 3 {_id3} {search_data3}')
+    #_id3, search_data3 = search_merged_data(phone='7378332802', userid='jhf')
+    #print(f'Searched data 3 {_id3} {search_data3}')
 
-    print(f'Identifier found: {search_identifier("ranadeep.banik@vnousolutions.com")}')
+    #print(f'Identifier found: {search_identifier("ranadeep.banik@vnousolutions.com")}')
 
-    print(f'Search column data {get_searched_column_data_from_db(Table_name.user_creds, "Salt", "UserID", "XhsjhgayeS")}')
+    #print(f'Search column data {get_searched_column_data_from_db(Table_name.user_creds, "Salt", "UserID", "XhsjhgayeS")}')
 
-    print(f'Search column data from cache {get_searched_column_data("XhsjhgayeS", "salt")}')
+    #print(f'Search column data from cache {get_searched_column_data("XhsjhgayeS", "salt")}')
 
-    print(f'Password is valid: {is_password_valid("XhsjhgayeS", "ddd46910-6642-4fa3-ae32-400a0b76c34e")}')
+    #print(f'Password is valid: {is_password_valid("XhsjhgayeS", "ddd46910-6642-4fa3-ae32-400a0b76c34e")}')
 
     # Example: Update data
 
 
-    update_sql = "UPDATE user_records SET Address_L1 = %s WHERE UserId = %s"
-    values = ('R.M.S test Nagar', "XFDSR987RTS")
+    #update_sql = "UPDATE user_records SET Address_L1 = %s WHERE UserId = %s"
+    #values = ('R.M.S test Nagar', "XFDSR987RTS")
 
-    update_data(update_sql, values)
+    #update_data(update_sql, values)
 
 
 
     # Fresh app
 
-    _id, is_identifier_valid = search_identifier(identifier='anwesha.bhattacharjee@vnousolutions.com')
-    _id2, is_identifier_valid2 = search_identifier(identifier='8759218242')
+    #_id, is_identifier_valid = search_identifier(identifier='anwesha.bhattacharjee@vnousolutions.com')
+    #_id2, is_identifier_valid2 = search_identifier(identifier='8759218242')
+
+
+
+
+    # Example usage
+    plain_password = "rana#123"
+    hashed_password = hash_password(plain_password)
+    print(f"Hashed password: {hashed_password}")
+
+
+    # Checking the password
+    password_match = check_password(hashed_password, plain_password)
+    unmatched_password = check_password(hashed_password, 'rana#123 ')
+    print(f"Password match: {password_match}")
+    print(f"Password match: {unmatched_password}")

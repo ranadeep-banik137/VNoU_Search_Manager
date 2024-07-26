@@ -1,5 +1,6 @@
 from modules.data_cache import search_merged_data, get_searched_column_data
 from constants.database_constants import User_creds
+from modules.hash_encrypter import check_password
 
 
 def validate_creds(identifier, password):
@@ -19,6 +20,7 @@ def search_identifier(identifier):
 
 
 def is_password_valid(search_id, password):
-    hashed = get_searched_column_data(search_id, User_creds.salt)
-    print(f'Hashed: {hashed}')
-    return False if hashed is None else hashed == password
+    hashed_password = get_searched_column_data(search_id, User_creds.salt)
+    print(f'Hashed: {hashed_password}')
+    print(f'Password: {password}')
+    return False if hashed_password is None else check_password(hashed_password, password)

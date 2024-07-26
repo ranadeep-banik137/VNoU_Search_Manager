@@ -3,6 +3,9 @@ import time
 from modules.database_util import get_data_in_tuples, get_pk_id, update_data, insert_data
 from constants.database_constants import Table_name, Search_variable, Search_table_queries, User_creds, Dp_data, Update_table_queries, Insert_table_queries
 from modules.config_reader import read_config
+from modules.image_utils import get_picture_url_from_binary
+from modules.hash_encrypter import hash_password
+from modules.id_generator import create_user_id
 
 
 # Cached data
@@ -44,6 +47,7 @@ def get_all_db_data():
         row_data['Country'] = data_tuple_user_records[10]
         data_tuple_dp_table = get_data_in_tuples(query=Search_table_queries.search_dp_with_id % userid)[0]
         row_data['Img'] = data_tuple_dp_table[1]
+        row_data['Img_URL'] = get_picture_url_from_binary(data_tuple_dp_table[1])
         data[userid] = row_data
     return data
 
@@ -90,6 +94,7 @@ def update_cache(userid, picture_binary, name, gender, email, phone, address_l1,
             updated_details['State'] = state
             updated_details['Country'] = country
             updated_details['Img'] = picture_binary if picture_binary is not None else get_searched_column_data(userid, Dp_data.userimg)
+            updated_details['Img_URL'] = get_picture_url_from_binary(updated_details.get('Img'))
             break
     cached_data.get(userid).update(updated_details)
 
@@ -102,8 +107,8 @@ def update_db(userid, picture_binary, name, gender, email, phone, address_l1, ad
 
 
 def add_user_to_db(picture_binary, name, gender, email, phone, address_l1, address_l2, dob, city, country, state, username, new_password):
-    user_id = '5TRGGSC73'
+    user_id = create_user_id()
     default_binary = ''
-    insert_data(Insert_table_queries.insert_all_in_user_creds, (user_id, username, new_password))
+    insert_data(Insert_table_queries.insert_all_in_user_creds, (user_id, username, hash_password(new_password)))
     insert_data(Insert_table_queries.insert_all_in_user_records, (user_id, name, gender, email, phone, dob, address_l1, address_l2, city, state, country))
     insert_data(Insert_table_queries.insert_all_in_dp_table, (user_id, default_binary if picture_binary is None else picture_binary))

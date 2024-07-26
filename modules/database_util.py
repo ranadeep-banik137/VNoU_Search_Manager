@@ -33,7 +33,7 @@ def create_table(query):
     conn, cursor = connect()
     try:
         cursor.execute(query)
-        print("Table 'user_creds' created successfully.")
+        print("Table created successfully.")
     except mysql.connector.Error as err:
         if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
             print("Something is wrong with your user name or password.")
