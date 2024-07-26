@@ -3,6 +3,9 @@
 file_transfer:
   dest: 'files/json_reports'
 
+app_default:
+  no_img_dir: 'templates/NO-PHOTO.png'
+
 #Cache update
 cache_expiry: 60
 

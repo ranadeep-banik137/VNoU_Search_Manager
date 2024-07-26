@@ -1,5 +1,6 @@
 import base64
 import logging
+from modules.config_reader import read_config
 
 
 def convert_img_from_img_path_to_binary(img_path):
@@ -36,3 +37,8 @@ def get_picture_url_from_binary(picture_binary):
     base64_image = base64.b64encode(picture_binary).decode('utf-8')
     # Return the base64 string
     return f"data:image/jpeg;base64,{base64_image}"
+
+
+def get_default_no_img_binary():
+    config = read_config()
+    return convert_img_file_to_binary(config['app_default']['no_img_dir'])
