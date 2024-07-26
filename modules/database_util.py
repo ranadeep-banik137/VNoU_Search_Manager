@@ -1,6 +1,7 @@
 import mysql.connector
 from mysql.connector import errorcode
 from modules.config_reader import read_config
+from constants.database_constants import Search_variable, Search_table_queries
 
 
 def connect():
@@ -51,7 +52,7 @@ def insert_data(insert_sql, data):
     try:
         cursor.execute(insert_sql, data)
         conn.commit()
-        print("Table 'user_creds' created successfully.")
+        print("Table data inserted successfully.")
     except mysql.connector.Error as err:
         if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
             print("Something is wrong with your user name or password.")
@@ -70,7 +71,7 @@ def update_data(update_sql, data):
     try:
         cursor.execute(update_sql, data)
         conn.commit()
-        print("Table 'user_creds' created successfully.")
+        print("Table updated successfully.")
     except mysql.connector.Error as err:
         if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
             print("Something is wrong with your user name or password.")
@@ -84,11 +85,10 @@ def update_data(update_sql, data):
             conn.close()
 
 
-def get_data_in_tuples(table_name, query=None):
+def get_data_in_tuples(table_name=None, query=None):
     conn, cursor = connect()
     records = tuple
     try:
-        # query = """ SELECT * from users where name = %s """
         if query is None:
             cursor.execute(f""" SELECT * from {table_name} """)
         else:
@@ -107,3 +107,15 @@ def get_data_in_tuples(table_name, query=None):
         conn.close()
         cursor.close()
         return records
+
+
+def get_pk_id(field, value):
+    match field:
+        case Search_variable.username:
+            query = Search_table_queries.search_creds_with_uname % value
+        case Search_variable.email:
+            query = Search_table_queries.search_records_with_email % value
+        case Search_variable.phone:
+            query = Search_table_queries.search_records_with_phone % value
+    result = get_data_in_tuples(query=query)
+    return result[0][0] if len(result) > 0 else None

@@ -3,6 +3,8 @@
 file_transfer:
   dest: 'files/json_reports'
 
+#Cache update
+cache_expiry: 60
 
 # Execution mode: options are 1. local 2. AWS
 exec_mode: 'local'

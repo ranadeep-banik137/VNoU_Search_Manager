@@ -168,7 +168,7 @@
 			<h1>Update Details</h1>
             <div class="profile-container">
                 <div class="profile-picture">
-                    <img src="{{ profile_picture_url if profile_picture_url else 'https://via.placeholder.com/150' }}" alt="Profile Picture" onclick="document.getElementById('profile-upload').click();">
+                    <img src="{{ Img if Img else 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfwEJIecctTa4NDAknEghCTW8nVBfn3dNN9FEBjx0jCKO6CzQ9btW8drJo5y8c1PZWLsY&usqp=CAU' }}" alt="Profile Picture" onclick="document.getElementById('profile-upload').click();">
                     <input type="file" id="profile-upload" name="profile_picture" style="display: none;">
                 </div>
             </div>
@@ -177,46 +177,46 @@
                     <input type="hidden" id="image-edited" name="image_edited" value="false">
                     <div class="form-group">
                         <label for="name">Name:</label>
-                        <input type="text" id="name" name="name" value="{{ user_details.get('Name', '') }}">
+                        <input type="text" id="name" name="name" value="{{ Name }}">
                     </div>
                     <div class="form-group">
                         <label for="phone">Phone:</label>
-                        <input type="tel" id="phone" name="phone" value="{{ user_details.get('Phone', '') }}">
+                        <input type="tel" id="phone" name="phone" value="{{ Phone }}">
                     </div>
                     <div class="form-group">
                         <label for="email">Email ID:</label>
-                        <input type="email" id="email" name="email" value="{{ user_details.get('Email', '') }}">
+                        <input type="email" id="email" name="email" value="{{ Email }}">
                     </div>
                     <div class="form-group">
                         <label for="gender">Gender:</label>
                         <select id="gender" name="gender" class="form-control">
-                            <option value="Male" {% if user_details.get('Gender') == 'Male' %}selected{% endif %}>Male</option>
-                            <option value="Female" {% if user_details.get('Gender') == 'Female' %}selected{% endif %}>Female</option>
+                            <option value="Male" {% if Gender == 'Male' %}selected{% endif %}>Male</option>
+                            <option value="Female" {% if Gender == 'Female' %}selected{% endif %}>Female</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="address-l1">Address L1:</label>
-                        <input type="text" id="address-l1" name="address_l1" value="{{ user_details.get('Address L1', '') }}">
+                        <input type="text" id="address-l1" name="address_l1" value="{{ Address_L1 }}">
                     </div>
                     <div class="form-group">
                         <label for="address-l2">Address L2:</label>
-                        <input type="text" id="address-l2" name="address_l2" value="{{ user_details.get('Address L2', '') }}">
+                        <input type="text" id="address-l2" name="address_l2" value="{{ Address_L2 }}">
                     </div>
                     <div class="form-group">
                         <label for="dob">DOB:</label>
-                        <input type="date" id="dob" name="dob" value="{{ user_details.get('DOB', '') }}">
+                        <input type="date" id="dob" name="dob" value="{{ DOB }}">
                     </div>
                     <div class="form-group">
                         <label for="city">City:</label>
-                        <input type="text" id="city" name="city" value="{{ user_details.get('City', '') }}">
-                    </div>
-                    <div class="form-group">
-                        <label for="country">Country:</label>
-                        <input type="text" id="country" name="country" value="{{ user_details.get('Country', '') }}">
+                        <input type="text" id="city" name="city" value="{{ City }}">
                     </div>
                     <div class="form-group">
                         <label for="state">State:</label>
-                        <input type="text" id="state" name="state" value="{{ user_details.get('State', '') }}">
+                        <input type="text" id="state" name="state" value="{{ State }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="country">Country:</label>
+                        <input type="text" id="country" name="country" value="{{ Country }}">
                     </div>
                     <div class="button-container">
                         <button type="submit" class="submit-button">Submit</button>

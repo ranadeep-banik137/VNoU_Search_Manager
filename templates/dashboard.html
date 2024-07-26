@@ -235,27 +235,27 @@
     </div>
     <div class="container">
         <div class="content">
-            <h1>Welcome, {{ user_name if user_name else 'N/A' }}</h1>
+            <h1>Welcome, {{ UserName if UserName else 'N/A' }}</h1>
             <div class="header-line-separator"></div>
             <p>This is the introductory section with user details and other information.</p>
         </div>
         <div class="profile-container">
             <div class="profile-picture">
-                <img src="{{ profile_picture_url if profile_picture_url else 'https://via.placeholder.com/150' }}" alt="Profile Picture">
-                <a href="{{ profile_picture_url if profile_picture_url else 'https://via.placeholder.com/150' }}" target="_blank"></a>
+                <img src="{{ Img if Img else 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfwEJIecctTa4NDAknEghCTW8nVBfn3dNN9FEBjx0jCKO6CzQ9btW8drJo5y8c1PZWLsY&usqp=CAU' }}" alt="Profile Picture">
+                <a href="{{ Img if Img else 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfwEJIecctTa4NDAknEghCTW8nVBfn3dNN9FEBjx0jCKO6CzQ9btW8drJo5y8c1PZWLsY&usqp=CAU' }}" target="_blank"></a>
             </div>
         </div>
         <div class="details">
-            <div class="detail-box">Name: {{ user_details.get('Name', 'N/A') }}</div>
-            <div class="detail-box">Email: {{ user_details.get('Email', 'N/A') }}</div>
-            <div class="detail-box">Phone: {{ user_details.get('Phone', 'N/A') }}</div>
-            <div class="detail-box">DOB: {{ user_details.get('DOB', 'N/A') }}</div>
-            <div class="detail-box">Address L1: {{ user_details.get('Address L1', 'N/A') }}</div>
-            <div class="detail-box">Address L2: {{ user_details.get('Address L2', 'N/A') }}</div>
-            <div class="detail-box">Gender: {{ user_details.get('Gender', 'N/A') }}</div>
-            <div class="detail-box">City: {{ user_details.get('City', 'N/A') }}</div>
-            <div class="detail-box">State: {{ user_details.get('State', 'N/A') }}</div>
-            <div class="detail-box">Country: {{ user_details.get('Country', 'N/A') }}</div>
+            <div class="detail-box">Name: {{ Name }}</div>
+            <div class="detail-box">Email: {{ Email }}</div>
+            <div class="detail-box">Phone: {{ Phone }}</div>
+            <div class="detail-box">DOB: {{ DOB }}</div>
+            <div class="detail-box">Address L1: {{ Address_L1 }}</div>
+            <div class="detail-box">Address L2: {{ Address_L2 }}</div>
+            <div class="detail-box">Gender: {{ Gender }}</div>
+            <div class="detail-box">City: {{ City }}</div>
+            <div class="detail-box">State: {{ State }}</div>
+            <div class="detail-box">Country: {{ Country }}</div>
             <div class="edit-button-container">
                 <form action="/edit" method="get">
                     <button type="Edit" class="edit-button">✏ Edit</button>
