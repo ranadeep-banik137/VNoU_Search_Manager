@@ -57,9 +57,10 @@ def search_merged_data(username=None, email=None, phone=None, userid=None):
     if userid is not None and username is None and email is None and phone is None:
         result = cache_db_data().get(userid)
     else:
-        for _id, row_data in cache_db_data().items():
-            userid = get_pk_id(Search_variable.username, username) if username else (get_pk_id(Search_variable.email, email) if email else (get_pk_id(Search_variable.phone, phone) if phone else userid))
-            result = row_data if userid is not None and _id == userid else result
+        userid = get_pk_id(Search_variable.username, username) if username else (get_pk_id(Search_variable.email, email) if email else (get_pk_id(Search_variable.phone, phone) if phone else userid))
+        if userid is not None:
+            for _id, row_data in cache_db_data().items():
+                result = row_data if _id == userid else result
     return userid, result
 
 

@@ -32,9 +32,9 @@ def home():
 
 @app.route('/login', methods=['POST'])
 def login():
-    email = request.form['username']
+    username = request.form['username']
     password = request.form['password']
-    _id, is_creds_valid = validate_creds(identifier=email, password=password)
+    _id, is_creds_valid = validate_creds(identifier=username, password=password)
     if is_creds_valid:
         session['logged_in'] = True
         session['user_id'] = _id
@@ -42,28 +42,11 @@ def login():
     else:
         flash('Invalid credentials. Please try again.', 'danger')
         return redirect(url_for('home'))
-    #_id, creds = get_user_creds(email)
-    #creds = creds.get('creds')
-    #if email == creds.get('Email') or email == creds.get('Phone') or email == creds.get('user_name'):
-    #    if password == creds.get('password'):
-    #        session['logged_in'] = True
-    #        session['creds'] = creds
-    #        session['user_id'] = _id
-    #        return redirect(url_for('dashboard'))
-    #    else:
-    #        flash('Invalid credentials. Please try again.', 'danger')
-    #        return redirect(url_for('home'))
-    #else:
-    #    flash('No such email id found. Please signup first', 'danger')
-    #    return redirect(url_for('home'))
 
 
 @app.route('/signup', methods=['POST'])
 def signup():
     identifier = request.form['identifier']
-    # _id, creds = get_user_creds(identifier)
-    # creds = creds.get('creds')
-    # if identifier == creds.get('user_name') or identifier == creds.get('Phone') or identifier == creds.get('Email'):
     if is_identifier_already_used(identifier=identifier):
         flash('User already exists', 'danger')
         return redirect(url_for('home'))
@@ -119,7 +102,6 @@ def register():
 def dashboard():
     if 'logged_in' in session:
         if session.get('logged_in'):
-            # user_data = get_user_data(session.get('user_id'))
             user_data = get_user_details(session.get('user_id'))
             return render_template('dashboard.html', **user_data)
     else:
@@ -130,7 +112,6 @@ def dashboard():
 def edit():
     if 'logged_in' in session:
         if session.get('logged_in'):
-            # user_data = get_user_data(session.get('user_id'))
             user_data = get_user_details(session.get('user_id'))
             return render_template('edit_details.html', **user_data)
     else:
@@ -161,7 +142,6 @@ def update_details():
         if file and file.filename:
             picture_binary = get_picture_url_from_binary(convert_img_to_binary(file))
     update_user_details(session.get('user_id'), picture_binary=picture_binary, name=name, gender=gender, phone=phone, email=email, address_l1=address_l1, address_l2=address_l2, dob=dob, city=city, state=state, country=country)
-    # update_data(session.get('user_id'), picture_binary=picture_binary, name=name, gender=gender, phone=phone, email=email, address_l1=address_l1, address_l2=address_l2, dob=dob, city=city, state=state, country=country)
     flash('Data updated successfully!', 'success')
     return redirect(url_for('edit'))
 

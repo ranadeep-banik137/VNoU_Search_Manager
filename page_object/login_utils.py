@@ -13,14 +13,13 @@ def validate_creds(identifier, password):
 
 
 def search_identifier(identifier):
-    _id, first_search = search_merged_data(username=identifier)
-    _id, second_search = search_merged_data(email=identifier)
-    _id, data = (search_merged_data(phone=identifier) if second_search is None else (_id, second_search)) if first_search is None else (_id, first_search)
+    user_search_tuple = search_merged_data(username=identifier)
+    email_search_tuple = search_merged_data(email=identifier)
+    phone_search_tuple = search_merged_data(phone=identifier)
+    _id, data = (phone_search_tuple if email_search_tuple[1] is None else email_search_tuple) if user_search_tuple[1] is None else user_search_tuple
     return _id, data is not None
 
 
 def is_password_valid(search_id, password):
     hashed_password = get_searched_column_data(search_id, User_creds.salt)
-    print(f'Hashed: {hashed_password}')
-    print(f'Password: {password}')
     return False if hashed_password is None else check_password(hashed_password, password)

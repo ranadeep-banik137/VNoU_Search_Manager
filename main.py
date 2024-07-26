@@ -4,7 +4,7 @@ from modules.data_reader import get_json_objects_from_directory, get_active_attr
 from modules.json_filtering import filter_jsons_by_range, filter_jsons_by_attr, filter_jsons_by_attrs, \
     filter_jsons_by_ranges
 from modules.search_util import search_value_by_attributes, search_value_by_attr
-from page_object.login_utils import search_identifier, is_password_valid
+from page_object.login_utils import search_identifier, is_password_valid, validate_creds
 from modules.data_cache import get_all_db_data, search_merged_data, cache_db_data, get_searched_column_data, get_searched_column_data_from_db
 from constants.database_constants import Search_variable, Search_table_queries, Table_name, User_creds
 from modules.database_util import create_table, insert_data, get_data_in_tuples, get_pk_id, update_data
@@ -57,48 +57,48 @@ if __name__ == '__main__':
     # print(f'Multiple ranges values {mul_filtered_values3}')
 
     # Example: Create table
-    create_table_sql = """
-    CREATE TABLE user_creds (
-        UserID VARCHAR(255) PRIMARY KEY,
-        UserName VARCHAR(255) UNIQUE NOT NULL,
-        Salt VARCHAR(255) NOT NULL
-    )
-    """
-    create_table(create_table_sql)
+    #create_table_sql = """
+    #CREATE TABLE user_creds (
+    #    UserID VARCHAR(255) PRIMARY KEY,
+    #    UserName VARCHAR(255) UNIQUE NOT NULL,
+    #    Salt VARCHAR(255) NOT NULL
+    #)
+    #"""
+    #create_table(create_table_sql)
 
     # Example: Insert data
-    insert_sql = "INSERT INTO user_creds (UserID, UserName, Salt) VALUES (%s, %s, %s)"
-    user_data = ("XFDSR987RTS", "ranadeep.banik@vnousolutions.com", hash_password('rana#123'))
+    #insert_sql = "INSERT INTO user_creds (UserID, UserName, Salt) VALUES (%s, %s, %s)"
+    #user_data = ("XFDSR987RTS", "ranadeep.banik@vnousolutions.com", hash_password('rana#123'))
 
-    insert_data(insert_sql=insert_sql, data=user_data)
-    tupler = get_data_in_tuples(table_name='user_creds')
-    print(tupler)
+    #insert_data(insert_sql=insert_sql, data=user_data)
+    #tupler = get_data_in_tuples(table_name='user_creds')
+    #print(tupler)
 
-    insert_details_table = "CREATE TABLE IF NOT EXISTS user_records (UserID VARCHAR(255), FOREIGN KEY (UserID) REFERENCES user_creds(UserID), Name VARCHAR(255) NOT NULL, Gender VARCHAR(255), Email VARCHAR(255) UNIQUE NOT NULL, Phone VARCHAR(255) NOT NULL, DOB VARCHAR(255), Address_L1 VARCHAR(255), Address_L2 VARCHAR(255), City VARCHAR(255), State VARCHAR(255), Country VARCHAR(255))"
-    dp_table = "CREATE TABLE IF NOT EXISTS dp_table (UserID VARCHAR(255) UNIQUE, FOREIGN KEY (UserID) REFERENCES user_creds(UserID), Img LONGBLOB NOT NULL)"
+    #insert_details_table = "CREATE TABLE IF NOT EXISTS user_records (UserID VARCHAR(255), FOREIGN KEY (UserID) REFERENCES user_creds(UserID), Name VARCHAR(255) NOT NULL, Gender VARCHAR(255), Email VARCHAR(255) UNIQUE NOT NULL, Phone VARCHAR(255) NOT NULL, DOB VARCHAR(255), Address_L1 VARCHAR(255), Address_L2 VARCHAR(255), City VARCHAR(255), State VARCHAR(255), Country VARCHAR(255))"
+    #dp_table = "CREATE TABLE IF NOT EXISTS dp_table (UserID VARCHAR(255) UNIQUE, FOREIGN KEY (UserID) REFERENCES user_creds(UserID), Img LONGBLOB NOT NULL)"
 
-    create_table(insert_details_table)
-    create_table(dp_table)
+    #create_table(insert_details_table)
+    #create_table(dp_table)
 
-    insert_user_records_sql = "INSERT INTO user_records (UserID, Name, Gender, Email, Phone, DOB, Address_L1, Address_L2, City, State, Country) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-    print(f'User_id is {tupler[0][0]}')
-    insert_user_records_values = (tupler[0][0], 'Ranadeep Banik', 'Male', 'ranadeep.banik@vnousolutions.com', '7378332802', '1993-03-13', 'R.m.S Chowmani', 'Badurtala Lane', 'Agartala', 'Tripura', 'India')
+    #insert_user_records_sql = "INSERT INTO user_records (UserID, Name, Gender, Email, Phone, DOB, Address_L1, Address_L2, City, State, Country) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+    #print(f'User_id is {tupler[0][0]}')
+    #insert_user_records_values = (tupler[0][0], 'Ranadeep Banik', 'Male', 'ranadeep.banik@vnousolutions.com', '7378332802', '1993-03-13', 'R.m.S Chowmani', 'Badurtala Lane', 'Agartala', 'Tripura', 'India')
 
-    insert_data(insert_sql=insert_user_records_sql, data=insert_user_records_values)
-    tupler_user_records = get_data_in_tuples(table_name='user_records')
-    print(tupler_user_records)
+    #insert_data(insert_sql=insert_user_records_sql, data=insert_user_records_values)
+    #tupler_user_records = get_data_in_tuples(table_name='user_records')
+    #print(tupler_user_records)
 
-    insert_user_image_data_sql = "INSERT INTO dp_table (UserID, Img) VALUES (%s, %s)"
-    insert_user_image_data_val = (tupler[0][0], convert_img_file_to_binary('templates/uploads/rana.jpg'))
+    #insert_user_image_data_sql = "INSERT INTO dp_table (UserID, Img) VALUES (%s, %s)"
+    #insert_user_image_data_val = (tupler[0][0], convert_img_file_to_binary('templates/uploads/rana.jpg'))
 
-    insert_data(insert_sql=insert_user_image_data_sql, data=insert_user_image_data_val)
-    tupler_user_img_records = get_data_in_tuples(table_name='dp_table')
+    #insert_data(insert_sql=insert_user_image_data_sql, data=insert_user_image_data_val)
+    #tupler_user_img_records = get_data_in_tuples(table_name='dp_table')
     #print(tupler_user_img_records)
-    _id = get_pk_id(Search_variable.username, "ranadeep.banik@vnousolutions.com")
-    print(f'User in creds {_id}')
-    print(f'User in Records with email {get_pk_id(Search_variable.email, "ranadeep.banik@vnousolutions.com")}')
-    print(f'User in records with phone {get_pk_id(Search_variable.phone, "7378332802")}')
-    print(f'User in records with Invalid {get_pk_id(Search_variable.username, "ranadeep.banik")}')
+    #_id = get_pk_id(Search_variable.username, "ranadeep.banik@vnousolutions.com")
+    #print(f'User in creds {_id}')
+    #print(f'User in Records with email {get_pk_id(Search_variable.email, "ranadeep.banik@vnousolutions.com")}')
+    #print(f'User in records with phone {get_pk_id(Search_variable.phone, "7378332802")}')
+    #print(f'User in records with Invalid {get_pk_id(Search_variable.username, "ranadeep.banik")}')
 
     #print(f'User_records data {get_data_in_tuples(query=Search_table_queries.search_records_with_id % _id)[0]}')
     #all_data = get_all_db_data()
@@ -140,13 +140,16 @@ if __name__ == '__main__':
 
 
     # Example usage
-    plain_password = "rana#123"
-    hashed_password = hash_password(plain_password)
-    print(f"Hashed password: {hashed_password}")
+    #plain_password = "rana#123"
+    #hashed_password = hash_password(plain_password)
+    #print(f"Hashed password: {hashed_password}")
 
 
     # Checking the password
-    password_match = check_password(hashed_password, plain_password)
-    unmatched_password = check_password(hashed_password, 'rana#123 ')
-    print(f"Password match: {password_match}")
-    print(f"Password match: {unmatched_password}")
+    #password_match = check_password(hashed_password, plain_password)
+    #unmatched_password = check_password(hashed_password, 'rana#123 ')
+    #print(f"Password match: {password_match}")
+    #print(f"Password match: {unmatched_password}")
+
+    _id, is_creds_valid = validate_creds(identifier='8759218242', password='anwesha#123')
+    print(f'{_id} {is_creds_valid}')
