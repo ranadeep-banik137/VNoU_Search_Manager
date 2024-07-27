@@ -134,14 +134,12 @@ def update_details():
     country = data.get('country')
     state = data.get('state')
     image_edited = request.form.get('image_edited') == 'true'
-    picture_binary = None
-    if 'profile_picture' not in request.files:
-        flash(f'No file part {"but image was uploaded" if image_edited else "as no image uploaded"}')
-    if image_edited and 'profile_picture' in request.files:
-        file = request.files['profile_picture']
-        if file and file.filename:
-            picture_binary = get_picture_url_from_binary(convert_img_to_binary(file))
-    update_user_details(session.get('user_id'), picture_binary=picture_binary, name=name, gender=gender, phone=phone, email=email, address_l1=address_l1, address_l2=address_l2, dob=dob, city=city, state=state, country=country)
+    profile_picture_binary = None
+    profile_picture = request.files['profile_picture'] if 'profile_picture' in request.files else None
+    if profile_picture and image_edited:
+        filename = secure_filename(profile_picture.filename)
+        profile_picture_binary = convert_img_to_binary(profile_picture)
+    update_user_details(session.get('user_id'), picture_binary=profile_picture_binary, name=name, gender=gender, phone=phone, email=email, address_l1=address_l1, address_l2=address_l2, dob=dob, city=city, state=state, country=country)
     flash('Data updated successfully!', 'success')
     return redirect(url_for('edit'))
 

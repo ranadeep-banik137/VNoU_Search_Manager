@@ -120,7 +120,7 @@
             top: 30px;
             right: 50px;
         }
-		.profile-container {
+        .profile-container {
             position: absolute;
             top: 20px;
             left: 20px;
@@ -165,16 +165,16 @@
     </div>
     <div class="container">
         <div class="content">
-			<h1>Update Details</h1>
-            <div class="profile-container">
-                <div class="profile-picture">
-                    <img src="{{ Img_URL if Img_URL else 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfwEJIecctTa4NDAknEghCTW8nVBfn3dNN9FEBjx0jCKO6CzQ9btW8drJo5y8c1PZWLsY&usqp=CAU' }}" alt="Profile Picture" onclick="document.getElementById('profile-upload').click();">
-                    <input type="file" id="profile-upload" name="profile_picture" style="display: none;">
-                </div>
-            </div>
-			<div class="form-container">
+            <h1>Update Details</h1>
+            <div class="form-container">
                 <form action="/update_details" method="post" enctype="multipart/form-data">
                     <input type="hidden" id="image-edited" name="image_edited" value="false">
+                    <div class="profile-container">
+                        <div class="profile-picture">
+                            <img src="{{ Img_URL if Img_URL else 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfwEJIecctTa4NDAknEghCTW8nVBfn3dNN9FEBjx0jCKO6CzQ9btW8drJo5y8c1PZWLsY&usqp=CAU' }}" alt="Profile Picture" onclick="document.getElementById('profile-upload').click();">
+                            <input type="file" id="profile-upload" name="profile_picture" style="display: none;">
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label for="name">Name:</label>
                         <input type="text" id="name" name="name" value="{{ Name }}">
@@ -242,11 +242,10 @@
                     {% endif %}
                 {% endwith %}
             </div>
-		</div>
+        </div>
     </div>
     <script>
         document.querySelector('form').addEventListener('submit', function(event) {
-            event.preventDefault();
             document.getElementById('success-message').style.display = 'block';
             setTimeout(function() {
                 document.getElementById('success-message').style.display = 'none';

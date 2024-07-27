@@ -19,7 +19,7 @@ class Insert_table_queries:
 class Update_table_queries:  # UserID and Username cannot be updated
     update_all_in_user_creds_with_id = """UPDATE user_creds SET Salt = %s WHERE UserID = %s"""
     update_all_in_user_records_with_id = """UPDATE user_records SET Name = %s, Gender = %s, Email = %s, Phone = %s, DOB = %s, Address_L1 = %s, Address_L2 = %s, City = %s, State = %s, Country = %s WHERE UserID = %s"""
-    update_all_in_dp_table_with_id = """UPDATE dp_table SET Img = '%s' WHERE UserID = %s"""
+    update_all_in_dp_table_with_id = """UPDATE dp_table SET Img = %s WHERE UserID = %s"""
 
 
 class Search_table_queries:
