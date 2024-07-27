@@ -151,5 +151,8 @@ if __name__ == '__main__':
     #print(f"Password match: {password_match}")
     #print(f"Password match: {unmatched_password}")
 
-    _id, is_creds_valid = validate_creds(identifier='8759218242', password='anwesha#123')
-    print(f'{_id} {is_creds_valid}')
+    #_id, is_creds_valid = validate_creds(identifier='8759218242', password='anwesha#123')
+    #print(f'{_id} {is_creds_valid}')
+
+    test = get_pk_id(Search_variable.username, None)
+    print(f'test {test}')
