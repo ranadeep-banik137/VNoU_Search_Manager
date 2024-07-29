@@ -1,6 +1,6 @@
 import os
 import yaml
-from flask import Flask, request, render_template, redirect, url_for, flash
+from flask import Flask, request, render_template, redirect, url_for, flash, send_file
 from modules.data_reader import make_dir_if_not_exist
 from page_object.search_utils import search_data
 from page_object.login_utils import validate_creds
@@ -20,6 +20,12 @@ app.secret_key = 'your_secret_key'  # Needed for session management
 app.config['SESSION_TYPE'] = 'filesystem'  # Or use 'redis' or 'sqlalchemy'
 Session(app)
 session = get_session()
+
+
+@app.route('/logo')
+def logo():
+    logo_path = os.path.join(app.root_path, 'static', 'images', 'VNOU-LOGO.png')
+    return send_file(logo_path, mimetype='image/png')
 
 
 @app.route('/')
