@@ -40,6 +40,13 @@
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
         }
+        img {
+            position: absolute;
+            top: 0%;
+            left: 0%;
+            opacity: 0.9;
+            width: 190px;
+        }
         .container {
             width: 30%;
             max-height: 80vh;
@@ -130,7 +137,9 @@
     </video>
 
     <button class="logout-button" onclick="window.location.href='/logout'">Logout</button>
-
+    <a href="/dashboard">
+        <img src="{{ url_for('inner_page_logo') }}" alt="VNoU Solutions">
+    </a>
     <div class="container">
         <div class="header">
             <h1>LOG SEARCH BOX</h1>

@@ -22,11 +22,17 @@ Session(app)
 session = get_session()
 
 
-@app.route('/logo')
-def logo():
+@app.route('/homepage_logo')
+def homepage_logo():
     logo_path = os.path.join(app.root_path, 'static', 'images', 'VNOU-LOGO.png')
+    # logo_path = os.path.join(app.root_path, 'static', 'images', 'VNOU-Black-BG-RM.png')
     return send_file(logo_path, mimetype='image/png')
 
+
+@app.route('/inner_page_logo')
+def inner_page_logo():
+    logo_path = os.path.join(app.root_path, 'static', 'images', 'VNOU-LOGO-BG-RM.png')
+    return send_file(logo_path, mimetype='image/png')
 
 @app.route('/')
 def home():

@@ -183,6 +183,13 @@
             max-width: 300px; /* Adjust as needed */
             height: auto;
         }
+        .header img {
+            position: absolute;
+            top: 6%;
+            left: 2.5%;
+            opacity: 0.9;
+            width: 150px;
+        }
     </style>
 </head>
 <body>
@@ -192,6 +199,9 @@
     </video>
     <div class="container">
         <div class="header">
+            <a href="/dashboard">
+                <img src="{{ url_for('inner_page_logo') }}" alt="VNoU Solutions">
+            </a>
             <h1>Search Results</h1>
             <button class="logout-button" onclick="window.location.href='/logout'">Logout</button>
             <div class="filter-tab">

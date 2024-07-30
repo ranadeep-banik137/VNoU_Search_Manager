@@ -75,6 +75,13 @@
             padding: 20px;
             box-sizing: border-box;
         }
+        .header img {
+            position: absolute;
+            top: 0%;
+            left: 0%;
+            opacity: 0.9;
+            width: 190px;
+        }
         .logout-button {
             background-color: #dc3545;
             color: white;
@@ -114,10 +121,12 @@
         Your browser does not support HTML5 video.
     </video>
     <div class="header">
-        <div class="logo">VNoU</div>
-            <form action="/logout">
-                <button class="logout-button">Logout</button>
-            </form>
+        <a href="/dashboard">
+            <img src="{{ url_for('inner_page_logo') }}" alt="VNoU Solutions">
+        </a>
+        <form action="/logout">
+            <button class="logout-button">Logout</button>
+        </form>
     </div>
     <div class="container">
         <form action="/submit_onboarding" method="post" enctype="multipart/form-data">

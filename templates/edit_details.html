@@ -80,13 +80,16 @@
             box-sizing: border-box;
         }
         .logo {
-            font-family: 'Tangerine', serif;
-            font-size: 35px;
-            color: white;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 5px;
         }
-        .logo a {
-            text-decoration: none;
-            color: inherit;
+        .header img {
+            position: absolute;
+            top: 0%;
+            left: 0%;
+            opacity: 0.9;
+            width: 190px;
         }
         .logout-button {
             background-color: #dc3545;
@@ -156,9 +159,9 @@
         Your browser does not support HTML5 video.
     </video>
     <div class="header">
-        <div class="logo">
-            <a href="/dashboard" style="text-decoration: none; color: inherit;">VNoU</a>
-        </div>
+        <a href="/dashboard">
+            <img src="{{ url_for('inner_page_logo') }}" alt="VNoU Solutions">
+        </a>
         <form action="/logout">
             <button class="logout-button">Logout</button>
         </form>
