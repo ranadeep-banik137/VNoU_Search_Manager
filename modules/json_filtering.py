@@ -22,26 +22,20 @@ def filter_jsons_by_range(json_objs, attribute_name, start, end):
 #}
 def filter_jsons_by_ranges(json_objs, attr_ranges):
     matching_jsons = []
-
     for json_obj in json_objs:
-        match = True
+        matched_flags = []
         for attribute_name, (start, end) in attr_ranges.items():
             if attribute_name in json_obj:
                 if attribute_name in ['timestamp', 'detected_at', 'email_sent_at']:
-                    if not is_timestamp_within_range(json_obj[attribute_name], start, end):
-                        match = False
-                        break
+                    matched_flags.append(is_timestamp_within_range(json_obj[attribute_name], start, end))
+                    continue
                 elif attribute_name in ['total_visit_count', 'user_id', 'frame_number']:
-                    if not is_input_within_range(json_obj[attribute_name], start, end):
-                        match = False
-                        break
-                else:
-                    match = json_obj[attribute_name] == start
-                    # break
+                    matched_flags.append(is_input_within_range(json_obj[attribute_name], start, end))
+                    continue
+                matched_flags.append(json_obj[attribute_name] == start)
             else:
-                match = False
-                break
-        if match:
+                matched_flags.append(False)
+        if not (False in matched_flags):
             matching_jsons.append(json_obj)
 
     return matching_jsons

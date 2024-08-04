@@ -34,6 +34,7 @@ def inner_page_logo():
     logo_path = os.path.join(app.root_path, 'static', 'images', 'VNOU-LOGO-BG-RM.png')
     return send_file(logo_path, mimetype='image/png')
 
+
 @app.route('/')
 def home():
     if 'logged_in' in session:
