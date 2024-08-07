@@ -62,8 +62,8 @@
         .header h1 {
             margin: 0;
             font-weight: 700;
-            flex: 1; /* Allow header title to take space */
-            text-align: center; /* Center the header text */
+            flex: 1;
+            text-align: center;
         }
         .logout-button {
             background-color: #dc3545;
@@ -99,96 +99,28 @@
             position: sticky;
             top: 0;
             z-index: 1;
-            text-align: center; /* Center the header text */
-            font-family: 'Noto Sans', sans-serif; /* Change font family */
-            font-size: 1.0em; /* Change font size */
-            font-weight: 700; /* Change font weight */
-            padding: 15px; /* Adjust padding if needed */
+            text-align: center;
+            font-family: 'Noto Sans', sans-serif;
+            font-size: 1.0em;
+            font-weight: 700;
+            padding: 15px;
         }
         td {
             padding: 12px;
-            text-align: center; /* Center the cell text */
-            font-family: 'Roboto', sans-serif; /* Change font family */
-            font-size: 1em; /* Change font size */
-            font-weight: 400; /* Change font weight */
+            text-align: center;
+            font-family: 'Roboto', sans-serif;
+            font-size: 1em;
+            font-weight: 400;
         }
         tbody tr:nth-child(even) {
             background-color: var(--table-row-background);
         }
         tbody tr:hover {
             background-color: var(--table-row-hover);
+            cursor: pointer;
         }
         tbody tr {
             border-bottom: 1px solid #ddd;
-        }
-        .filter-tab {
-            position: relative;
-            margin-left: auto;
-        }
-        .filter-tab button {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-        }
-        .filter-tab button span {
-            margin-left: 5px;
-        }
-        .filter-tab button:focus + .dropdown,
-        .dropdown:hover {
-            display: block;
-        }
-        .dropdown {
-            display: none;
-            position: absolute;
-            background-color: white;
-            color: black;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            top: 100%;
-            right: 0;
-            z-index: 2;
-            padding: 10px;
-            margin-top: 5px;
-        }
-        .dropdown label {
-            display: flex;
-            align-items: center;
-            padding: 6px;
-            cursor: pointer;
-            border-bottom: 1px solid #ddd;
-        }
-        .dropdown input {
-            margin-right: 10px;
-        }
-        .sortable {
-            cursor: pointer;
-        }
-        .sort-arrow {
-            margin-left: 5px;
-            font-size: 0.8em;
-            vertical-align: middle;
-        }
-        .no-results {
-            text-align: center;
-            padding: 20px;
-        }
-        .no-results img {
-            max-width: 300px; /* Adjust as needed */
-            height: auto;
-        }
-        .header img {
-            position: absolute;
-            top: 6%;
-            left: 2.5%;
-            opacity: 0.9;
-            width: 150px;
         }
         .pagination {
             display: flex;
@@ -213,6 +145,67 @@
         .pagination button:hover:not(.disabled) {
             background-color: var(--secondary-color);
         }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+            padding-top: 60px;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 10px;
+            position: relative;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .modal-close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .modal-close:hover,
+        .modal-close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .modal-body {
+            margin-top: 20px;
+        }
+        .modal-body img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+        .modal-body table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .modal-body th, .modal-body td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        .modal-body th {
+            background-color: var(--table-header-background);
+            color: var(--table-header-color);
+            text-align: left;
+        }
     </style>
 </head>
 <body>
@@ -227,53 +220,21 @@
             </a>
             <h1>Search Results</h1>
             <button class="logout-button" onclick="window.location.href='/logout'">Logout</button>
-            <div class="filter-tab">
-                <button onclick="toggleDropdown()">Filter <span>▼</span></button>
-                <div class="dropdown">
-                    <label><input type="checkbox" id="select-all" onchange="toggleSelectAll(this)"> Select All</label>
-                    <label><input type="checkbox" value="timestamp" onchange="filterResults()"> Timestamp</label>
-                    <label><input type="checkbox" value="frame_number" onchange="filterResults()"> Frame Number</label>
-                    <label><input type="checkbox" value="user_id" onchange="filterResults()"> User ID</label>
-                    <label><input type="checkbox" value="name" onchange="filterResults()"> Name</label>
-                    <label><input type="checkbox" value="contact" onchange="filterResults()"> Contact</label>
-                    <label><input type="checkbox" value="email" onchange="filterResults()"> Email</label>
-                    <label><input type="checkbox" value="detected_at" onchange="filterResults()"> Detected At</label>
-                    <label><input type="checkbox" value="total_visit_count" onchange="filterResults()"> Total Visit Count</label>
-                    <label><input type="checkbox" value="model" onchange="filterResults()"> Model</label>
-                    <label><input type="checkbox" value="is_repeated_user" onchange="filterResults()"> Is Repeated User</label>
-                </div>
-            </div>
         </div>
         <div class="table-responsive">
             {% if results %}
             <table>
                 <thead>
                     <tr>
-                        <th class="sortable" onclick="sortTable(0)">Timestamp <span class="sort-arrow">▲</span></th>
                         <th>Frame Number</th>
-                        <th>User ID</th>
-                        <th>Name</th>
-                        <th>Contact</th>
-                        <th>Email</th>
-                        <th>Detected At</th>
-                        <th>Total Visit Count</th>
-                        <th>Model</th>
-                        <th>Is Repeated User</th>
+                        <th>Timestamp</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for row in results %}
-                    <tr>
-                        <td>{{ row.timestamp }}</td>
+                    <tr onclick="showDetails({{ loop.index0 }})">
                         <td>{{ row.frame_number }}</td>
-                        <td>{{ row.user_id }}</td>
-                        <td>{{ row.name }}</td>
-                        <td>{{ row.contact }}</td>
-                        <td>{{ row.email }}</td>
-                        <td>{{ row.detected_at }}</td>
-                        <td>{{ row.total_visit_count }}</td>
-                        <td>{{ row.model }}</td>
-                        <td>{{ row.is_repeated_user }}</td>
+                        <td>{{ row.timestamp }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -302,56 +263,76 @@
                 {% endif %}
             </div>
             {% else %}
-            <div class="no-results">
-                <img src="https://www.shutterstock.com/shutterstock/photos/1595649697/display_1500/stock-vector-doodle-stick-figure-no-search-results-page-not-found-concept-sad-man-with-search-magnifying-1595649697.jpg" alt="No Results Found" style="max-width: 100%; height: auto;">
-                <p>No results found. Please try again.</p>
-            </div>
+            <p>No results found.</p>
             {% endif %}
+            <div class="modal" id="detailsModal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>Report Details</h2>
+                        <span class="modal-close" onclick="closeModal()">&times;</span>
+                    </div>
+                    <div class="modal-body" id="modalBody">
+                        <!-- Report details will be populated here by JavaScript -->
+                    </div>
+                </div>
+            </div>
         </div>
-        <button onclick="window.location.href='/search_index'">Back to Search Page</button>
     </div>
     <script>
-        function toggleDropdown() {
-            document.querySelector('.dropdown').classList.toggle('show');
+        let results = {{ results | tojson }};
+
+        function showDetails(index) {
+            let row = results[index];
+            let modalBody = document.getElementById("modalBody");
+            modalBody.innerHTML = `
+                <table>
+                    <tr>
+                        <th>Frame Number</th>
+                        <td>${row.frame_number}</td>
+                    </tr>
+                    <tr>
+                        <th>Timestamp</th>
+                        <td>${row.timestamp}</td>
+                    </tr>
+                    <tr>
+                        <th>User ID</th>
+                        <td>${row.user_id}</td>
+                    </tr>
+                    <tr>
+                        <th>Name</th>
+                        <td>${row.name}</td>
+                    </tr>
+                    <tr>
+                        <th>Phone Number</th>
+                        <td>${row.contact}</td>
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <td>${row.email}</td>
+                    </tr>
+                    <tr>
+                        <th>Detection Time</th>
+                        <td>${row.detected_at}</td>
+                    </tr>
+                    <tr>
+                        <th>Total Visit Count</th>
+                        <td>${row.total_visit_count}</td>
+                    </tr>
+                    <tr>
+                        <th>Cam Model</th>
+                        <td>${row.model}</td>
+                    </tr>
+                    <tr>
+                        <th>User Repeated</th>
+                        <td>${row.is_repeated_user}</td>
+                    </tr>
+                </table>
+            `;
+            document.getElementById("detailsModal").style.display = "block";
         }
 
-        function toggleSelectAll(source) {
-            checkboxes = document.querySelectorAll('.dropdown input[type="checkbox"]');
-            for (var i = 0; i < checkboxes.length; i++) {
-                if (checkboxes[i] != source) {
-                    checkboxes[i].checked = source.checked;
-                }
-            }
-            filterResults();
-        }
-
-        function filterResults() {
-            var checkboxes = document.querySelectorAll('.dropdown input[type="checkbox"]');
-            var columns = document.querySelectorAll('table th, table td');
-            columns.forEach(column => column.style.display = 'none');
-            checkboxes.forEach((checkbox, index) => {
-                if (checkbox.checked) {
-                    var columnIndex = index - 1;
-                    if (columnIndex >= 0) {
-                        document.querySelectorAll('table th:nth-child(' + (columnIndex + 1) + '), table td:nth-child(' + (columnIndex + 1) + ')').forEach(cell => cell.style.display = '');
-                    }
-                }
-            });
-        }
-
-        function sortTable(columnIndex) {
-            var table = document.querySelector("table");
-            var rows = Array.from(table.rows).slice(1);
-            var isAscending = table.rows[0].cells[columnIndex].querySelector(".sort-arrow").innerHTML === "▲";
-            rows.sort((rowA, rowB) => {
-                var cellA = rowA.cells[columnIndex].innerText.toLowerCase();
-                var cellB = rowB.cells[columnIndex].innerText.toLowerCase();
-                if (cellA < cellB) return isAscending ? -1 : 1;
-                if (cellA > cellB) return isAscending ? 1 : -1;
-                return 0;
-            });
-            rows.forEach(row => table.appendChild(row));
-            table.rows[0].cells[columnIndex].querySelector(".sort-arrow").innerHTML = isAscending ? "▼" : "▲";
+        function closeModal() {
+            document.getElementById("detailsModal").style.display = "none";
         }
     </script>
 </body>
