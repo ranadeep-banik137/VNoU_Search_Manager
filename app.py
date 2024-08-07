@@ -185,12 +185,27 @@ def search():
     return redirect(url_for('results'))
 
 
+def get_results(query, page, per_page):
+    data = session.get('results')
+    start = (page - 1) * per_page
+    end = start + per_page
+    return data[start:end], len(data)
+
+
 @app.route('/results')
 def results():
     if 'logged_in' not in session:
         return redirect(url_for('home'))
-    results = session.get('results', [])
-    return render_template('results.html', results=results)
+    query = request.args.get('query')
+    page = request.args.get('page', 1, type=int)
+    per_page = 20
+    results, total_results = get_results(query, page, per_page)
+    total_pages = (total_results + per_page - 1) // per_page  # Calculate total pages
+    current_page = page
+    page_numbers = range(max(1, current_page - 2), min(total_pages, current_page + 2) + 1)
+
+    return render_template('results.html', results=results, total_pages=total_pages, current_page=current_page, page_numbers=page_numbers)
+
 
 
 @app.route('/onboarding')

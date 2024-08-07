@@ -190,6 +190,29 @@
             opacity: 0.9;
             width: 150px;
         }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .pagination button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            margin: 0 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .pagination button.disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        .pagination button:hover:not(.disabled) {
+            background-color: var(--secondary-color);
+        }
     </style>
 </head>
 <body>
@@ -218,169 +241,118 @@
                     <label><input type="checkbox" value="total_visit_count" onchange="filterResults()"> Total Visit Count</label>
                     <label><input type="checkbox" value="model" onchange="filterResults()"> Model</label>
                     <label><input type="checkbox" value="is_repeated_user" onchange="filterResults()"> Is Repeated User</label>
-                    <label><input type="checkbox" value="name_announced" onchange="filterResults()"> Name Announced</label>
                 </div>
             </div>
         </div>
         <div class="table-responsive">
             {% if results %}
-                <table>
-                    <thead>
-                        <tr>
-                            {% if results and results[0].timestamp %}
-                                <th class="sortable" data-column="timestamp" onclick="sortTable('timestamp')">Timestamp <span class="sort-arrow" id="arrow-timestamp"></span></th>
-                            {% endif %}
-                            {% if results and results[0].frame_number %}
-                                <th class="sortable" data-column="frame_number" onclick="sortTable('frame_number')">Frame Number <span class="sort-arrow" id="arrow-frame_number"></span></th>
-                            {% endif %}
-                            {% if results and results[0].user_id %}
-                                <th class="sortable" data-column="user_id" onclick="sortTable('user_id')">User ID <span class="sort-arrow" id="arrow-user_id"></span></th>
-                            {% endif %}
-                            {% if results and results[0].name %}
-                                <th class="sortable" data-column="name" onclick="sortTable('name')">Name <span class="sort-arrow" id="arrow-name"></span></th>
-                            {% endif %}
-                            {% if results and results[0].contact %}
-                                <th class="sortable" data-column="contact" onclick="sortTable('contact')">Contact <span class="sort-arrow" id="arrow-contact"></span></th>
-                            {% endif %}
-                            {% if results and results[0].email %}
-                                <th class="sortable" data-column="email" onclick="sortTable('email')">Email <span class="sort-arrow" id="arrow-email"></span></th>
-                            {% endif %}
-                            {% if results and results[0].detected_at %}
-                                <th class="sortable" data-column="detected_at" onclick="sortTable('detected_at')">Detected At <span class="sort-arrow" id="arrow-detected_at"></span></th>
-                            {% endif %}
-                            {% if results and results[0].total_visit_count %}
-                                <th class="sortable" data-column="total_visit_count" onclick="sortTable('total_visit_count')">Total Visit Count <span class="sort-arrow" id="arrow-total_visit_count"></span></th>
-                            {% endif %}
-                            {% if results and results[0].model %}
-                                <th class="sortable" data-column="model" onclick="sortTable('model')">Model <span class="sort-arrow" id="arrow-model"></span></th>
-                            {% endif %}
-                            {% if results and results[0].is_repeated_user %}
-                                <th class="sortable" data-column="is_repeated_user" onclick="sortTable('is_repeated_user')">Is Repeated User <span class="sort-arrow" id="arrow-is_repeated_user"></span></th>
-                            {% endif %}
-                            {% if results and results[0].name_announced %}
-                                <th class="sortable" data-column="name_announced" onclick="sortTable('name_announced')">Name Announced <span class="sort-arrow" id="arrow-name_announced"></span></th>
-                            {% endif %}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for result in results %}
-                        <tr>
-                            {% if result.timestamp %}
-                                <td data-column="timestamp">{{ result.timestamp }}</td>
-                            {% endif %}
-                            {% if result.frame_number %}
-                                <td data-column="frame_number">{{ result.frame_number }}</td>
-                            {% endif %}
-                            {% if result.user_id %}
-                                <td data-column="user_id">{{ result.user_id }}</td>
-                            {% endif %}
-                            {% if result.name %}
-                                <td data-column="name">{{ result.name }}</td>
-                            {% endif %}
-                            {% if result.contact %}
-                                <td data-column="contact">{{ result.contact }}</td>
-                            {% endif %}
-                            {% if result.email %}
-                                <td data-column="email">{{ result.email }}</td>
-                            {% endif %}
-                            {% if result.detected_at %}
-                                <td data-column="detected_at">{{ result.detected_at }}</td>
-                            {% endif %}
-                            {% if result.total_visit_count %}
-                                <td data-column="total_visit_count">{{ result.total_visit_count }}</td>
-                            {% endif %}
-                            {% if result.model %}
-                                <td data-column="model">{{ result.model }}</td>
-                            {% endif %}
-                            {% if result.is_repeated_user %}
-                                <td data-column="is_repeated_user">{{ result.is_repeated_user }}</td>
-                            {% endif %}
-                            {% if result.name_announced %}
-                                <td data-column="name_announced">{{ result.name_announced }}</td>
-                            {% endif %}
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+            <table>
+                <thead>
+                    <tr>
+                        <th class="sortable" onclick="sortTable(0)">Timestamp <span class="sort-arrow">▲</span></th>
+                        <th>Frame Number</th>
+                        <th>User ID</th>
+                        <th>Name</th>
+                        <th>Contact</th>
+                        <th>Email</th>
+                        <th>Detected At</th>
+                        <th>Total Visit Count</th>
+                        <th>Model</th>
+                        <th>Is Repeated User</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in results %}
+                    <tr>
+                        <td>{{ row.timestamp }}</td>
+                        <td>{{ row.frame_number }}</td>
+                        <td>{{ row.user_id }}</td>
+                        <td>{{ row.name }}</td>
+                        <td>{{ row.contact }}</td>
+                        <td>{{ row.email }}</td>
+                        <td>{{ row.detected_at }}</td>
+                        <td>{{ row.total_visit_count }}</td>
+                        <td>{{ row.model }}</td>
+                        <td>{{ row.is_repeated_user }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="pagination">
+                {% if current_page > 1 %}
+                <button onclick="window.location.href='{{ url_for('results', page=1) }}'">First</button>
+                <button onclick="window.location.href='{{ url_for('results', page=current_page-1) }}'">Previous</button>
+                {% else %}
+                <button class="disabled">First</button>
+                <button class="disabled">Previous</button>
+                {% endif %}
+                {% for page_num in page_numbers %}
+                    {% if page_num == current_page %}
+                    <button class="disabled">{{ page_num }}</button>
+                    {% else %}
+                    <button onclick="window.location.href='{{ url_for('results', page=page_num) }}'">{{ page_num }}</button>
+                    {% endif %}
+                {% endfor %}
+                {% if current_page < total_pages %}
+                <button onclick="window.location.href='{{ url_for('results', page=current_page+1) }}'">Next</button>
+                <button onclick="window.location.href='{{ url_for('results', page=total_pages) }}'">Last</button>
+                {% else %}
+                <button class="disabled">Next</button>
+                <button class="disabled">Last</button>
+                {% endif %}
+            </div>
             {% else %}
-                <div class="no-results">
-                    <img src="https://www.shutterstock.com/shutterstock/photos/1595649697/display_1500/stock-vector-doodle-stick-figure-no-search-results-page-not-found-concept-sad-man-with-search-magnifying-1595649697.jpg" alt="No Results Found" style="max-width: 100%; height: auto;">
-                    <p>No results found. Please try again.</p>
-                </div>
+            <div class="no-results">
+                <img src="https://www.shutterstock.com/shutterstock/photos/1595649697/display_1500/stock-vector-doodle-stick-figure-no-search-results-page-not-found-concept-sad-man-with-search-magnifying-1595649697.jpg" alt="No Results Found" style="max-width: 100%; height: auto;">
+                <p>No results found. Please try again.</p>
+            </div>
             {% endif %}
         </div>
+        <button onclick="window.location.href='/search_index'">Back to Search Page</button>
     </div>
     <script>
-        let sortDirection = true; // true for ascending, false for descending
-
         function toggleDropdown() {
-            const dropdown = document.querySelector('.dropdown');
-            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+            document.querySelector('.dropdown').classList.toggle('show');
         }
 
-        function toggleSelectAll(selectAllCheckbox) {
-            const checkboxes = document.querySelectorAll('.dropdown input[type="checkbox"]:not(#select-all)');
-            checkboxes.forEach(checkbox => {
-                checkbox.checked = selectAllCheckbox.checked;
-                filterResults(); // Update the filter display each time
-            });
+        function toggleSelectAll(source) {
+            checkboxes = document.querySelectorAll('.dropdown input[type="checkbox"]');
+            for (var i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i] != source) {
+                    checkboxes[i].checked = source.checked;
+                }
+            }
+            filterResults();
         }
 
         function filterResults() {
-            const selectedOptions = Array.from(document.querySelectorAll('.dropdown input:checked')).map(option => option.value);
-            const rows = document.querySelectorAll('tbody tr');
-            const headers = document.querySelectorAll('th');
-
-            // Show or hide columns based on selected checkboxes
-            headers.forEach((header, index) => {
-                const column = header.getAttribute('data-column');
-                header.style.display = selectedOptions.includes(column) ? '' : 'none';
-                rows.forEach(row => {
-                    const cell = row.cells[index];
-                    cell.style.display = selectedOptions.includes(column) ? '' : 'none';
-                });
+            var checkboxes = document.querySelectorAll('.dropdown input[type="checkbox"]');
+            var columns = document.querySelectorAll('table th, table td');
+            columns.forEach(column => column.style.display = 'none');
+            checkboxes.forEach((checkbox, index) => {
+                if (checkbox.checked) {
+                    var columnIndex = index - 1;
+                    if (columnIndex >= 0) {
+                        document.querySelectorAll('table th:nth-child(' + (columnIndex + 1) + '), table td:nth-child(' + (columnIndex + 1) + ')').forEach(cell => cell.style.display = '');
+                    }
+                }
             });
         }
 
-        function sortTable(column) {
-            const table = document.querySelector('table');
-            const tbody = table.querySelector('tbody');
-            const rows = Array.from(tbody.querySelectorAll('tr'));
-            const isNumeric = column === 'frame_number' || column === 'user_id' || column === 'total_visit_count';
-
-            rows.sort((a, b) => {
-                const aValue = a.querySelector(`td[data-column="${column}"]`).innerText;
-                const bValue = b.querySelector(`td[data-column="${column}"]`).innerText;
-
-                return isNumeric
-                    ? (sortDirection ? aValue - bValue : bValue - aValue)
-                    : (sortDirection ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue));
+        function sortTable(columnIndex) {
+            var table = document.querySelector("table");
+            var rows = Array.from(table.rows).slice(1);
+            var isAscending = table.rows[0].cells[columnIndex].querySelector(".sort-arrow").innerHTML === "▲";
+            rows.sort((rowA, rowB) => {
+                var cellA = rowA.cells[columnIndex].innerText.toLowerCase();
+                var cellB = rowB.cells[columnIndex].innerText.toLowerCase();
+                if (cellA < cellB) return isAscending ? -1 : 1;
+                if (cellA > cellB) return isAscending ? 1 : -1;
+                return 0;
             });
-
-            // Append sorted rows back to tbody
-            rows.forEach(row => tbody.appendChild(row));
-
-            // Update the sort arrow
-            updateSortArrow(column);
-
-            // Toggle sort direction for next click
-            sortDirection = !sortDirection;
+            rows.forEach(row => table.appendChild(row));
+            table.rows[0].cells[columnIndex].querySelector(".sort-arrow").innerHTML = isAscending ? "▼" : "▲";
         }
-
-        function updateSortArrow(column) {
-            const arrows = document.querySelectorAll('.sort-arrow');
-            arrows.forEach(arrow => arrow.innerHTML = ''); // Clear all arrows
-
-            const arrow = document.getElementById(`arrow-${column}`);
-            arrow.innerHTML = sortDirection ? ' ▲' : ' ▼'; // Set the arrow based on direction
-        }
-
-        document.addEventListener('click', function(event) {
-            const isClickInside = document.querySelector('.filter-tab').contains(event.target);
-            if (!isClickInside) {
-                document.querySelector('.dropdown').style.display = 'none';
-            }
-        });
     </script>
 </body>
 </html>

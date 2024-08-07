@@ -13,7 +13,7 @@ def search_data(name=None, start_detection_time=None, end_detection_time=None, s
     print(f'Input attributes: {attr_values}')
     file_dest = config['file_transfer']['dest']
     all_jsons = get_json_objects_from_directory(file_dest)
-    filtered = filter_jsons_by_ranges(all_jsons, attr_values)
+    filtered = filter_jsons_by_ranges(all_jsons, attr_values) if len(attr_values) > 0 else []
     results = []
     for filtered_data in filtered:
         results.append(map_search_contents(filtered_data))
