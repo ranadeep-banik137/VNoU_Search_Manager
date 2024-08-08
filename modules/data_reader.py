@@ -76,11 +76,13 @@ def get_file_names(folder_path=f'{os.getenv("PROJECT_PATH") or ""}img'):
 
 
 def get_file_names_with_dir(folder_path=f'{os.getenv("PROJECT_PATH") or ""}img'):
-    return [f"{folder_path}/{file_name}" for file_name in os.listdir(folder_path) if os.path.isfile(os.path.join(folder_path, file_name))]
+    return [f"{folder_path}/{file_name}" for file_name in os.listdir(folder_path) if
+            os.path.isfile(os.path.join(folder_path, file_name))]
 
 
 def get_file_names_excluding_file(folder_path=f'{os.getenv("PROJECT_PATH") or ""}img', exclude_file_name=''):
-    return [file_name for file_name in os.listdir(folder_path) if os.path.isfile(os.path.join(folder_path, file_name)) and file_name != exclude_file_name]
+    return [file_name for file_name in os.listdir(folder_path) if
+            os.path.isfile(os.path.join(folder_path, file_name)) and file_name != exclude_file_name]
 
 
 def is_img_file(file_path):
@@ -145,14 +147,16 @@ def get_tuple_index_from_list_matching_column(tuple_list, column_val, column_ind
 
 def get_json_objects_from_file(json_file_path):
     json_objects = []
+    line_count = 0
     with open(json_file_path, 'r') as json_file:
         for line in json_file:
+            line_count += 1
             try:
                 line = line.replace("'", '"')
                 json_obj = json.loads(line)
                 json_objects.append(json_obj)
             except json.JSONDecodeError as e:
-                logging.error(f'Error in parsing JSON {e}')
+                logging.error(f'Error in parsing JSON in line {line_count} {e}')
     # Now `json_objects` contains all the JSON objects from the file
     return json_objects
 
@@ -179,7 +183,9 @@ def is_input_within_range(current_val, start, end=None):
     return start <= current_val if end is None else start <= current_val <= end
 
 
-def get_active_attributes(name=None, start_detection_time=None, end_detection_time=None, start_frame_number=None, end_frame_number=None, user_id=None, email=None, has_saved_image=False, unidentified_reason=None):
+def get_active_attributes(name=None, start_detection_time=None, end_detection_time=None, start_frame_number=None,
+                          end_frame_number=None, user_id=None, email=None, has_saved_image=False,
+                          unidentified_reason=None):
     attr_values = {}
     if name:  # This checks for both None and empty string
         attr_values['name'] = (name, None)
