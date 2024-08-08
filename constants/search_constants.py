@@ -8,7 +8,7 @@ log_attributes = [
     "detected_at",
     "total_visit_count",
     "model",
-    "is_repeated_user"
+    "is_repeated_user",
     "is_img_saved_in_local",
     "unidentified_reason",
     "image_link"

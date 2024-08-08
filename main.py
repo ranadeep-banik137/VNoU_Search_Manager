@@ -10,6 +10,7 @@ from constants.database_constants import Search_variable, Search_table_queries, 
 from modules.database_util import create_table, insert_data, get_data_in_tuples, get_pk_id, update_data
 from modules.image_utils import get_picture_url_from_binary, convert_img_file_to_binary
 from modules.hash_encrypter import hash_password, check_password
+from page_object.search_utils import search_data
 
 if __name__ == '__main__':
     # start_time = datetime.fromisoformat('2024-07-12T13:40:49')
@@ -154,5 +155,8 @@ if __name__ == '__main__':
     #_id, is_creds_valid = validate_creds(identifier='8759218242', password='anwesha#123')
     #print(f'{_id} {is_creds_valid}')
 
-    test = get_pk_id(Search_variable.username, None)
-    print(f'test {test}')
+    #test = get_pk_id(Search_variable.username, None)
+    #print(f'test {test}')
+
+    search_data(name='Ranadeep Banik')
+

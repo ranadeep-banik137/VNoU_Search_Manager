@@ -7,7 +7,7 @@ config = read_config()
 
 
 # Dummy function to represent your search function
-def search_data(name=None, start_detection_time=None, end_detection_time=None, start_frame_number=None, end_frame_number=None, user_id=None, email=None, has_saved_image=False, unidentified_reason=None):
+def search_data(name=None, start_detection_time=None, end_detection_time=None, start_frame_number=None, end_frame_number=None, user_id=None, email=None, has_saved_image=None, unidentified_reason=None):
     # This should be replaced with your actual search function logic
     attr_values = get_active_attributes(name, start_detection_time, end_detection_time, start_frame_number, end_frame_number, user_id, email, has_saved_image, unidentified_reason)
     print(f'Input attributes: {attr_values}')
