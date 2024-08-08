@@ -183,6 +183,28 @@ def is_input_within_range(current_val, start, end=None):
     return start <= current_val if end is None else start <= current_val <= end
 
 
+def fetch_all_log_files(logs_dir):
+    log_files = []
+    for root, dirs, files in os.walk(logs_dir):
+        for file in files:
+            if file.endswith(".log"):  # Assuming log files have a .log extension
+                log_files.append(os.path.join(root, file))
+    return log_files
+
+
+def process_log_files(log_files):
+    json_data = []
+    for log_file in log_files:
+        with open(log_file, 'r') as file:
+            try:
+                for line in file:
+                    log_data = json.loads(line)
+                    json_data.append(log_data)
+            except json.JSONDecodeError as e:
+                print(f"Error decoding JSON in file {log_file}: {e}")
+    return json_data
+
+
 def get_active_attributes(name=None, start_detection_time=None, end_detection_time=None, start_frame_number=None,
                           end_frame_number=None, user_id=None, email=None, has_saved_image=False,
                           unidentified_reason=None):

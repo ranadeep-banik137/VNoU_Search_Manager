@@ -1,7 +1,7 @@
 # All the logs to transferred from another directory during app run.
 # Below is the mentioned path
 file_transfer:
-  dest: 'files/json_reports'
+  dest: 'files/logs'
 
 app_default:
   no_img_dir: 'templates/no-photo.jpg'
