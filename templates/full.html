@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login, Signup & Search</title>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600&display=swap" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -15,6 +16,7 @@
             overflow: hidden;
             height: 100vh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             background: rgba(0, 0, 0, 0.5);
@@ -41,22 +43,35 @@
             justify-content: space-between;
             align-items: center;
             z-index: 2;
+            font-family: 'Noto Sans', sans-serif;
         }
 
         .top-tab img {
             height: 40px;
         }
 
+        .top-tab div {
+            display: flex;
+            align-items: center;
+        }
+
         .top-tab a {
             color: #fff;
             text-decoration: none;
-            margin-left: 15px;
-            font-size: 18px;
+            margin-left: 10px;
+            font-size: 16px;
+        }
+
+        .separator {
+            height: 20px;
+            width: 2px;
+            background-color: #fff;
+            margin: 0 10px;
         }
 
         .container {
             width: 40%;
-            max-height: 90vh;
+            max-height: 80vh;
             padding: 20px;
             background-color: rgba(255, 255, 255, 0.3);
             border-radius: 10px;
@@ -175,14 +190,53 @@
                 padding: 15px;
             }
 
-            .top-tab {
+            .top-tab,
+            .bottom-tab {
                 flex-direction: column;
                 align-items: flex-start;
             }
 
-            .top-tab a {
+            .top-tab a,
+            .bottom-tab a {
                 margin: 5px 0;
             }
+
+            .bottom-tab {
+                justify-content: space-between;
+            }
+        }
+
+        .social-icons a {
+            margin-left: 15px;
+        }
+
+        .bottom-tab {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 10px 20px;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 2;
+            font-family: 'Noto Sans', sans-serif;
+        }
+
+        .bottom-tab-left,
+        .bottom-tab-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .bottom-tab-right {
+            justify-content: flex-end;
+        }
+
+        .bottom-tab-right a {
+            margin-left: 15px;
+            font-size: 14px;
         }
     </style>
 </head>
@@ -196,6 +250,7 @@
         <img src="{{ url_for('inner_page_logo') }}" alt="VNoU Solutions">
         <div>
             <a href="/about">About Us</a>
+            <div class="separator"></div>
             <a href="/contact">Contact</a>
         </div>
     </div>
@@ -250,22 +305,30 @@
         {% endif %}
         {% endwith %}
     </div>
+    <div class="bottom-tab">
+        <div class="bottom-tab-left">
+            <p style="color: white; font-size: 14px;">Copyright © 2024 VNoU Solutions. All rights reserved.</p>
+            <div class="social-icons">
+                <a href="https://www.facebook.com" target="_blank">
+                    <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook" style="height: 24px;">
+                </a>
+                <a href="https://www.instagram.com" target="_blank">
+                    <img src="https://cdn-icons-png.flaticon.com/512/733/733558.png" alt="Instagram" style="height: 24px;">
+                </a>
+                <a href="https://www.linkedin.com" target="_blank">
+                    <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn" style="height: 24px;">
+                </a>
+            </div>
+        </div>
+        <div class="bottom-tab-right">
+            <a href="/legal">Legal</a>
+            <a href="/privacy">Privacy Policy</a>
+            <a href="/terms">Terms of Service</a>
+        </div>
+    </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script>
-        function resetForm() {
-            var form = document.querySelector('.tab-pane.active form');
-            form.reset();
-        }
-
-        $(document).ready(function () {
-            $('#myTab a').on('click', function (e) {
-                e.preventDefault();
-                $(this).tab('show');
-            });
-        });
-    </script>
 </body>
 
 </html>
