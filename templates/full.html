@@ -46,7 +46,7 @@
         }
 
         .top-tab img {
-            height: 40px;
+            height: 45px;
         }
 
         .top-tab div {
@@ -55,10 +55,10 @@
         }
 
         .top-tab a {
-            color: #fff;
+            #color: #fff;
             text-decoration: none;
             margin-left: 10px;
-            font-size: 16px;
+            font-size: 15px;
         }
 
         .separator {
@@ -70,7 +70,7 @@
 
         .container {
             width: 40%;
-            max-height: 80vh;
+            max-height: 70vh; /* Adjusted height for better visibility */
             padding: 20px;
             background-color: rgba(255, 255, 255, 0.3);
             border-radius: 10px;
@@ -79,13 +79,14 @@
             top: 25%;
             right: 3%;
             z-index: 1;
-            overflow: auto;
-            -ms-overflow-style: none;
-            scrollbar-width: none;
+            overflow-y: auto; /* Ensure vertical scrolling */
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+            -ms-overflow-style: none; /* Hide scrollbar in IE and Edge */
+            scrollbar-width: none; /* Hide scrollbar in Firefox */
         }
 
         .container::-webkit-scrollbar {
-            display: none;
+            display: none; /* Hide scrollbar in Chrome, Safari and Opera */
         }
 
         .logo {
@@ -232,7 +233,7 @@
 
         .bottom-tab-left p {
             margin: 0;
-            font-size: 14px;
+            font-size: 9px;
             color: white;
         }
 
@@ -270,7 +271,7 @@
     <div class="container">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" id="login-tab" data-toggle="tab" href="#login" role="tab" aria-controls="login" aria-selected="true">Login</a>
+                <a class="nav-link active" id="login-tab" data-toggle="tab" href="#login" role="tab" aria-controls="login" aria-selected="true">Signin</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="signup-tab" data-toggle="tab" href="#signup" role="tab" aria-controls="signup" aria-selected="false">Signup</a>
@@ -281,11 +282,11 @@
                 <form action="/login" method="post">
                     <div class="form-group">
                         <label for="username">Username or Email or Phone</label>
-                        <input type="text" id="username" name="username" required>
+                        <input type="text" id="username" name="username" placeholder="Enter your ID" required>
                     </div>
                     <div class="form-group">
                         <label for="password">Password</label>
-                        <input type="password" id="password" name="password" required>
+                        <input type="password" id="password" name="password" placeholder="Enter your password" required>
                     </div>
                     <div class="forgot-password">
                         <button type="submit">Login</button>
@@ -297,7 +298,7 @@
                 <form action="/signup" method="post">
                     <div class="form-group">
                         <label for="identifier">Email or Phone</label>
-                        <input type="text" id="identifier" name="identifier" required>
+                        <input type="text" id="identifier" name="identifier" placeholder="Enter your email id or unique ID" required>
                     </div>
                     <button type="submit">Signup</button>
                 </form>
@@ -330,6 +331,9 @@
                 </a>
                 <a href="https://www.linkedin.com" target="_blank">
                     <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn" style="height: 24px;">
+                </a>
+                <a href="https://www.youtube.com" target="_blank">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/42/YouTube_icon_%282013-2017%29.png" alt="YouTube" style="height: 24px;">
                 </a>
             </div>
         </div>
