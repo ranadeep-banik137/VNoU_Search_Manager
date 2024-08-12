@@ -36,7 +36,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            padding: 5px 20px;
+            padding: 2px 20px;
             background-color: rgba(0, 0, 0, 0.5);
             display: flex;
             justify-content: space-between;
@@ -58,7 +58,7 @@
             #color: #fff;
             text-decoration: none;
             margin-left: 10px;
-            font-size: 15px;
+            font-size: 14px;
         }
 
         .separator {
@@ -72,12 +72,12 @@
             width: 40%;
             max-height: 70vh; /* Adjusted height for better visibility */
             padding: 20px;
-            background-color: rgba(255, 255, 255, 0.3);
+            background-color: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             position: absolute;
             top: 22%;
-            right: 3%;
+            left: 3%;
             z-index: 1;
             overflow-y: auto; /* Ensure vertical scrolling */
             overflow-x: hidden; /* Prevent horizontal scrolling */
@@ -173,9 +173,9 @@
         }
 
         .forgot-password a {
-            color: #007bff;
+            color: #fff;
             text-decoration: none;
-            font-size: 14px;
+            font-size: 12px;
         }
 
         .forgot-password a:hover {
@@ -203,6 +203,10 @@
 
             .bottom-tab {
                 justify-content: space-between;
+            }
+
+            .left-container {
+                display: none;
             }
         }
 
@@ -252,12 +256,41 @@
         .bottom-tab-right a:hover {
             text-decoration: underline;
         }
+
+        .left-container {
+            width: 50%;
+            max-height: 80vh;
+            padding: 0px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 1px;
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+            position: absolute;
+            top: 10%;
+            left: 3%; /* Mirror position */
+            z-index: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .left-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .left-container-img {
+            opacity: 0.72;
+            left: 40%;
+            width: 100%;
+            border-radius: 10px;
+        }
     </style>
 </head>
 
 <body>
     <video autoplay muted loop class="background-video">
-        <source src="https://videos.pexels.com/video-files/3129576/3129576-sd_640_360_30fps.mp4" type="video/mp4">
+        <source src="https://videos.pexels.com/video-files/3163534/3163534-uhd_2560_1440_30fps.mp4" type="video/mp4">
+        <!-- <source src="https://videos.pexels.com/video-files/3129671/3129671-uhd_2560_1440_30fps.mp4" type="video/mp4"> -->
         Your browser does not support HTML5 video.
     </video>
     <div class="top-tab">
@@ -268,6 +301,10 @@
             <a href="/contact">Contact</a>
         </div>
     </div>
+    <!-- To be implemented -->
+    <!-- <div class="left-container">
+        <img src="{{ url_for('homepage_logo') }}" alt="Placeholder Image" class="left-container-img">
+    </div> -->
     <div class="container">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
