@@ -4,18 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Onboarding</title>
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            font-family: 'Raleway', sans-serif;
+            font-family: 'Noto Sans', sans-serif;
             margin: 0;
             padding: 0;
             overflow: hidden;
             height: 100vh;
             display: flex;
-            justify-content: center;
-            align-items: center;
+            flex-direction: column;
             background: rgba(0, 0, 0, 0.5);
         }
         .background-video {
@@ -27,18 +26,49 @@
             object-fit: cover;
             z-index: -1;
         }
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2px 4px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+        }
+        .top-bar img {
+            width: 110px;
+        }
+        .top-bar .logout-button {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 10px;
+        }
+        .top-bar .logout-button:hover {
+            background-color: #c82333;
+        }
         .container {
-            width: 40%;
-            max-height: 90vh;
-            padding: 20px;
-            background-color: rgba(255, 255, 255, 0.3);
+            width: 85%;
+            max-width: 450px;
+            margin: 10px auto;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.6);
             border-radius: 10px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            position: relative;
-            z-index: 1;
             overflow: auto;
             -ms-overflow-style: none;
             scrollbar-width: none;
+            position: relative;
+            top: 0px; /* Adjust top position to ensure space for the top bar */
+            height: calc(100vh - 100px); /* Adjust height to ensure space for the bottom tab */
+            margin-left: 5%;
+        }
+        @media (max-width: 768px) {
+            .container {
+                margin: auto;
+            }
         }
         .container::-webkit-scrollbar {
             display: none;
@@ -48,16 +78,16 @@
         }
         .form-group label {
             display: block;
-            margin-bottom: 8px;
-            font-size: 14px;
-            color: #FFFFFF;
+            margin-bottom: 6px;
+            font-size: 12px;
+            color: #000;
         }
         .form-group input, .form-group select {
             width: 100%;
             padding: 8px;
             border: 2px solid #007bff;
             border-radius: 5px;
-            font-size: 14px;
+            font-size: 12px;
             box-sizing: border-box;
             transition: border-color 0.3s;
         }
@@ -65,44 +95,16 @@
             border-color: #0056b3;
             outline: none;
         }
-        .header {
-            width: 100%;
-            position: absolute;
-            top: 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-        .header img {
-            position: absolute;
-            top: 0%;
-            left: 0%;
-            opacity: 0.9;
-            width: 190px;
-        }
-        .logout-button {
-            background-color: #dc3545;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        .logout-button:hover {
-            background-color: #c82333;
-        }
         button {
-            padding: 10px 18px;
+            padding: 8px 16px;
             background-color: #007bff;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 12px;
             transition: background-color 0.3s;
+            margin-right: 10px;
         }
         button:hover {
             background-color: #0056b3;
@@ -113,14 +115,35 @@
         .reset:hover {
             background-color: #c82333;
         }
+        .dashboard-button {
+            background-color: #28a745;
+        }
+        .dashboard-button:hover {
+            background-color: #218838;
+        }
+        .bottom-bar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+        .bottom-bar p {
+            margin: 0;
+            font-size: 10px;
+        }
     </style>
 </head>
 <body>
     <video autoplay muted loop class="background-video">
-        <source src="https://videos.pexels.com/video-files/3129576/3129576-sd_640_360_30fps.mp4" type="video/mp4">
+        <source src="https://videos.pexels.com/video-files/3163534/3163534-uhd_2560_1440_30fps.mp4" type="video/mp4">
         Your browser does not support HTML5 video.
     </video>
-    <div class="header">
+    <div class="top-bar">
         <a href="/dashboard">
             <img src="{{ url_for('inner_page_logo') }}" alt="VNoU Solutions">
         </a>
@@ -160,7 +183,7 @@
             </div>
             <button type="submit">Submit</button>
             <button type="button" class="reset" onclick="resetForm()">Reset</button>
-            <button type="button" class="dashboard-button" onclick="window.location.href='/dashboard';">Move to Dashboard<i class="fa fa-arrow-left"></i></button>
+            <button type="button" class="dashboard-button" onclick="window.location.href='/dashboard';">Move to Dashboard</button>
         </form>
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
@@ -176,6 +199,9 @@
                 </div>
             {% endif %}
         {% endwith %}
+    </div>
+    <div class="bottom-bar">
+        <p>&copy; 2024 VNoU Solutions. All rights reserved.</p>
     </div>
     <script>
         function resetForm() {
