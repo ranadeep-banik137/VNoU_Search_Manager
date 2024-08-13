@@ -84,6 +84,9 @@
             .container {
                 margin: auto;
             }
+            .right-panel {
+                display: none;
+            }
         }
         .container::-webkit-scrollbar {
             display: none;
@@ -144,6 +147,43 @@
         .bottom-bar p {
             margin: 0;
             font-size: 10px;
+        }
+        .right-panel {
+            position: absolute;
+            right: 5%;
+            top: 120px;
+            width: 85%;
+            max-width: 600px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .right-panel h3 {
+            text-align: center;
+            font-size: 25px;
+            margin-bottom: 50px;
+            color: white;
+        }
+        .right-panel p {
+            font-size: 12px;
+            margin-bottom: 10px;
+            color: white;
+            text-align: center;
+        }
+        .inner-border {
+            border: 0.01px solid white;
+            border-radius: 10px;
+            padding: 2px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .inner-border .inner-border {
+            margin-top: 1px;
+            padding: 5px;
         }
     </style>
 </head>
@@ -209,22 +249,29 @@
             {% endif %}
         {% endwith %}
     </div>
-    <div class="bottom-bar">
-        <p>&copy; 2024 VNoU Solutions. All rights reserved.</p>
+    <div class="right-panel">
+        <div class="inner-border">
+            <div class="inner-border">
+                <h3>Welcome Tips</h3>
+                <p>Tip 1: Make sure to fill out all required fields to ensure a smooth onboarding process.</p>
+                <p>Tip 2: Use a clear and professional photo for your profile picture.</p>
+                <p>Tip 3: Double-check your information before submitting the form.</p>
+                <p>Tip 4: Make sure to fill out all required fields to ensure a smooth onboarding process.</p>
+                <p>Tip 5: Use a clear and professional photo for your profile picture.</p>
+                <p>Tip 6: Double-check your information before submitting the form.</p>
+            </div>
+        </div>
     </div>
+    <div class="bottom-bar">
+        <p>&copy; 2024 VNoU Solutions | <a href="/privacy" class="text-white">Privacy Policy</a> | <a href="/terms" class="text-white">Terms of Service</a></p>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         function resetForm() {
-            document.getElementById('first_name').value = '';
-            document.getElementById('middle_name').value = '';
-            document.getElementById('last_name').value = '';
-            document.getElementById('phone').value = '';
-            document.getElementById('email').value = '';
-            document.getElementById('dob').value = '';
-            document.getElementById('image').value = '';
+            document.querySelector('form').reset();
         }
     </script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
