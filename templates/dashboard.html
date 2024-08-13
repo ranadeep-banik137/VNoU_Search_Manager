@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;600&family=Noto+Sans:wght@300;400&display=swap" rel="stylesheet">
     <style>
         body {
             margin: 0;
@@ -25,12 +25,10 @@
             filter: brightness(50%);
         }
 
-        .top-tab {
+        .top-tab, .bottom-tab {
             position: fixed;
-            top: 0;
-            left: 0;
             width: 100%;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.5);
             padding: 10px;
             display: flex;
             justify-content: space-between;
@@ -40,32 +38,91 @@
             box-sizing: border-box;
         }
 
-        .top-tab .logo img {
+        .top-tab {
+            top: 0;
+            left: 0;
+        }
+
+        .bottom-tab {
+            bottom: 0;
+            left: 0;
+            justify-content: center;
+            font-family: 'Noto Sans', sans-serif;
+            font-size: 10px;
+        }
+
+        .logo img {
             width: 120px;
         }
 
-        .top-tab .logout-btn {
+        .logout-btn {
             background: #ff5c5c;
             border: none;
             color: #fff;
-            padding: 10px 15px; /* Standard button padding */
+            padding: 7px 12px;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 11px;
             font-weight: 600;
             transition: background 0.3s, transform 0.3s;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
             text-decoration: none;
+            display: flex;
+            align-items: center;
         }
 
-        .top-tab .logout-btn:hover {
+        .logout-btn i {
+            margin-right: 5px;
+        }
+
+        .logout-btn:hover {
             background: #e04848;
             transform: scale(1.05);
         }
 
+        .additional-services {
+            position: relative;
+            display: inline-block;
+        }
+
+        .additional-services .dropbtn {
+            background: none;
+            border: none;
+            color: #fff;
+            padding: 11px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .additional-services .dropdown-content {
+            display: none;
+            position: absolute;
+            background: rgba(0, 0, 0, 0.5);
+            min-width: 160px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        .additional-services .dropdown-content a {
+            color: white;
+            padding: 8px 10px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .additional-services .dropdown-content a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .additional-services:hover .dropdown-content {
+            display: block;
+        }
+
         .container {
             position: absolute;
-            top: 80px;
+            top: 135px;
             left: 50%;
             transform: translateX(-50%);
             width: 90%;
@@ -80,6 +137,8 @@
             display: flex;
             flex-wrap: wrap;
             box-sizing: border-box;
+            overflow-y: auto;
+            max-height: calc(100vh - 160px);
         }
 
         .profile-section {
@@ -91,32 +150,31 @@
 
         .profile-img-container {
             position: relative;
-            flex: 1 1 220px; /* Adjusted size for better responsiveness */
+            flex: 1 1 220px;
             text-align: center;
             margin-right: 20px;
             background: rgba(255, 255, 255, 0.2);
             border-radius: 15px;
             padding: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .profile-img {
             border-radius: 50%;
-            width: 180px; /* Adjusted size */
-            height: 180px; /* Adjusted size */
+            width: 180px;
+            height: 180px;
             object-fit: cover;
             border: 5px solid #fff;
         }
 
         .edit-btn {
-            position: absolute;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
             background: #ffb74d;
             border: none;
             color: #fff;
-            padding: 10px 20px; /* Standard button padding */
+            padding: 10px 20px;
             border-radius: 5px;
             cursor: pointer;
             font-size: 14px;
@@ -124,6 +182,14 @@
             transition: background 0.3s, transform 0.3s;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
             text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .edit-btn i {
+            margin-right: 5px;
         }
 
         .edit-btn:hover {
@@ -132,9 +198,9 @@
         }
 
         .separator {
-            height: auto; /* Adjust height based on content */
+            height: auto;
             border-left: 2px solid #555;
-            margin: 20px; /* Adjust margin for responsiveness */
+            margin: 20px;
         }
 
         .profile-details {
@@ -159,20 +225,19 @@
 
         .action-buttons {
             display: flex;
-            flex-wrap: wrap;
+            flex-direction: column;
             gap: 10px;
             margin-top: 20px;
-            justify-content: center;
         }
 
         .action-btn {
             background: #2196f3;
             border: none;
             color: #fff;
-            padding: 10px 20px; /* Standard button padding */
+            padding: 10px 15px;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 12px;
             font-weight: 600;
             transition: background 0.3s, transform 0.3s;
             text-decoration: none;
@@ -197,6 +262,7 @@
             .profile-img-container {
                 margin-right: 0;
                 text-align: center;
+                margin-bottom: 20px;
             }
 
             .profile-details {
@@ -205,8 +271,51 @@
             }
 
             .separator {
-                display: none; /* Hide separator on small screens */
+                display: none;
             }
+
+            .action-buttons {
+                flex-direction: row;
+                justify-content: center;
+            }
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            color: black;
+            border-radius: 10px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -214,43 +323,93 @@
 
     <video class="background-video" autoplay muted loop>
         <source src="https://videos.pexels.com/video-files/3163534/3163534-uhd_2560_1440_30fps.mp4" type="video/mp4">
+        Your browser does not support the video tag.
     </video>
 
     <div class="top-tab">
         <div class="logo">
             <img src="{{ url_for('inner_page_logo') }}" alt="Logo">
         </div>
-        <form action="/logout">
-            <button type="submit" class="logout-btn">Logout</button>
-        </form>
+        <div class="additional-services">
+            <button class="dropbtn">Additional Services</button>
+            <div class="dropdown-content">
+                <a href="/onboarding">Onboarding</a>
+                <a href="/search_index">Search Box</a>
+                <a href="/user_blogs">LMS</a>
+            </div>
+        </div>
+        <a href="{{ url_for('logout') }}" class="logout-btn">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
     </div>
 
     <div class="container">
         <div class="profile-section">
             <div class="profile-img-container">
                 <img src="{{ Img_URL if Img_URL else 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfwEJIecctTa4NDAknEghCTW8nVBfn3dNN9FEBjx0jCKO6CzQ9btW8drJo5y8c1PZWLsY&usqp=CAU' }}" alt="Profile Picture" class="profile-img">
-                <button class="edit-btn" onclick="window.location.href='/edit';">Edit Profile</button>
+                <a href="/edit" class="edit-btn">
+                    <i class="fas fa-edit"></i> Edit Profile
+                </a>
             </div>
+
             <div class="separator"></div>
+
             <div class="profile-details">
-                <h2>{{ UserName if UserName else 'N/A' }}</h2>
-                <p><strong>Name:</strong> {{ Name }}</p>
-                <p><strong>Email:</strong> {{ Email }}</p>
-                <p><strong>Phone:</strong> {{ Phone }}</p>
-                <p><strong>DOB:</strong> {{ DOB }}</p>
-                <p><strong>Address L1:</strong> {{ Address_L1 }}</p>
-                <p><strong>Address L2:</strong> {{ Address_L2 }}</p>
-                <p><strong>Gender:</strong> {{ Gender }}</p>
-                <p><strong>City:</strong> {{ City }}</p>
-                <p><strong>State:</strong> {{ State }}</p>
-                <p><strong>Country:</strong> {{ Country }}</p>
+                <h2>Welcome {{ UserName if UserName else 'N/A' }}</h2>
+                <p><strong>Email:</strong> {{ Email if Email else 'N/A' }}</p>
+                <p><strong>Location:</strong> {{ City if City else 'N/A' }}</p>
+                <p><strong>Member Since:</strong> January 2024</p>
                 <div class="action-buttons">
-                    <a href="/onboarding" class="action-btn">Onboarding</a>
-                    <a href="/search_index" class="action-btn">Search</a>
+                    <a href="#" class="action-btn" id="view-profile-btn">View Profile</a>
+                    <a href="#" class="action-btn">Settings</a>
+                    <a href="#" class="action-btn">Support</a>
                 </div>
             </div>
         </div>
     </div>
 
+    <div class="bottom-tab">
+        &copy; 2024 VNOU Solutions
+    </div>
+
+    <!-- Modal -->
+    <div id="profileModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>{{ Name }}</h2>
+            <p><strong>Email:</strong> {{ Email }}</p>
+            <p><strong>VNoU UserName:</strong> {{ UserName if UserName else 'N/A' }}</p>
+            <p><strong>Phone:</strong> {{ Phone }}</p>
+            <p><strong>DOB:</strong> {{ DOB }}</p>
+            <p><strong>Address L1:</strong> {{ Address_L1 }}</p>
+            <p><strong>Address L2:</strong> {{ Address_L2 }}</p>
+            <p><strong>Gender:</strong> {{ Gender }}</p>
+            <p><strong>City:</strong> {{ City }}</p>
+            <p><strong>State:</strong> {{ State }}</p>
+            <p><strong>Country:</strong> {{ Country }}</p>
+            <p><strong>Bio:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <p><strong>Website:</strong> www.johndoe.com</p>
+        </div>
+    </div>
+
+    <script>
+        var modal = document.getElementById("profileModal");
+        var btn = document.getElementById("view-profile-btn");
+        var span = document.getElementsByClassName("close")[0];
+
+        btn.onclick = function() {
+            modal.style.display = "block";
+        }
+
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
 </body>
 </html>
