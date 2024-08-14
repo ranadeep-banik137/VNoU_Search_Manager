@@ -28,7 +28,7 @@
         }
         .header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 15px;
             font-size: 28px;
             color: white;
             position: relative;
@@ -42,8 +42,8 @@
         .header::after {
             content: '';
             display: block;
-            width: 60%;
-            height: 3px;
+            width: 100%;
+            height: 0.5px;
             background: white;
             position: absolute;
             bottom: 0;
@@ -109,7 +109,7 @@
             font-size: 11px;
         }
         .container {
-            width: 50%;
+            width: 40%;
             max-height: 70vh;
             padding: 20px;
             background-color: rgba(255, 255, 255, 0.3);
@@ -120,19 +120,25 @@
             overflow: auto;
             margin-top: 90px; /* Space for top tab */
             margin-bottom: 60px; /* Space for bottom tab */
+            scrollbar-width: none;
+        }
+        .container::-webkit-scrollbar {
+            display: none;
         }
         .form-group {
             margin-bottom: 20px;
         }
         .form-group label {
             display: block;
-            margin-bottom: 10px;
-            font-size: 16px;
-            color: #333;
+            margin-bottom: 5px;
+            font-size: 13px;
+            color: #fff;
         }
         .form-group input, .form-group select {
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
             width: 100%;
-            padding: 12px;
+            padding: 6px;
             border: 2px solid #007bff;
             border-radius: 6px;
             font-size: 16px;
@@ -156,14 +162,22 @@
             font-size: 18px;
             padding: 12px;
         }
+        .dropdown label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 13px;
+            color: white;
+        }
         .dropdown select {
             width: 100%;
-            padding: 12px;
+            padding: 5px;
             border-radius: 6px;
             border: 2px solid #007bff;
-            font-size: 18px;
-            background: #fff;
+            font-size: 15px;
+            #background: #fff;
             box-sizing: border-box;
+            background: rgba(0, 0, 0, 0.5); /* semi-transparent black background */
+            color: white; /* make text white for better visibility */
         }
         button {
             padding: 12px 20px;
@@ -186,8 +200,8 @@
         }
         @media (max-width: 768px) {
             .container {
-                width: 90%;
-                padding: 20px;
+                width: 80%;
+                padding: 15px;
             }
         }
     </style>
@@ -216,9 +230,9 @@
         </div>
 		<form action="/search" method="post">
 			<div class="dropdown">
-				<label for="search-by-dropdown">Search By:</label>
+				<label for="search-by-dropdown">Add Search Fields:</label>
 				<select id="search-by-dropdown">
-					<option value="">Select Field</option>
+					<option value="">Click to add fields</option>
 					<option value="name">Name</option>
 					<option value="detection_time">Detection Time</option>
 					<option value="frame_number">Frame Number</option>
