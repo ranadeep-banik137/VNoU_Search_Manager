@@ -47,10 +47,58 @@
             opacity: 0.9;
             width: 190px;
         }
+        .top-bar, .bottom-bar {
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.6);
+        }
+        .top-bar {
+            top: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+        }
+        .top-bar img {
+            max-height: 45px;
+        }
+        .top-bar a {
+            color: #fff;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 14px;
+        }
+        .top-bar .logout-btn {
+            background: #dc3545;
+            color: #fff;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        .top-bar .logout-btn:hover {
+            background: #c82333;
+        }
+        .bottom-bar {
+            bottom: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            color: #fff;
+            font-size: 11px;
+            text-align: center;
+        }
+        .bottom-bar a {
+            color: #fff;
+            margin: 0 10px;
+            font-size: 10px;
+        }
         .container {
-            width: 30%;
-            max-height: 80vh;
-            padding: 40px;
+            width: 40%;
+            top: -1%;
+            max-height: 67vh;
+            padding: 50px;
             background-color: rgba(255, 255, 255, 0.3);
             border-radius: 10px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
@@ -59,7 +107,7 @@
             overflow: auto;
             -ms-overflow-style: none;  /* Internet Explorer 10+ */
             scrollbar-width: none;  /* Firefox */
-            margin-top: 70px; /* Space for line separator */
+            margin-top: 25px; /* Space for line separator */
         }
         .container::-webkit-scrollbar {
             display: none;  /* Safari and Chrome */
@@ -128,6 +176,29 @@
         button.reset:hover {
             background-color: #c82333;
         }
+        @media (max-width: 768px) {
+            .container {
+                width: 85%;
+                padding: 15px;
+                top: 5px; /* Adjust for smaller screens */
+                bottom: 0px; /* Adjust for smaller screens */
+            }
+            .top-bar, .bottom-bar {
+                padding: 10px;
+            }
+            .top-bar a {
+                margin-left: 10px;
+                font-size: 12px;
+            }
+            .form-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .form-group {
+                flex: 1 1 auto;
+                min-width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
@@ -135,11 +206,19 @@
         <source src="https://videos.pexels.com/video-files/3163534/3163534-uhd_2560_1440_30fps.mp4" type="video/mp4">
         Your browser does not support HTML5 video.
     </video>
-
-    <button class="logout-button" onclick="window.location.href='/logout'">Logout</button>
-    <a href="/dashboard">
-        <img src="{{ url_for('inner_page_logo') }}" alt="VNoU Solutions">
-    </a>
+    <div class="top-bar">
+        <a href="/dashboard">
+            <img src="{{ url_for('inner_page_logo') }}" alt="VNoU Solutions">
+        </a>
+        <div>
+            <a href="/dashboard" class="dashboard-link">
+                <i class="fa fa-arrow-left"></i> Move to Dashboard
+            </a>
+            <a href="{{ url_for('logout') }}" class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+        </div>
+    </div>
     <div class="container">
         <div class="header">
             <h1>LOG SEARCH BOX</h1>
@@ -197,8 +276,12 @@
             </div>
             <button type="submit">Search</button>
             <button type="button" class="reset" onclick="resetForm()">Reset</button>
-            <button type="button" class="dashboard-button" onclick="window.location.href='/dashboard';">Move to Dashboard<i class="fa fa-arrow-left"></i></button>
         </form>
+    </div>
+    <div class="bottom-bar">
+        &copy; 2024 VNoU Solutions. All rights reserved.
+        <a href="/privacy-policy">Privacy Policy</a> |
+        <a href="/terms-of-service">Terms of Service</a>
     </div>
     <script>
         function resetForm() {
