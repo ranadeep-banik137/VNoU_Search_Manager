@@ -15,7 +15,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.6);
         }
         .background-video {
             position: absolute;
@@ -28,42 +28,45 @@
         }
         .header {
             text-align: center;
-            margin-bottom: 20px;
-            font-family: 'Raleway', sans-serif;
-            font-size: 24px;
+            margin-bottom: 30px;
+            font-size: 28px;
             color: white;
             position: relative;
+            font-weight: 700;
         }
         .header h1 {
             margin: 0;
             padding-bottom: 10px;
+            font-size: 2rem;
         }
         .header::after {
             content: '';
             display: block;
-            width: 100%;
-            height: 2px;
+            width: 60%;
+            height: 3px;
             background: white;
             position: absolute;
             bottom: 0;
-            left: 0;
+            left: 50%;
+            transform: translateX(-50%);
             margin-top: 10px;
         }
         .top-bar, .bottom-bar {
             position: fixed;
             width: 100%;
             z-index: 1000;
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(0, 0, 0, 0.7);
         }
         .top-bar {
             top: 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 30px;
+            padding: 20px 30px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
         }
         .top-bar img {
-            max-height: 45px;
+            max-height: 50px;
             width: auto;
         }
         .top-bar .top-bar-links {
@@ -74,14 +77,16 @@
             color: #fff;
             text-decoration: none;
             margin-left: 20px;
-            font-size: 14px;
+            font-size: 15px;
+            font-weight: 500;
         }
         .top-bar .logout-btn {
             background: #dc3545;
             color: #fff;
-            padding: 10px 15px;
-            border-radius: 5px;
+            padding: 12px 18px;
+            border-radius: 6px;
             text-decoration: none;
+            font-weight: 600;
         }
         .top-bar .logout-btn:hover {
             background: #c82333;
@@ -91,44 +96,45 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 10px;
+            padding: 15px;
             color: #fff;
-            font-size: 11px;
+            font-size: 12px;
             text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
         }
         .bottom-bar a {
             color: #fff;
-            margin: 0 10px;
-            font-size: 10px;
+            margin: 0 15px;
+            font-size: 11px;
         }
         .container {
             width: 50%;
-            max-height: 67vh;
+            max-height: 70vh;
             padding: 20px;
             background-color: rgba(255, 255, 255, 0.3);
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
             position: relative;
             z-index: 1;
             overflow: auto;
-            margin-top: 70px; /* Space for top tab */
-            margin-bottom: 50px; /* Space for bottom tab */
+            margin-top: 90px; /* Space for top tab */
+            margin-bottom: 60px; /* Space for bottom tab */
         }
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
         .form-group label {
             display: block;
-            margin-bottom: 8px;
-            font-size: 14px;
+            margin-bottom: 10px;
+            font-size: 16px;
             color: #333;
         }
         .form-group input, .form-group select {
             width: 100%;
-            padding: 8px;
+            padding: 12px;
             border: 2px solid #007bff;
-            border-radius: 5px;
-            font-size: 14px;
+            border-radius: 6px;
+            font-size: 16px;
             box-sizing: border-box;
             transition: border-color 0.3s;
         }
@@ -139,33 +145,33 @@
         .form-group.inline-group {
             display: flex;
             flex-wrap: wrap;
-            gap: 15px;
+            gap: 20px;
         }
         .form-group.inline-group .form-group {
-            flex: 1 1 calc(50% - 15px);
+            flex: 1 1 calc(50% - 20px);
         }
         .dropdown {
-            margin-bottom: 20px;
-            font-size: 16px;
-            padding: 15px;
+            margin-bottom: 25px;
+            font-size: 18px;
+            padding: 12px;
         }
         .dropdown select {
             width: 100%;
-            padding: 10px;
-            border-radius: 5px;
+            padding: 12px;
+            border-radius: 6px;
             border: 2px solid #007bff;
-            font-size: 16px;
+            font-size: 18px;
             background: #fff;
             box-sizing: border-box;
         }
         button {
-            padding: 10px 18px;
+            padding: 12px 20px;
             background-color: #007bff;
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 6px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 16px;
             transition: background-color 0.3s;
         }
         button:hover {
@@ -180,7 +186,7 @@
         @media (max-width: 768px) {
             .container {
                 width: 90%;
-                padding: 15px;
+                padding: 20px;
             }
         }
     </style>
@@ -240,10 +246,10 @@
                         <input type="text" id="name" name="name">
                      </div>`,
             'detection_time': `<div class="form-group" id="detection-time">
-                                <label for="start-detection-time">Start Detection Time</label>
-                                <input type="datetime-local" id="start-detection-time" name="start-detection-time">
-                                <label for="end-detection-time">End Detection Time</label>
-                                <input type="datetime-local" id="end-detection-time" name="end-detection-time">
+                                <label for="start_detection_time">Start Detection Time</label>
+                                <input type="datetime-local" id="start_detection_time" name="start_detection_time">
+                                <label for="end_detection-time">End Detection Time</label>
+                                <input type="datetime-local" id="end_detection_time" name="end_detection_time">
                              </div>`,
             'frame_number': `<div class="form-group" id="frame-number">
                                 <label for="start_frame_number">Start Frame Number</label>
