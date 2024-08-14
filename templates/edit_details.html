@@ -35,10 +35,13 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 30px;
+            padding: 7px 20px;
         }
         .top-bar img {
-            max-height: 40px;
+            max-height: 50px;
+            width: 100%;
+            height: 100%;
+            margin-left: -25px;
         }
         .top-bar a {
             color: #fff;
@@ -49,7 +52,7 @@
         .top-bar .logout-btn {
             background: #dc3545;
             color: #fff;
-            padding: 10px 15px;
+            padding: 7px 15px;
             border-radius: 5px;
             text-decoration: none;
         }
@@ -63,12 +66,13 @@
             align-items: center;
             padding: 10px;
             color: #fff;
-            font-size: 14px;
+            font-size: 11px;
             text-align: center;
         }
         .bottom-bar a {
             color: #fff;
             margin: 0 10px;
+            font-size: 10px;
         }
         .container {
             position: absolute;
@@ -174,6 +178,12 @@
             margin-top: 20px;
             display: none;
         }
+        .flash-messages {
+            margin-top: 20px;
+        }
+        .flash-messages .alert {
+            margin-bottom: 10px;
+        }
         @media (max-width: 768px) {
             .container {
                 width: 95%;
@@ -210,12 +220,23 @@
         </a>
         <div>
             <a href="/dashboard" class="dashboard-link">Move to Dashboard</a>
-            <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+            <a href="{{ url_for('logout') }}" class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
         </div>
     </div>
     <div class="container">
         <h1>Update Details</h1>
         <hr>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <div class="flash-messages">
+              {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
         <form action="/update_details" method="post" enctype="multipart/form-data">
             <input type="hidden" id="image-edited" name="image_edited" value="false">
             <div class="profile-picture">
@@ -277,18 +298,14 @@
         </div>
     </div>
     <div class="bottom-bar">
+        &copy; 2024 VNoU Solutions. All rights reserved.
         <a href="/privacy-policy">Privacy Policy</a> |
-        <a href="/terms-of-service">Terms of Service</a> |
-        <a href="/contact-us">Contact Us</a>
+        <a href="/terms-of-service">Terms of Service</a>
     </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        // Display success message if applicable
-        window.addEventListener('load', function() {
-            if (window.location.search.includes('update=success')) {
-                document.getElementById('success-message').style.display = 'block';
-            }
-        });
-
         // Handle profile picture upload
         document.getElementById('profile-upload').addEventListener('change', function() {
             document.getElementById('image-edited').value = 'true';
