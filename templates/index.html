@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VNoU Search Box</title>
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Raleway', sans-serif;
@@ -27,25 +27,27 @@
             z-index: -1;
         }
         .header {
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            text-align: center;
             margin-bottom: 20px;
-            padding: 1px;
-            background: linear-gradient(135deg, rgba(0, 123, 255, 0.8), rgba(0, 102, 204, 0.8));
-            border-radius: 10px;
+            font-family: 'Raleway', sans-serif;
+            font-size: 24px;
             color: white;
-            font-family: 'Roboto', sans-serif;
-            font-size: 8px;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+            position: relative;
         }
-        img {
+        .header h1 {
+            margin: 0;
+            padding-bottom: 10px;
+        }
+        .header::after {
+            content: '';
+            display: block;
+            width: 100%;
+            height: 2px;
+            background: white;
             position: absolute;
-            top: 0%;
-            left: 0%;
-            opacity: 0.9;
-            width: 190px;
+            bottom: 0;
+            left: 0;
+            margin-top: 10px;
         }
         .top-bar, .bottom-bar {
             position: fixed;
@@ -62,6 +64,11 @@
         }
         .top-bar img {
             max-height: 45px;
+            width: auto;
+        }
+        .top-bar .top-bar-links {
+            display: flex;
+            align-items: center;
         }
         .top-bar a {
             color: #fff;
@@ -95,38 +102,17 @@
             font-size: 10px;
         }
         .container {
-            width: 40%;
-            top: -1%;
+            width: 50%;
             max-height: 67vh;
-            padding: 50px;
+            padding: 20px;
             background-color: rgba(255, 255, 255, 0.3);
             border-radius: 10px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             position: relative;
             z-index: 1;
             overflow: auto;
-            -ms-overflow-style: none;  /* Internet Explorer 10+ */
-            scrollbar-width: none;  /* Firefox */
-            margin-top: 25px; /* Space for line separator */
-        }
-        .container::-webkit-scrollbar {
-            display: none;  /* Safari and Chrome */
-        }
-        .logout-button {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background-color: #dc3545;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: background-color 0.3s;
-        }
-        .logout-button:hover {
-            background-color: #c82333;
+            margin-top: 70px; /* Space for top tab */
+            margin-bottom: 50px; /* Space for bottom tab */
         }
         .form-group {
             margin-bottom: 15px;
@@ -135,7 +121,7 @@
             display: block;
             margin-bottom: 8px;
             font-size: 14px;
-            color: #FFFFFF;
+            color: #333;
         }
         .form-group input, .form-group select {
             width: 100%;
@@ -152,10 +138,25 @@
         }
         .form-group.inline-group {
             display: flex;
-            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
         }
         .form-group.inline-group .form-group {
-            width: 48%;
+            flex: 1 1 calc(50% - 15px);
+        }
+        .dropdown {
+            margin-bottom: 20px;
+            font-size: 16px;
+            padding: 15px;
+        }
+        .dropdown select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 2px solid #007bff;
+            font-size: 16px;
+            background: #fff;
+            box-sizing: border-box;
         }
         button {
             padding: 10px 18px;
@@ -178,25 +179,8 @@
         }
         @media (max-width: 768px) {
             .container {
-                width: 85%;
+                width: 90%;
                 padding: 15px;
-                top: 5px; /* Adjust for smaller screens */
-                bottom: 0px; /* Adjust for smaller screens */
-            }
-            .top-bar, .bottom-bar {
-                padding: 10px;
-            }
-            .top-bar a {
-                margin-left: 10px;
-                font-size: 12px;
-            }
-            .form-container {
-                flex-direction: column;
-                gap: 15px;
-            }
-            .form-group {
-                flex: 1 1 auto;
-                min-width: 100%;
             }
         }
     </style>
@@ -210,7 +194,7 @@
         <a href="/dashboard">
             <img src="{{ url_for('inner_page_logo') }}" alt="VNoU Solutions">
         </a>
-        <div>
+        <div class="top-bar-links">
             <a href="/dashboard" class="dashboard-link">
                 <i class="fa fa-arrow-left"></i> Move to Dashboard
             </a>
@@ -221,62 +205,28 @@
     </div>
     <div class="container">
         <div class="header">
-            <h1>LOG SEARCH BOX</h1>
+            <h1>Log Search Box</h1>
         </div>
-        <form action="/search" method="post">
-            <div class="form-group">
-                <label for="name">Name</label>
-                <input type="text" id="name" name="name">
-            </div>
-            <div class="form-group">
-                <label for="start_detection_time">Start Detection Time</label>
-                <input type="datetime-local" id="start_detection_time" name="start_detection_time">
-            </div>
-            <div class="form-group">
-                <label for="end_detection_time">End Detection Time</label>
-                <input type="datetime-local" id="end_detection_time" name="end_detection_time">
-            </div>
-            <div class="form-group">
-                <label for="start_frame_number">Start Frame Number</label>
-                <input type="number" id="start_frame_number" name="start_frame_number">
-            </div>
-            <div class="form-group">
-                <label for="end_frame_number">End Frame Number</label>
-                <input type="number" id="end_frame_number" name="end_frame_number">
-            </div>
-            <div class="form-group">
-                <label for="user_id">User ID</label>
-                <input type="number" id="user_id" name="user_id">
-            </div>
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email">
-            </div>
-            <div class="form-group inline-group">
-                <div class="form-group">
-                    <label for="has_saved_image">Has Saved Image In Local</label>
-                    <select id="has_saved_image" name="has_saved_image">
-                        <option value="">--Select--</option>
-                        <option value="true">True</option>
-                        <option value="false">False</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="unidentified_reason">Unidentified Reason</label>
-                    <select id="unidentified_reason" name="unidentified_reason">
-                        <option value="">--Select--</option>
-                        <option value="No Face Detected">No Face Detected</option>
-                        <option value="Frame Skipped">Frame Skipped</option>
-                        <option value="Frame Invalid">Frame Invalid</option>
-                        <option value="Face Tilted">Face Tilted</option>
-                        <option value="Image Blurred">Image Blurred</option>
-                        <option value="Face Not Identified">Face Not Identified</option>
-                    </select>
-                </div>
-            </div>
-            <button type="submit">Search</button>
-            <button type="button" class="reset" onclick="resetForm()">Reset</button>
-        </form>
+		<form action="/search" method="post">
+			<div class="dropdown">
+				<label for="search-by-dropdown">Search By:</label>
+				<select id="search-by-dropdown">
+					<option value="">Select Field</option>
+					<option value="name">Name</option>
+					<option value="detection_time">Detection Time</option>
+					<option value="frame_number">Frame Number</option>
+					<option value="user_id">User ID</option>
+					<option value="email">Email</option>
+					<option value="has_saved_image">Has Saved Image In Local</option>
+					<option value="unidentified_reason">Unidentified Reason</option>
+				</select>
+			</div>
+			<div class="dynamic-fields">
+				<!-- Dynamically added fields will appear here -->
+			</div>
+			<button type="submit">Search</button>
+			<button type="button" class="reset" onclick="resetForm()">Reset</button>
+		</form>
     </div>
     <div class="bottom-bar">
         &copy; 2024 VNoU Solutions. All rights reserved.
@@ -284,16 +234,77 @@
         <a href="/terms-of-service">Terms of Service</a>
     </div>
     <script>
+        const fieldsMap = {
+            'name': `<div class="form-group" id="name">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name">
+                     </div>`,
+            'detection_time': `<div class="form-group" id="detection-time">
+                                <label for="start-detection-time">Start Detection Time</label>
+                                <input type="datetime-local" id="start-detection-time" name="start-detection-time">
+                                <label for="end-detection-time">End Detection Time</label>
+                                <input type="datetime-local" id="end-detection-time" name="end-detection-time">
+                             </div>`,
+            'frame_number': `<div class="form-group" id="frame-number">
+                                <label for="start_frame_number">Start Frame Number</label>
+                                <input type="number" id="start_frame_number" name="start_frame_number">
+                                <label for="end_frame_number">End Frame Number</label>
+                                <input type="number" id="end_frame_number" name="end_frame_number">
+                             </div>`,
+            'user_id': `<div class="form-group" id="user_id">
+                            <label for="user_id">User ID</label>
+                            <input type="number" id="user_id" name="user_id">
+                         </div>`,
+            'email': `<div class="form-group" id="email">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email">
+                     </div>`,
+            'has_saved_image': `<div class="form-group" id="has_saved_image">
+                                    <label for="has_saved_image">Has Saved Image In Local</label>
+                                    <select id="has_saved_image" name="has_saved_image">
+                                        <option value="true">Yes</option>
+                                        <option value="false">No</option>
+                                    </select>
+                                 </div>`,
+            'unidentified_reason': `<div class="form-group" id="unidentified_reason">
+                                        <label for="unidentified_reason">Unidentified Reason</label>
+                                        <select id="unidentified_reason" name="unidentified_reason">
+                                            <option value="">--Select--</option>
+                                            <option value="No Face Detected">No Face Detected</option>
+                                            <option value="Frame Skipped">Frame Skipped</option>
+                                            <option value="Frame Invalid">Frame Invalid</option>
+                                            <option value="Face Tilted">Face Tilted</option>
+                                            <option value="Image Blurred">Image Blurred</option>
+                                            <option value="Face Not Identified">Face Not Identified</option>
+                                        </select>
+                                     </div>`
+        };
+
+        const dropdown = document.getElementById('search-by-dropdown');
+        const container = document.querySelector('.dynamic-fields');
+
+        dropdown.addEventListener('change', function () {
+            const selectedValue = this.value;
+
+            if (selectedValue && !document.getElementById(selectedValue)) {
+                container.insertAdjacentHTML('beforeend', fieldsMap[selectedValue]);
+                this.querySelector(`option[value="${selectedValue}"]`).remove();
+
+                if (dropdown.options.length === 1) {
+                    dropdown.disabled = true;
+                }
+            }
+        });
+
         function resetForm() {
-            document.getElementById('name').value = '';
-            document.getElementById('start_detection_time').value = '';
-            document.getElementById('end_detection_time').value = '';
-            document.getElementById('start_frame_number').value = '';
-            document.getElementById('end_frame_number').value = '';
-            document.getElementById('user_id').value = '';
-            document.getElementById('email').value = '';
-            document.getElementById('has_saved_image').value = '';
-            document.getElementById('unidentified_reason').value = '';
+            container.innerHTML = '';
+            Array.from(dropdown.querySelectorAll('option')).forEach(option => {
+                if (option.value) {
+                    dropdown.removeAttribute('disabled');
+                }
+                dropdown.insertAdjacentHTML('beforeend', `<option value="${option.value}">${option.text}</option>`);
+            });
+            dropdown.selectedIndex = 0;
         }
     </script>
 </body>
