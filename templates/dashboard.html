@@ -83,6 +83,7 @@
         .additional-services {
             position: relative;
             display: inline-block;
+            order: -1;
         }
 
         .additional-services .dropbtn {
@@ -94,6 +95,15 @@
             font-weight: 600;
             cursor: pointer;
             text-decoration: none;
+        }
+        .additional-services .dropbtn::after {
+            content: '\25B2'; /* Unicode for up arrow */
+            margin-left: 5px;
+            font-size: 12px;
+        }
+
+        .additional-services:hover .dropbtn::after {
+            content: '\25BC'; /* Unicode for down arrow */
         }
 
         .additional-services .dropdown-content {
