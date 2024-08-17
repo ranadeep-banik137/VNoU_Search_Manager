@@ -8,18 +8,19 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            font-family: 'Raleway', sans-serif;
+            font-family: 'Noto Sans', sans-serif;
             margin: 0;
             padding: 0;
             overflow: hidden;
             height: 100vh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             background: rgba(0, 0, 0, 0.5);
         }
         .background-video {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
@@ -28,20 +29,23 @@
             z-index: -1;
         }
         .container {
-            width: 40%;
-            max-height: 90vh;
+            width: 90%;
+            max-width: 600px;
+            max-height: 82vh;
             padding: 20px;
-            background-color: rgba(255, 255, 255, 0.3);
+            background-color: rgba(255, 255, 255, 0.2);
             border-radius: 10px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             position: relative;
             z-index: 1;
-            overflow: auto;
-            -ms-overflow-style: none;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
             scrollbar-width: none;
         }
-        .container::-webkit-scrollbar {
-            display: none;
+        .form-section {
+            display: flex;
+            flex-direction: column;
         }
         .form-group {
             margin-bottom: 15px;
@@ -49,15 +53,15 @@
         .form-group label {
             display: block;
             margin-bottom: 8px;
-            font-size: 14px;
-            color: #FFFFFF;
+            font-size: 12px;
+            color: #fff;
         }
         .form-group input, .form-group select {
             width: 100%;
             padding: 8px;
-            border: 2px solid #007bff;
-            border-radius: 5px;
-            font-size: 14px;
+            border: 1.8px solid #007bff;
+            border-radius: 7px;
+            font-size: 11px;
             box-sizing: border-box;
             transition: border-color 0.3s;
         }
@@ -65,8 +69,46 @@
             border-color: #0056b3;
             outline: none;
         }
-        button {
-            padding: 10px 18px;
+        .form-group.row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1px;
+        }
+        .form-group.row .form-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        .form-group.row input, .form-group.row select {
+            width: calc(100% - 16px);
+        }
+        .form-group.separated {
+            border-top: 2px solid #007bff;
+            padding-top: 20px;
+            margin-top: 20px;
+        }
+        .profile-picture {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #007bff;
+        }
+        .upload-btn-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+        .upload-btn-wrapper input[type="file"] {
+            position: absolute;
+            z-index: 9;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+        .form-group button {
+            padding: 8px 15px;
             background-color: #007bff;
             color: white;
             border: none;
@@ -75,141 +117,177 @@
             font-size: 14px;
             transition: background-color 0.3s;
         }
-        button:hover {
+        .form-group button:hover {
             background-color: #0056b3;
         }
-        .reset {
+        .form-group .cancel-button {
             background-color: #dc3545;
         }
-        .reset:hover {
+        .form-group .cancel-button:hover {
             background-color: #c82333;
         }
-        .nav-tabs {
-            margin-bottom: 15px;
+        .topbar, .bottombar {
+            width: 100%;
+            position: fixed;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.4);
+            box-shadow: 0 2px 5px rgba(255, 255, 255, 0.1);
+            z-index: 10;
         }
-        .tab-content > .tab-pane {
-            display: none;
-        }
-        .tab-content > .active {
-            display: block;
-        }
-        .logo {
+        .topbar {
+            top: 0;
+            padding: 0px;
             display: flex;
             justify-content: center;
-            margin-bottom: 20px;
         }
-        .logo img {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            cursor: pointer;
+        .topbar .logo img {
+            width: 120px;
+            height: auto;
         }
-        .profile-container {
-            position: absolute;
-            top: 20px;
-            left: 20px;
+        .bottombar {
+            bottom: 0;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(255, 255, 255, 0.5);
+            background-color: rgba(0, 0, 0, 0.2);
         }
-        .profile-picture {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 5px solid white;
+        .bottombar span {
+            font-size: 11px;
+            color: #fff;
+        }
+        .bottombar a {
+            font-size: 10px;
+            margin-left: 15px;
+            color: #fff;
+            text-decoration: none;
+        }
+        .bottombar a:hover {
+            text-decoration: underline;
+        }
+        .registration-header {
+            top: 85px;
+            font-family: 'Raleway', sans-serif;
+            font-size: 40px;
+            font-weight: 700;
+            color: #fff;
+            text-align: right;
+            margin-top: 0px;
             position: relative;
         }
-        .profile-picture img {
+        .separator {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
-            cursor: pointer;
+            height: 2px;
+            background-color: #007bff;
+            margin-top: 10px;
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
         }
-        .upload-btn-wrapper {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-        .upload-btn-wrapper input[type=file] {
-            display: none;
-        }
-        .cancel-button {
-            background-color: #dc3545;
-        }
-        .cancel-button:hover {
-            background-color: #c82333;
+        @media (max-width: 768px) {
+            .registration-header {
+                top: 85px;
+                font-family: 'Raleway', sans-serif;
+                font-size: 20px;
+                font-weight: 700;
+                color: #fff;
+                text-align: right;
+                margin-top: 0px;
+                position: relative;
+            }
         }
     </style>
 </head>
 <body>
     <video autoplay muted loop class="background-video">
-        <source src="https://videos.pexels.com/video-files/3129576/3129576-sd_640_360_30fps.mp4" type="video/mp4">
+        <source src="https://videos.pexels.com/video-files/3163534/3163534-uhd_2560_1440_30fps.mp4" type="video/mp4">
         Your browser does not support HTML5 video.
     </video>
+    <div class="topbar">
+        <div class="logo">
+            <a href="/dashboard">
+                <img src="{{ url_for('inner_page_logo') }}" alt="Logo">
+            </a>
+        </div>
+    </div>
     <div class="container">
+        <div class="registration-header">
+            User Registration
+            <div class="separator"></div>
+        </div>
         <form action="/register" method="post" enctype="multipart/form-data">
             <div class="upload-btn-wrapper">
                 <label for="profile-picture">
-                    <img src="https://via.placeholder.com/150" alt="Profile Picture" class="profile-picture" id="profile-pic-preview">
+                    <img src="{{ url_for('upload_img') }}" alt="Profile Picture" class="profile-picture" id="profile-pic-preview">
                 </label>
                 <input type="file" id="profile-picture" name="profile_picture" accept="image/*" onchange="previewImage(event)">
             </div>
-            <div class="form-group">
-                <label for="full_name">Full Name</label>
-                <input type="text" id="full_name" name="full_name" required>
+            <div class="form-section">
+                <div class="form-group row">
+                    <div class="form-group">
+                        <label for="full_name">Full Name</label>
+                        <input type="text" id="full_name" name="full_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email ID</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dob">Date Of Birth</label>
+                        <input type="date" id="dob" name="dob" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="gender">Gender</label>
+                        <select id="gender" name="gender" required>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="text" id="phone" name="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="address1">Address Line 1</label>
+                        <input type="text" id="address1" name="address1">
+                    </div>
+                    <div class="form-group">
+                        <label for="address2">Address Line 2</label>
+                        <input type="text" id="address2" name="address2">
+                    </div>
+                    <div class="form-group">
+                        <label for="city">City</label>
+                        <input type="text" id="city" name="city">
+                    </div>
+                    <div class="form-group">
+                        <label for="state">State</label>
+                        <input type="text" id="state" name="state">
+                    </div>
+                    <div class="form-group">
+                        <label for="country">Country</label>
+                        <input type="text" id="country" name="country">
+                    </div>
+                </div>
+                <div class="form-group separated">
+                    <label for="user_name">Create Username</label>
+                    <input type="text" id="user_name" name="user_name" required>
+                </div>
+                <div class="form-group separated">
+                    <label for="new_password">New Password</label>
+                    <input type="password" id="new_password" name="new_password" required>
+                </div>
+                <div class="form-group separated">
+                    <label for="confirm_password">Confirm Password</label>
+                    <input type="password" id="confirm_password" name="confirm_password" required>
+                </div>
+                <div class="form-group">
+                    <button type="submit">Signup</button>
+                    <button type="button" class="cancel-button" onclick="window.location.href='/dashboard';">Cancel</button>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="email">Email ID</label>
-                <input type="email" id="email" name="email" required>
-            </div>
-            <div class="form-group">
-                <label for="dob">Date Of Birth</label>
-                <input type="date" id="dob" name="dob" required>
-            </div>
-            <div class="form-group">
-                <label for="gender">Gender</label>
-                <select id="gender" name="gender" required>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="phone">Phone Number</label>
-                <input type="text" id="phone" name="phone" required>
-            </div>
-            <div class="form-group">
-                <label for="address1">Address Line 1</label>
-                <input type="text" id="address1" name="address1">
-            </div>
-            <div class="form-group">
-                <label for="address2">Address Line 2</label>
-                <input type="text" id="address2" name="address2">
-            </div>
-            <div class="form-group">
-                <label for="city">City</label>
-                <input type="text" id="city" name="city">
-            </div>
-            <div class="form-group">
-                <label for="state">State</label>
-                <input type="text" id="state" name="state">
-            </div>
-            <div class="form-group">
-                <label for="country">Country</label>
-                <input type="text" id="country" name="country">
-            </div>
-            <div class="form-group">
-                <label for="user_name">Create username</label>
-                <input type="text" id="user_name" name="user_name" required>
-            </div>
-            <div class="form-group">
-                <label for="new_password">New password</label>
-                <input type="password" id="new_password" name="new_password" required>
-            </div>
-            <div class="form-group">
-                <label for="confirm_password">Confirm password</label>
-                <input type="text" id="confirm_password" name="confirm_password" required>
-            </div>
-            <button type="submit">Signup</button>
-            <button type="button" class="cancel-button" onclick="window.location.href='/dashboard';">Cancel</button>
         </form>
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
@@ -226,16 +304,25 @@
             {% endif %}
         {% endwith %}
     </div>
+    <div class="bottombar">
+        <span>&copy; 2024 YourCompany</span>
+        <div>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+        </div>
+    </div>
+
+    <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         function previewImage(event) {
-            var reader = new FileReader();
+            const reader = new FileReader();
             reader.onload = function() {
-                var output = document.getElementById('profile-pic-preview');
+                const output = document.getElementById('profile-pic-preview');
                 output.src = reader.result;
-            }
+            };
             reader.readAsDataURL(event.target.files[0]);
         }
     </script>

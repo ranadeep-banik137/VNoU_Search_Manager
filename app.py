@@ -29,6 +29,13 @@ def homepage_logo():
     return send_file(logo_path, mimetype='image/png')
 
 
+@app.route('/upload_img')
+def upload_img():
+    img_path = os.path.join(app.root_path, 'static', 'images', 'Upload DP.png')
+    # logo_path = os.path.join(app.root_path, 'static', 'images', 'VNOU-Black-BG-RM.png')
+    return send_file(img_path, mimetype='image/png')
+
+
 @app.route('/inner_page_logo')
 def inner_page_logo():
     logo_path = os.path.join(app.root_path, 'static', 'images', 'VNOU-LOGO-BG-RM.png')
