@@ -59,6 +59,17 @@
         .top-bar .logout-btn:hover {
             background: #c82333;
         }
+        .top-bar .dashboard-link {
+            font-size: 12px;
+        }
+        .top-bar .dashboard-link:hover {
+            text-decoration: underline;
+        }
+        .top-bar .dashboard-link::before {
+            content: "← ";
+            margin-right: 5px;
+        }
+
         .bottom-bar {
             bottom: 0;
             display: flex;
@@ -220,7 +231,7 @@
             <img src="{{ url_for('inner_page_logo') }}" alt="VNoU Solutions">
         </a>
         <div>
-            <a href="/dashboard" class="dashboard-link">Move to Dashboard</a>
+            <a href="/dashboard" class="dashboard-link">Dashboard</a>
             <a href="{{ url_for('logout') }}" class="logout-btn">
                 <i class="fas fa-sign-out-alt"></i> Logout
             </a>
@@ -299,7 +310,7 @@
         </div>
     </div>
     <div class="bottom-bar">
-        &copy; 2024 VNoU Solutions. All rights reserved.
+        &copy; 2024 VNoU Solutions. All rights reserved. |
         <a href="/privacy-policy">Privacy Policy</a> |
         <a href="/terms-of-service">Terms of Service</a>
     </div>

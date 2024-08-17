@@ -33,6 +33,7 @@
             padding: 2px 4px;
             background: rgba(0, 0, 0, 0.7);
             color: white;
+            flex-wrap: nowrap;
         }
         .top-bar img {
             width: 110px;
@@ -41,7 +42,7 @@
             background-color: #dc3545;
             color: white;
             border: none;
-            padding: 8px 16px;
+            padding: 9px 18px;
             border-radius: 5px;
             cursor: pointer;
             font-size: 10px;
@@ -50,7 +51,8 @@
             background-color: #c82333;
         }
         .top-bar .dashboard-link {
-            margin-right: 0px;
+            margin-left: auto;
+            margin-right: 20px;
             display: flex;
             align-items: center;
             color: white;
@@ -198,7 +200,7 @@
         <a href="/dashboard">
             <img src="{{ url_for('inner_page_logo') }}" alt="VNoU Solutions">
         </a>
-        <a href="/dashboard" class="dashboard-link">Move to Dashboard</a>
+        <a href="/dashboard" class="dashboard-link">Dashboard</a>
         <form action="/logout">
             <button class="logout-button">Logout</button>
         </form>
@@ -265,7 +267,7 @@
         </div>
     </div>
     <div class="bottom-bar">
-        <p>&copy; 2024 VNoU Solutions | <a href="/privacy" class="text-white">Privacy Policy</a> | <a href="/terms" class="text-white">Terms of Service</a></p>
+        <p>&copy; 2024 VNoU Solutions. All rights reserved. | <a href="/privacy" class="text-white">Privacy Policy</a> | <a href="/terms" class="text-white">Terms of Service</a></p>
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
