@@ -29,7 +29,7 @@
             position: fixed;
             width: 100%;
             background: rgba(0, 0, 0, 0.5);
-            padding: 10px;
+            padding: 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -297,7 +297,7 @@
         @media (max-width: 768px) {
             .container {
                 width: 95%;
-                padding: 15px;
+                padding: 25px;
             }
 
             .profile-img-container {
@@ -493,8 +493,7 @@
     <button class="openbtn" onclick="toggleSidebar()">☰</button>
 
     <div id="mySidebar" class="sidebar">
-        <a href="#">View Profile</a>
-        <a href="#">Settings</a>
+        <a href="#" id="view-profile-opt">View Profile</a>
         <div class="dropdown-btn">Customer Services</div>
         <div class="dropdown-container">
             <a href="/onboarding">Onboard Customer</a>
@@ -519,6 +518,7 @@
             <a href="#">Write/Email Us</a>
             <a href="#">Complaint Tracker</a>
         </div>
+        <a href="#">Settings</a>
         <a href="{{ url_for('logout') }}" class="logout-link">logout</a>
     </div>
     <div class="container">
@@ -589,9 +589,14 @@
 
         var modal = document.getElementById("profileModal");
         var btn = document.getElementById("view-profile-btn");
+        var drpdwn_btn = document.getElementById("view-profile-opt");
         var span = document.getElementsByClassName("close")[0];
 
         btn.onclick = function() {
+            modal.style.display = "block";
+        }
+
+        drpdwn_btn.onclick = function() {
             modal.style.display = "block";
         }
 
