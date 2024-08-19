@@ -430,20 +430,23 @@
         }
 
         .openbtn {
-            font-size: 20px;
+            font-size: 18px;
             cursor: pointer;
-            background-color: #111;
+            background-color: rgba(0, 0, 0, 0.6); /* Darker background for better visibility */
             color: white;
-            padding: 10px 15px;
+            padding: 8px 12px; /* Reduced padding for smaller button size */
             border: none;
+            border-radius: 5px; /* Added border-radius for a rounded button */
             position: fixed;
-            top: 10px;
-            left: 10px;
+            top: 15px; /* Adjusted top position to move it down a bit */
+            left: 15px; /* Adjusted left position to move it away from the edge */
             z-index: 3;
+            transition: background-color 0.3s, transform 0.3s; /* Smooth transition for hover effects */
         }
 
         .openbtn:hover {
-            background-color: #444;
+            background-color: rgba(0, 0, 0, 0.8); /* Darker background on hover */
+            transform: scale(1.1); /* Slightly enlarges the button on hover */
         }
 
         .dropdown-container {
