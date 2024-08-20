@@ -275,6 +275,71 @@ def logout():
     return redirect(url_for('home'))
 
 
+def validate_email(email):
+    # Add your actual email validation logic here
+    return email == "ranadeep.banik@vnousolutions.com"  # Placeholder logic
+
+
+def validate_dob_fullname(dob, fullname):
+    # Add your actual DOB and full name validation logic here
+    return dob == "1993-03-13" and fullname == "Ranadeep Banik"  # Placeholder logic
+
+
+@app.route('/forgot_password', methods=['GET', 'POST'])
+def forgot_password():
+    step = 'email'
+    validation_message = None
+    validation_status = None
+
+    if request.method == 'POST':
+        if 'email' in request.form:
+            email = request.form['email']
+            if validate_email(email):
+                step = 'dob_fullname'
+                validation_message = 'Email validated successfully'
+                validation_status = 'success'
+            else:
+                validation_message = 'Invalid email address'
+                validation_status = 'error'
+
+        elif 'dob' in request.form and 'fullname' in request.form:
+            dob = request.form['dob']
+            fullname = request.form['fullname']
+            if validate_dob_fullname(dob, fullname):
+                return redirect(url_for('set_new_password'))
+            else:
+                validation_message = 'Invalid DOB or Full Name'
+                validation_status = 'error'
+                step = 'email'  # Restart the process from the beginning
+    return render_template('forgot_password.html', step=step, validation_message=validation_message, validation_status=validation_status)
+
+
+@app.route('/set_new_password', methods=['GET', 'POST'])
+def set_new_password():
+    # Your logic for setting a new password goes here
+    if request.method == 'POST':
+        username = request.form.get('username')
+        new_password = request.form.get('new_password')
+        confirm_password = request.form.get('confirm_password')
+
+        # Check if the username exists
+        if username != 'ranadeep.banik':
+            return render_template('set_new_password.html', message='Username not found. Re-Type the username')
+
+        if new_password == confirm_password:
+            if new_password == 'old':
+                return render_template('set_new_password.html', message='You cannot update your old passwords anymore. Try a new password')
+            # Perform the password change logic
+            # For example, update the password in the database
+            # db.session.query(User).filter_by(username=username).update({"password": new_password})
+            flash('Password updated successfully!', 'success')
+            return redirect(url_for('dashboard', message='Password changed successfully'))
+        else:
+            return render_template('set_new_password.html', message='Passwords do not match. Re-Type the passwords again')
+
+    return render_template('set_new_password.html')
+
+
 if __name__ == '__main__':
     create_table(Create_table_queries.user_creds)
     create_table(Create_table_queries.dp_table)
