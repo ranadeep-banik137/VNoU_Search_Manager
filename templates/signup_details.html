@@ -230,6 +230,7 @@
         </div>
         <form action="/register" method="post" enctype="multipart/form-data">
             <div class="upload-btn-wrapper">
+                <input type="hidden" id="image-edited" name="image_edited" value="false">
                 <label for="profile-picture">
                     <img src="{{ url_for('upload_img') }}" alt="Profile Picture" class="profile-picture" id="profile-pic-preview">
                 </label>
@@ -337,6 +338,18 @@
             };
             reader.readAsDataURL(event.target.files[0]);
         }
+        // Handle profile picture upload
+        document.getElementById('profile-picture').addEventListener('change', function() {
+            document.getElementById('image-edited').value = 'true';
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.querySelector('.profile-picture img').src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        });
     </script>
 </body>
 </html>

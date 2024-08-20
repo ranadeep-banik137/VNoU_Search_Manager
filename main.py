@@ -159,4 +159,5 @@ if __name__ == '__main__':
     #print(f'test {test}')
 
     search_data(name='Ranadeep Banik')
+    get_pk_id(Search_variable.phone, 'ranadeep.banik')
 

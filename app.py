@@ -7,7 +7,8 @@ from page_object.login_utils import validate_creds
 from page_object.signup_utils import is_identifier_already_used, is_email_used, is_username_used, add_user_data
 from page_object.dashboard_utils import get_user_details
 from page_object.edit_details_utils import update_user_details
-from modules.image_utils import convert_img_to_binary, get_picture_url_from_binary
+from page_object.change_password_utils import validate_email_and_get_id, validate_dob_and_name, validate_username, is_password_existing, update_new_password_for_user
+from modules.image_utils import convert_img_to_binary
 from modules.session_manager import get_session
 from modules.database_util import create_table
 from constants.database_constants import Create_table_queries
@@ -101,6 +102,7 @@ def register():
         return redirect(url_for('new_user'))
     # Save the profile picture
     profile_picture = request.files['profile_picture']
+    print(profile_picture)
     profile_picture_binary = None
     if profile_picture:
         filename = secure_filename(profile_picture.filename)
@@ -214,7 +216,6 @@ def results():
     return render_template('results.html', results=results, total_pages=total_pages, current_page=current_page, page_numbers=page_numbers)
 
 
-
 @app.route('/onboarding')
 def onboarding():
     if 'logged_in' not in session:
@@ -275,26 +276,20 @@ def logout():
     return redirect(url_for('home'))
 
 
-def validate_email(email):
-    # Add your actual email validation logic here
-    return email == "ranadeep.banik@vnousolutions.com"  # Placeholder logic
-
-
-def validate_dob_fullname(dob, fullname):
-    # Add your actual DOB and full name validation logic here
-    return dob == "1993-03-13" and fullname == "Ranadeep Banik"  # Placeholder logic
-
-
 @app.route('/forgot_password', methods=['GET', 'POST'])
 def forgot_password():
+    if session.get('logged_in'):
+        return redirect(url_for('dashboard'))
     step = 'email'
     validation_message = None
     validation_status = None
-
     if request.method == 'POST':
         if 'email' in request.form:
             email = request.form['email']
-            if validate_email(email):
+            user_id, is_email_valid = validate_email_and_get_id(email)
+            session['change_password_email_validated'] = is_email_valid
+            session['change_password_user_id'] = user_id
+            if is_email_valid:
                 step = 'dob_fullname'
                 validation_message = 'Email validated successfully'
                 validation_status = 'success'
@@ -305,7 +300,8 @@ def forgot_password():
         elif 'dob' in request.form and 'fullname' in request.form:
             dob = request.form['dob']
             fullname = request.form['fullname']
-            if validate_dob_fullname(dob, fullname):
+            if validate_dob_and_name(user_id=session.get('change_password_user_id'), dob=dob, name=fullname):
+                session['change_password_name_dob_validated'] = True
                 return redirect(url_for('set_new_password'))
             else:
                 validation_message = 'Invalid DOB or Full Name'
@@ -316,6 +312,12 @@ def forgot_password():
 
 @app.route('/set_new_password', methods=['GET', 'POST'])
 def set_new_password():
+    if session.get('logged_in'):
+        return redirect(url_for('dashboard'))
+    elif session.get('change_password_email_validated') and session.get('change_password_name_dob_validated'):
+        pass
+    else:
+        return redirect(url_for('forgot_password'))
     # Your logic for setting a new password goes here
     if request.method == 'POST':
         username = request.form.get('username')
@@ -323,17 +325,19 @@ def set_new_password():
         confirm_password = request.form.get('confirm_password')
 
         # Check if the username exists
-        if username != 'ranadeep.banik':
+        if not validate_username(user_id=session.get('change_password_user_id'), username=username):
             return render_template('set_new_password.html', message='Username not found. Re-Type the username')
 
         if new_password == confirm_password:
-            if new_password == 'old':
+            if is_password_existing(search_id=session.get('change_password_user_id'), password=new_password):
                 return render_template('set_new_password.html', message='You cannot update your old passwords anymore. Try a new password')
             # Perform the password change logic
             # For example, update the password in the database
             # db.session.query(User).filter_by(username=username).update({"password": new_password})
+            update_new_password_for_user(userid=session.get('change_password_user_id'), password=new_password)
             flash('Password updated successfully!', 'success')
-            return redirect(url_for('dashboard', message='Password changed successfully'))
+            session.clear()
+            return redirect(url_for('home', message='Password changed successfully'))
         else:
             return render_template('set_new_password.html', message='Passwords do not match. Re-Type the passwords again')
 
@@ -344,4 +348,6 @@ if __name__ == '__main__':
     create_table(Create_table_queries.user_creds)
     create_table(Create_table_queries.dp_table)
     create_table(Create_table_queries.user_records)
+    create_table(Create_table_queries.roles)
+    create_table(Create_table_queries.user_creds_history)
     app.run(debug=True)

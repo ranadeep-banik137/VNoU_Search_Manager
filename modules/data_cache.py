@@ -1,7 +1,9 @@
 import os
 import time
+import datetime
 from modules.database_util import get_data_in_tuples, get_pk_id, update_data, insert_data
 from constants.database_constants import Table_name, Search_variable, Search_table_queries, User_creds, Dp_data, Update_table_queries, Insert_table_queries
+from constants.database_constants import Roles
 from modules.config_reader import read_config
 from modules.image_utils import get_picture_url_from_binary, get_default_no_img_binary
 from modules.hash_encrypter import hash_password
@@ -38,8 +40,13 @@ def get_all_db_data():
         row_data = {}
         userid = row[0]
         data_tuple_user_records = get_data_in_tuples(query=Search_table_queries.search_records_with_id % userid)[0]
+        data_tuple_existing_creds = get_data_in_tuples(query=Search_table_queries.search_history_with_id % userid)
         row_data['UserName'] = row[1]
-        row_data['Salt'] = row[2]
+        row_data['Role'] = get_data_in_tuples(query=Search_table_queries.get_role_with_id % row[2])[0][0]
+        row_data['Salt'] = row[3]
+        row_data['CreatedOn'] = row[4]
+        row_data['ExistingSalt'] = None if len(data_tuple_existing_creds) <= 0 else data_tuple_existing_creds[0][1]
+        row_data['TimeModified'] = None if len(data_tuple_existing_creds) <= 0 else data_tuple_existing_creds[0][2]
         row_data['Name'] = data_tuple_user_records[1]
         row_data['Gender'] = data_tuple_user_records[2]
         row_data['Email'] = data_tuple_user_records[3]
@@ -50,9 +57,9 @@ def get_all_db_data():
         row_data['City'] = data_tuple_user_records[8]
         row_data['State'] = data_tuple_user_records[9]
         row_data['Country'] = data_tuple_user_records[10]
-        data_tuple_dp_table = get_data_in_tuples(query=Search_table_queries.search_dp_with_id % userid)[0]
-        row_data['Img'] = data_tuple_dp_table[1]
-        row_data['Img_URL'] = get_picture_url_from_binary(data_tuple_dp_table[1])
+        data_tuple_dp_table = get_data_in_tuples(query=Search_table_queries.search_dp_with_id % userid)
+        row_data['Img'] = None if len(data_tuple_dp_table) <= 0 else data_tuple_dp_table[0][1]
+        row_data['Img_URL'] = None if len(data_tuple_dp_table) <= 0 else get_picture_url_from_binary(data_tuple_dp_table[0][1])
         data[userid] = row_data
     return data
 
@@ -112,9 +119,19 @@ def update_db(userid, picture_binary, name, gender, email, phone, address_l1, ad
     force_refresh_cache()
 
 
+def update_password(userid, existing_hashed_password, new_hashed_password):
+    time_created = time.time()
+    timestamp = datetime.datetime.fromtimestamp(time_created).strftime('%Y-%m-%d %H:%M:%S')
+    update_data(Update_table_queries.update_all_in_user_creds_with_id, (new_hashed_password, userid))
+    insert_data(Insert_table_queries.insert_all_in_user_creds_history, (userid, existing_hashed_password, timestamp))
+    force_refresh_cache()
+
+
 def add_user_to_db(picture_binary, name, gender, email, phone, address_l1, address_l2, dob, city, country, state, username, new_password):
     user_id = create_user_id()
-    insert_data(Insert_table_queries.insert_all_in_user_creds, (user_id, username, hash_password(new_password)))
+    time_created = time.time()
+    timestamp = datetime.datetime.fromtimestamp(time_created).strftime('%Y-%m-%d %H:%M:%S')
+    insert_data(Insert_table_queries.insert_all_in_user_creds, (user_id, username, Roles.admin, hash_password(new_password), timestamp))
     insert_data(Insert_table_queries.insert_all_in_user_records, (user_id, name, gender, email, phone, dob, address_l1, address_l2, city, state, country))
     insert_data(Insert_table_queries.insert_all_in_dp_table, (user_id, get_default_no_img_binary() if picture_binary is None else picture_binary))
     force_refresh_cache()

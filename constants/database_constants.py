@@ -1,9 +1,24 @@
 class Create_table_queries:
+    roles = """
+    CREATE TABLE roles (
+        RoleID INTEGER PRIMARY KEY,
+        RoleType VARCHAR(255) UNIQUE NOT NULL
+    )
+    """
     user_creds = """
     CREATE TABLE user_creds (
         UserID VARCHAR(255) PRIMARY KEY,
         UserName VARCHAR(255) UNIQUE NOT NULL,
-        Salt LONGBLOB NOT NULL
+        Role INTEGER NOT NULL,
+        Salt LONGBLOB NOT NULL,
+        CreatedOn TIMESTAMP NOT NULL
+    )
+    """
+    user_creds_history = """
+    CREATE TABLE user_creds_history (
+        UserID VARCHAR(255) PRIMARY KEY,
+        ExistingSalt LONGBLOB NOT NULL,
+        TimeModified TIMESTAMP NOT NULL
     )
     """
     user_records = "CREATE TABLE IF NOT EXISTS user_records (UserID VARCHAR(255), FOREIGN KEY (UserID) REFERENCES user_creds(UserID), Name VARCHAR(255) NOT NULL, Gender VARCHAR(255), Email VARCHAR(255) UNIQUE NOT NULL, Phone VARCHAR(255) NOT NULL, DOB VARCHAR(255), Address_L1 VARCHAR(255), Address_L2 VARCHAR(255), City VARCHAR(255), State VARCHAR(255), Country VARCHAR(255))"
@@ -11,9 +26,11 @@ class Create_table_queries:
 
 
 class Insert_table_queries:
-    insert_all_in_user_creds = """INSERT INTO user_creds (UserID, UserName, Salt) VALUES (%s, %s, %s)"""
+    insert_all_in_user_creds = """INSERT INTO user_creds (UserID, UserName, Role, Salt, CreatedOn) VALUES (%s, %s, %s, %s, %s)"""
     insert_all_in_user_records = """INSERT INTO user_records (UserID, Name, Gender, Email, Phone, DOB, Address_L1, Address_L2, City, State, Country) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
     insert_all_in_dp_table = """INSERT INTO dp_table (UserID, Img) VALUES (%s, %s)"""
+    insert_all_in_user_creds_history = """INSERT INTO user_creds_history (UserID, ExistingSalt, TimeModified) VALUES (%s, %s, %s)"""
+    insert_al_into_roles = """INSERT INTO roles (RoleID, RoleType) VALUES (%s, %s)"""
 
 
 class Update_table_queries:  # UserID and Username cannot be updated
@@ -32,6 +49,8 @@ class Search_table_queries:
     search_column_for_value_in_creds = """SELECT %s from user_creds where %s = '%s'"""
     search_column_for_value_in_records = """SELECT %s from user_records where %s = '%s'"""
     search_column_for_value_in_dp = """SELECT %s from dp_table where %s = '%s'"""
+    search_history_with_id = """SELECT * from user_creds_history where UserID = '%s'"""
+    get_role_with_id = """SELECT RoleType from roles where RoleID = '%s'"""
 
 
 class Table_name:
@@ -51,6 +70,14 @@ class User_creds:
     userid = "UserID"
     username = "UserName"
     salt = "Salt"
+    role = "Role"
+    created_on = "CreatedOn"
+
+
+class User_creds_history:
+    userid = "UserID"
+    existing_salt = "ExistingSalt"
+    time_modified = "TimeModified"
 
 
 class User_records:
@@ -70,3 +97,11 @@ class User_records:
 class Dp_data:
     userid = "UserID"
     userimg = "Img"
+
+
+class Roles:
+    default = 1;
+    admin = 1;
+    employee = 2;
+    customer = 3;
+    support = 4
