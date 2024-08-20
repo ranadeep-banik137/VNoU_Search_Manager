@@ -11,7 +11,8 @@ from page_object.change_password_utils import validate_email_and_get_id, validat
 from modules.image_utils import convert_img_to_binary
 from modules.session_manager import get_session
 from modules.database_util import create_table
-from constants.database_constants import Create_table_queries
+from modules.timestamp_util import convert_to_epoch_time, convert_human_readable_date_from_epoch
+from constants.database_constants import Create_table_queries, User_creds
 from flask_session import Session
 from werkzeug.utils import secure_filename
 
@@ -125,7 +126,8 @@ def dashboard():
     if 'logged_in' in session:
         if session.get('logged_in'):
             user_data = get_user_details(session.get('user_id'))
-            return render_template('dashboard.html', **user_data)
+            member_since = convert_human_readable_date_from_epoch(convert_to_epoch_time(user_data.get(User_creds.created_on)))
+            return render_template('dashboard.html', **user_data, member_since=member_since)
     else:
         return redirect(url_for('home'))
 

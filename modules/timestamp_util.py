@@ -1,4 +1,5 @@
 from datetime import datetime
+import time
 
 
 def is_epoch_time(timestamp):
@@ -28,3 +29,10 @@ def convert_to_epoch_time(time):
         return int(datetime.fromisoformat(time).timestamp())
     else:
         raise TypeError("Expected a datetime object")
+
+
+def convert_human_readable_date_from_epoch(epoch_time):
+    time_struct = time.localtime(epoch_time)
+    # Format the time in DD Mon YYYY format
+    formatted_time = time.strftime("%d %b %Y", time_struct)
+    return formatted_time
