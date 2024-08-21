@@ -135,3 +135,15 @@ def add_user_to_db(picture_binary, name, gender, email, phone, address_l1, addre
     insert_data(Insert_table_queries.insert_all_in_user_records, (user_id, name, gender, email, phone, dob, address_l1, address_l2, city, state, country))
     insert_data(Insert_table_queries.insert_all_in_dp_table, (user_id, get_default_no_img_binary() if picture_binary is None else picture_binary))
     force_refresh_cache()
+
+
+def add_customer_data_to_db(user_id, picture_binary, name, contact, dob, email, address, city, country, state):
+    cust_id = f'CUST_{create_user_id()}'
+    enroll_time = time.time()
+    timestamp = datetime.datetime.fromtimestamp(enroll_time).strftime('%Y-%m-%d %H:%M:%S')
+    error_identifier = insert_data(Insert_table_queries.insert_all_into_identifiers, (cust_id, name, picture_binary, contact, dob, email, address, city, state, country))
+    error_id_records = error_identifier if error_identifier != '' else insert_data(Insert_table_queries.insert_all_into_identifier_records, (cust_id, timestamp, user_id))
+    error = error_identifier or error_id_records
+    message = f'Successfully onboarded customer data. Customer ID: {cust_id}' if error == '' else f'Something wrong happened while onboarding customer data: {error}'
+    status = 'danger' if error != '' else 'success'
+    return message, status

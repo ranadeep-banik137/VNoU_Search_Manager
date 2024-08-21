@@ -48,12 +48,14 @@ def create_table(query):
 
 
 def insert_data(insert_sql, data):
+    error = ''
     conn, cursor = connect()
     try:
         cursor.execute(insert_sql, data)
         conn.commit()
         print("Table data inserted successfully.")
     except mysql.connector.Error as err:
+        error = err
         if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
             print("Something is wrong with your user name or password.")
         elif err.errno == errorcode.ER_BAD_DB_ERROR:
@@ -64,6 +66,7 @@ def insert_data(insert_sql, data):
         if conn.is_connected():
             conn.close()
             cursor.close()
+        return error
 
 
 def update_data(update_sql, data):

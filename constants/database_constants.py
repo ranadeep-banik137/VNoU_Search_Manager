@@ -23,6 +23,10 @@ class Create_table_queries:
     """
     user_records = "CREATE TABLE IF NOT EXISTS user_records (UserID VARCHAR(255), FOREIGN KEY (UserID) REFERENCES user_creds(UserID), Name VARCHAR(255) NOT NULL, Gender VARCHAR(255), Email VARCHAR(255) UNIQUE NOT NULL, Phone VARCHAR(255) NOT NULL, DOB VARCHAR(255), Address_L1 VARCHAR(255), Address_L2 VARCHAR(255), City VARCHAR(255), State VARCHAR(255), Country VARCHAR(255))"
     dp_table = "CREATE TABLE IF NOT EXISTS dp_table (UserID VARCHAR(255) UNIQUE, FOREIGN KEY (UserID) REFERENCES user_creds(UserID), Img LONGBLOB NOT NULL)"
+    identifiers = "CREATE TABLE IF NOT EXISTS \
+			identifiers (CustID VARCHAR(255) PRIMARY KEY, Name VARCHAR(255) NOT NULL,\
+			CustImg LONGBLOB NOT NULL, Contact VARCHAR(255), DOB VARCHAR(255), Email VARCHAR(255), Address VARCHAR(255), City VARCHAR(255), State VARCHAR(255), Country VARCHAR(255))"
+    identifier_records = "CREATE TABLE IF NOT EXISTS identifier_records (CustID VARCHAR(255), FOREIGN KEY (CustID) REFERENCES identifiers(CustID), EnrollDate TIMESTAMP NOT NULL, EnrollerId VARCHAR(255))"
 
 
 class Insert_table_queries:
@@ -31,6 +35,9 @@ class Insert_table_queries:
     insert_all_in_dp_table = """INSERT INTO dp_table (UserID, Img) VALUES (%s, %s)"""
     insert_all_in_user_creds_history = """INSERT INTO user_creds_history (UserID, ExistingSalt, TimeModified) VALUES (%s, %s, %s)"""
     insert_al_into_roles = """INSERT INTO roles (RoleID, RoleType) VALUES (%s, %s)"""
+    insert_all_into_identifier_records = """INSERT INTO identifier_records (CustID, EnrollDate, EnrollerId) VALUES (%s, %s, %s)"""
+    insert_all_into_identifiers = """INSERT INTO identifiers (CustID, Name, CustImg, Contact, DOB, Email, Address, City, State, Country)
+               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
 
 
 class Update_table_queries:  # UserID and Username cannot be updated

@@ -7,6 +7,7 @@ from page_object.login_utils import validate_creds
 from page_object.signup_utils import is_identifier_already_used, is_email_used, is_username_used, add_user_data
 from page_object.dashboard_utils import get_user_details
 from page_object.edit_details_utils import update_user_details
+from page_object.onboarding_utils import onboard_users
 from page_object.change_password_utils import validate_email_and_get_id, validate_dob_and_name, validate_username, is_password_existing, update_new_password_for_user
 from modules.image_utils import convert_img_to_binary
 from modules.session_manager import get_session
@@ -248,10 +249,11 @@ def submit_onboarding():
     email = request.form['email']
     dob = request.form['dob']
     image = request.files['image']
-    make_dir_if_not_exist('templates/uploads/')
+    user_id = session.get('user_id')
+    # make_dir_if_not_exist('templates/uploads/')
     # Save the image
-    image_path = os.path.join('templates/uploads', image.filename)
-    image.save(image_path)
+    # image_path = os.path.join('templates/uploads', image.filename)
+    # image.save(image_path)
 
     # Create a YAML file with the details
     details = {
@@ -260,15 +262,16 @@ def submit_onboarding():
         'last_name': last_name,
         'phone': phone,
         'email': email,
-        'dob': dob,
-        'image_path': image_path
+        'dob': dob
     }
 
-    yaml_path = os.path.join('templates/uploads', 'details.yml')
-    with open(yaml_path, 'w') as yaml_file:
-        yaml.dump(details, yaml_file)
+    message, status = onboard_users(user_id, details, image)
 
-    flash('Onboarding data submitted successfully!', 'success')
+    # yaml_path = os.path.join('templates/uploads', 'details.yml')
+    # with open(yaml_path, 'w') as yaml_file:
+    #    yaml.dump(details, yaml_file)
+
+    flash(message, status)
     return redirect(url_for('onboarding'))
 
 
@@ -352,4 +355,6 @@ if __name__ == '__main__':
     create_table(Create_table_queries.user_records)
     create_table(Create_table_queries.roles)
     create_table(Create_table_queries.user_creds_history)
+    create_table(Create_table_queries.identifiers)
+    create_table(Create_table_queries.identifier_records)
     app.run(debug=True)
