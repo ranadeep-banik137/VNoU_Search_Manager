@@ -59,19 +59,36 @@
         }
         .top-bar {
             top: 0;
+            left: 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1px 4px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 7px 20px;
+            z-index: 2;
         }
         .top-bar img {
             max-height: 50px;
-            width: auto;
+            margin-left: 10px;
         }
-        .top-bar .top-bar-links {
-            display: flex;
-            align-items: center;
+        .top-bar a {
+            color: #fff;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 14px;
+        }
+        .top-bar .logout-btn {
+            background: #dc3545;
+            color: #fff;
+            padding: 7px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-right: 30px;
+        }
+        .top-bar .logout-btn:hover {
+            background: #c82333;
+        }
+        .top-bar .dashboard-link {
+            font-size: 12px;
         }
         .top-bar .dashboard-link:hover {
             text-decoration: underline;
@@ -80,25 +97,7 @@
             content: "← ";
             margin-right: 5px;
         }
-        .top-bar a {
-            color: #fff;
-            text-decoration: none;
-            margin: 0 15px;
-            margin-left: 20px;
-            font-size: 12px;
-            font-weight: 500;
-        }
-        .top-bar .logout-btn {
-            background: #dc3545;
-            color: #fff;
-            padding: 4px 7px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 100;
-        }
-        .top-bar .logout-btn:hover {
-            background: #c82333;
-        }
+
         .bottom-bar {
             bottom: 0;
             display: flex;
@@ -207,10 +206,123 @@
         }
         @media (max-width: 768px) {
             .container {
-                width: 80%;
+                width: 90%; /* Adjusted for better spacing on small screens */
                 max-height: calc(100vh - 150px);
                 padding: 15px;
+                box-sizing: border-box; /* Ensures padding doesn't affect width calculation */
             }
+            .top-bar {
+                top: 0;
+                left: 0;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 7px 15px; /* Reduced padding for better fit */
+                z-index: 2;
+                position: fixed; /* Ensures the top bar stays fixed at the top */
+                width: 100%; /* Ensures the top bar spans the full width of the screen */
+                box-sizing: border-box; /* Ensures padding doesn't affect width calculation */
+            }
+            .top-bar img {
+                max-height: 40px; /* Adjusted size for smaller screens */
+                margin-left: 0;
+            }
+            .top-bar .logout-btn {
+                background: #dc3545;
+                color: #fff;
+                padding: 4px 10px; /* Adjusted padding for better fit */
+                border-radius: 5px;
+                text-decoration: none;
+                margin-right: 0; /* Removed margin to avoid overflow */
+                font-size: 14px; /* Smaller font size for better mobile view */
+                white-space: nowrap; /* Prevents text from wrapping */
+            }
+        }
+        .sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 2;
+            top: 0;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.9);
+            #background-color: #111;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 70px;
+        }
+
+        .sidebar a, .dropdown-btn {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 16px;
+            color: #fff;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover, .dropdown-btn:hover {
+            color: #f1f1f1;
+        }
+
+        .openbtn {
+            font-size: 18px;
+            cursor: pointer;
+            background-color: rgba(0, 0, 0, 0.6); /* Darker background for better visibility */
+            color: white;
+            padding: 8px 12px; /* Reduced padding for smaller button size */
+            border: none;
+            border-radius: 5px; /* Added border-radius for a rounded button */
+            position: fixed;
+            top: 15px; /* Adjusted top position to move it down a bit */
+            left: 5px; /* Adjusted left position to move it away from the edge */
+            z-index: 3;
+            transition: background-color 0.3s, transform 0.3s; /* Smooth transition for hover effects */
+        }
+
+        .openbtn:hover {
+            background-color: rgba(0, 0, 0, 0.8); /* Darker background on hover */
+            transform: scale(1.1); /* Slightly enlarges the button on hover */
+        }
+
+        .dropdown-container {
+            display: none;
+            background-color: #262626;
+            padding-left: 50px;
+        }
+
+        .sidebar .logout-link {
+            position: absolute;
+            top: 500px;
+            right: 10px;
+            #bottom: -20px;
+            width: 100%;
+            text-align: center;
+            text-decoration: none;
+            font-size: 12px;
+            color: #818181;
+            transition: 0.3s;
+        }
+
+        .sidebar .logout-link:hover {
+            color: #f1f1f1;
+        }
+
+        /* CSS for showing dropdown on hover */
+        .sidebar .dropdown-btn:hover + .dropdown-container,
+        .sidebar .dropdown-container:hover {
+            display: block;
+        }
+        .sidebar a:hover, .sidebar .dropdown-btn:hover {
+            color: #f1f1f1;
+            background-color: rgba(255, 255, 255, 0.1); /* Subtle highlight */
+            border-radius: 5px; /* Rounded corners for highlight */
+            padding-left: 24px; /* Adjust padding for highlight */
+        }
+
+        .sidebar .dropdown-container a:hover {
+            background-color: rgba(255, 255, 255, 0.2); /* Highlight for dropdown items */
+            border-radius: 5px; /* Rounded corners for highlight */
         }
     </style>
 </head>
@@ -223,14 +335,43 @@
         <a href="/dashboard">
             <img src="{{ url_for('inner_page_logo') }}" alt="VNoU Solutions">
         </a>
-        <div class="top-bar-links">
-            <a href="/dashboard" class="dashboard-link">
-                <i class="fa fa-arrow-left"></i> Dashboard
-            </a>
+        <div>
+            <a href="/dashboard" class="dashboard-link">Dashboard</a>
             <a href="{{ url_for('logout') }}" class="logout-btn">
                 <i class="fas fa-sign-out-alt"></i> Logout
             </a>
         </div>
+    </div>
+    <button class="openbtn" onclick="toggleSidebar()">☰</button>
+
+    <div id="mySidebar" class="sidebar">
+        <a href="#" id="view-profile-opt">View Profile</a>
+        <div class="dropdown-btn">Customer Services</div>
+        <div class="dropdown-container">
+            <a href="/onboarding">Onboard Customer</a>
+            <a href="/cust_portal">Customer Details</a>
+            <a href="/search_index">Search Customer log</a>
+            <a href="/update_customer">Update Customer</a>
+        </div>
+        <div class="dropdown-btn">Role Panel</div>
+        <div class="dropdown-container">
+            <a href="#">Manage Role</a>
+            <a href="#">Delete Users</a>
+        </div>
+        <div class="dropdown-btn">Explore</div>
+        <div class="dropdown-container">
+            <a href="#">Locations</a>
+            <a href="#">Infrastructure</a>
+            <a href="/user_blogs">Blogs</a>
+        </div>
+        <div class="dropdown-btn">Help</div>
+        <div class="dropdown-container">
+            <a href="#">Contact</a>
+            <a href="#">Write/Email Us</a>
+            <a href="#">Complaint Tracker</a>
+        </div>
+        <a href="#">Settings</a>
+        <a href="{{ url_for('logout') }}" class="logout-link">logout</a>
     </div>
     <div class="container">
         <div class="header">
@@ -334,6 +475,14 @@
                 dropdown.insertAdjacentHTML('beforeend', `<option value="${option.value}">${option.text}</option>`);
             });
             dropdown.selectedIndex = 0;
+        }
+        function toggleSidebar() {
+            var sidebar = document.getElementById("mySidebar");
+            if (sidebar.style.width === "250px") {
+                sidebar.style.width = "0";
+            } else {
+                sidebar.style.width = "250px";
+            }
         }
     </script>
 </body>
