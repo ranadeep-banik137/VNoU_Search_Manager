@@ -347,6 +347,30 @@ def set_new_password():
     return render_template('set_new_password.html')
 
 
+@app.route('/cust_portal')
+def customer_details():
+    if 'logged_in' not in session:
+        return redirect(url_for('home'))
+    if not session.get('logged_in'):
+        return redirect(url_for('home'))
+    customers = [
+    {
+        "name": "John Doe",
+        "profilePicture": "https://via.placeholder.com/150",
+        "contactNumber": "(123) 456-7890",
+        "dob": "January 1, 1990",
+        "email": "johndoe@example.com",
+        "address": "123 Main St, Apt 4B",
+        "city": "Springfield",
+        "state": "IL",
+        "country": "USA",
+        "enrolledAt": "August 1, 2022",
+        "addedBy": "Jane Smith"
+    },
+    ]
+    return render_template('customer_details.html', customers=customers)
+
+
 if __name__ == '__main__':
     create_table(Create_table_queries.user_creds)
     create_table(Create_table_queries.dp_table)
