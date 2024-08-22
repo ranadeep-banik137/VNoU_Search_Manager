@@ -1,7 +1,5 @@
 import os
-import yaml
 from flask import Flask, request, render_template, redirect, url_for, flash, send_file
-from modules.data_reader import make_dir_if_not_exist
 from page_object.search_utils import search_data
 from page_object.login_utils import validate_creds
 from page_object.signup_utils import is_identifier_already_used, is_email_used, is_username_used, add_user_data
