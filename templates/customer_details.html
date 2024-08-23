@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,13 +9,15 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <style>
-        body, html {
+        body,
+        html {
             height: 100%;
             margin: 0;
             font-family: 'Raleway', sans-serif;
             color: #fff;
             overflow: hidden;
         }
+
         .background-video {
             position: absolute;
             top: 0;
@@ -24,12 +27,15 @@
             object-fit: cover;
             z-index: -1;
         }
-        .top-bar, .bottom-bar {
+
+        .top-bar,
+        .bottom-bar {
             position: fixed;
             width: 100%;
             z-index: 1000;
             background: rgba(0, 0, 0, 0.6);
         }
+
         .top-bar {
             top: 0;
             left: 0;
@@ -37,18 +43,20 @@
             justify-content: space-between;
             align-items: center;
             padding: 7px 20px;
-            z-index: 2;
         }
+
         .top-bar img {
             max-height: 50px;
             margin-left: 10px;
         }
+
         .top-bar a {
             color: #fff;
             text-decoration: none;
             margin-left: 20px;
             font-size: 14px;
         }
+
         .top-bar .logout-btn {
             background: #dc3545;
             color: #fff;
@@ -56,15 +64,19 @@
             border-radius: 5px;
             text-decoration: none;
         }
+
         .top-bar .logout-btn:hover {
             background: #c82333;
         }
+
         .top-bar .dashboard-link {
             font-size: 12px;
         }
+
         .top-bar .dashboard-link:hover {
             text-decoration: underline;
         }
+
         .top-bar .dashboard-link::before {
             content: "← ";
             margin-right: 5px;
@@ -80,6 +92,7 @@
             font-size: 11px;
             text-align: center;
         }
+
         .bottom-bar a {
             color: #fff;
             margin: 0 10px;
@@ -87,19 +100,23 @@
         }
 
         @media (max-width: 768px) {
-            .top-bar, .bottom-bar {
+            .top-bar,
+            .bottom-bar {
                 padding: 10px;
             }
+
             .top-bar img {
                 max-height: 50px;
-                margin-left: 13px; /* Adjust margin to avoid overlap */
+                margin-left: 13px;
             }
+
             .top-bar a {
                 margin-left: 10px;
                 font-size: 12px;
             }
         }
-		.sidebar {
+
+        .sidebar {
             height: 100%;
             width: 0;
             position: fixed;
@@ -107,13 +124,13 @@
             top: 0;
             left: 0;
             background-color: rgba(0, 0, 0, 0.9);
-            #background-color: #111;
             overflow-x: hidden;
             transition: 0.5s;
             padding-top: 70px;
         }
 
-        .sidebar a, .dropdown-btn {
+        .sidebar a,
+        .dropdown-btn {
             padding: 8px 8px 8px 32px;
             text-decoration: none;
             font-size: 16px;
@@ -122,28 +139,29 @@
             transition: 0.3s;
         }
 
-        .sidebar a:hover, .dropdown-btn:hover {
+        .sidebar a:hover,
+        .dropdown-btn:hover {
             color: #f1f1f1;
         }
 
         .openbtn {
             font-size: 18px;
             cursor: pointer;
-            background-color: rgba(0, 0, 0, 0.6); /* Darker background for better visibility */
+            background-color: rgba(0, 0, 0, 0.6);
             color: white;
-            padding: 8px 12px; /* Reduced padding for smaller button size */
+            padding: 8px 12px;
             border: none;
-            border-radius: 5px; /* Added border-radius for a rounded button */
+            border-radius: 5px;
             position: fixed;
-            top: 15px; /* Adjusted top position to move it down a bit */
-            left: 5px; /* Adjusted left position to move it away from the edge */
+            top: 15px;
+            left: 5px;
             z-index: 3;
-            transition: background-color 0.3s, transform 0.3s; /* Smooth transition for hover effects */
+            transition: background-color 0.3s, transform 0.3s;
         }
 
         .openbtn:hover {
-            background-color: rgba(0, 0, 0, 0.8); /* Darker background on hover */
-            transform: scale(1.1); /* Slightly enlarges the button on hover */
+            background-color: rgba(0, 0, 0, 0.8);
+            transform: scale(1.1);
         }
 
         .dropdown-container {
@@ -154,9 +172,7 @@
 
         .sidebar .logout-link {
             position: absolute;
-            top: 500px;
-            right: 10px;
-            #bottom: -20px;
+            bottom: 20px;
             width: 100%;
             text-align: center;
             text-decoration: none;
@@ -169,29 +185,32 @@
             color: #f1f1f1;
         }
 
-        /* CSS for showing dropdown on hover */
         .sidebar .dropdown-btn:hover + .dropdown-container,
         .sidebar .dropdown-container:hover {
             display: block;
         }
-        .sidebar a:hover, .sidebar .dropdown-btn:hover {
+
+        .sidebar a:hover,
+        .sidebar .dropdown-btn:hover {
             color: #f1f1f1;
-            background-color: rgba(255, 255, 255, 0.1); /* Subtle highlight */
-            border-radius: 5px; /* Rounded corners for highlight */
-            padding-left: 24px; /* Adjust padding for highlight */
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            padding-left: 24px;
         }
 
         .sidebar .dropdown-container a:hover {
-            background-color: rgba(255, 255, 255, 0.2); /* Highlight for dropdown items */
-            border-radius: 5px; /* Rounded corners for highlight */
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
         }
+
         .customer-details-container {
             position: absolute;
-            top: 75px; /* Adjusted to avoid overlapping with the top bar */
+            width: 100%;
+            top: 75px;
             bottom: 50px;
             left: 3%;
             padding: 20px;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.6);
             color: #fff;
             max-width: 1200px;
             margin: 20px auto;
@@ -200,18 +219,21 @@
             max-height: 80vh;
             scrollbar-width: none;
         }
+
         .page-title {
             text-align: center;
             margin-bottom: 30px;
             font-size: 24px;
             font-weight: 700;
         }
+
         .customer-list {
             display: flex;
             flex-wrap: wrap;
             gap: 20px;
             justify-content: center;
         }
+
         .customer-card {
             background: #1a1a1a;
             border-radius: 8px;
@@ -222,6 +244,7 @@
             max-width: 300px;
             box-sizing: border-box;
         }
+
         .profile-picture {
             width: 150px;
             height: 150px;
@@ -229,24 +252,29 @@
             margin-bottom: 15px;
             object-fit: cover;
         }
+
         .customer-name {
             font-size: 20px;
             font-weight: 700;
             margin-bottom: 10px;
         }
+
         .customer-card p {
             margin: 5px 0;
         }
+
         .customer-card strong {
             font-weight: 700;
         }
     </style>
 </head>
+
 <body>
     <video autoplay muted loop class="background-video">
         <source src="https://videos.pexels.com/video-files/3163534/3163534-uhd_2560_1440_30fps.mp4" type="video/mp4">
         Your browser does not support HTML5 video.
     </video>
+
     <div class="top-bar">
         <a href="/dashboard">
             <img src="{{ url_for('inner_page_logo') }}" alt="VNoU Solutions">
@@ -258,7 +286,8 @@
             </a>
         </div>
     </div>
-	<button class="openbtn" onclick="toggleSidebar()">☰</button>
+
+    <button class="openbtn" onclick="toggleSidebar()">☰</button>
 
     <div id="mySidebar" class="sidebar">
         <a href="#" id="view-profile-opt">View Profile</a>
@@ -282,27 +311,42 @@
         </div>
         <div class="dropdown-btn">Help</div>
         <div class="dropdown-container">
-            <a href="#">Contact</a>
-            <a href="#">Write/Email Us</a>
-            <a href="#">Complaint Tracker</a>
+            <a href="/help_articles">Help Articles</a>
+            <a href="#">Chat with Us</a>
+            <a href="/support">Contact Support</a>
         </div>
-        <a href="#">Settings</a>
-        <a href="{{ url_for('logout') }}" class="logout-link">logout</a>
+        <a href="{{ url_for('logout') }}" class="logout-link">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
     </div>
-    <div class="container customer-details-container">
+
+    <div class="customer-details-container">
         <h1 class="page-title">Customer Details</h1>
-        <div id="customer-list" class="customer-list">
-            <!-- Customer cards will be injected here by JavaScript -->
+        <div class="customer-list">
+            {% for customer in customers %}
+            <div class="customer-card">
+                <img src="{{ customer['CustImg'] }}" alt="{{ customer['Name'] }} Profile Picture" class="profile-picture">
+                <h2 class="customer-name">{{ customer['Name'] }}</h2>
+                <p><strong>Contact:</strong> {{ customer['Contact'] }}</p>
+                <p><strong>DOB:</strong> {{ customer['DOB'] }}</p>
+                <p><strong>Email:</strong> {{ customer['Email'] }}</p>
+                <p><strong>Address:</strong> {{ customer['Address'] }}</p>
+                <p><strong>City:</strong> {{ customer['City'] }}</p>
+                <p><strong>State:</strong> {{ customer['State'] }}</p>
+                <p><strong>Country:</strong> {{ customer['Country'] }}</p>
+                <p><strong>Enroll Date:</strong> {{ customer['EnrollDate'] }}</p>
+                <p><strong>Onboarded By:</strong> {{ customer['EnrolledBy'] }}</p>
+            </div>
+            {% endfor %}
         </div>
     </div>
+
     <div class="bottom-bar">
         &copy; 2024 VNoU Solutions. All rights reserved. |
         <a href="/privacy-policy">Privacy Policy</a> |
         <a href="/terms-of-service">Terms of Service</a>
     </div>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     <script>
         function toggleSidebar() {
             var sidebar = document.getElementById("mySidebar");
@@ -312,36 +356,8 @@
                 sidebar.style.width = "250px";
             }
         }
-
-        const customers = {{ customers|tojson|safe }};
-
-        function generateCustomerCards() {
-            const customerList = document.getElementById('customer-list');
-            customerList.innerHTML = ''; // Clear any existing content
-
-            customers.forEach(customer => {
-                const customerCard = document.createElement('div');
-                customerCard.className = 'customer-card';
-
-                customerCard.innerHTML = `
-                    <img src="${customer.profilePicture}" alt="Profile Picture" class="profile-picture">
-                    <h2 class="customer-name">${customer.name}</h2>
-                    <p><strong>Contact Number:</strong> ${customer.contactNumber}</p>
-                    <p><strong>Date of Birth:</strong> ${customer.dob}</p>
-                    <p><strong>Email ID:</strong> ${customer.email}</p>
-                    <p><strong>Address:</strong> ${customer.address}</p>
-                    <p><strong>City:</strong> ${customer.city}</p>
-                    <p><strong>State:</strong> ${customer.state}</p>
-                    <p><strong>Country:</strong> ${customer.country}</p>
-                    <p><strong>Enrolled at:</strong> ${customer.enrolledAt}</p>
-                    <p><strong>Added by:</strong> ${customer.addedBy}</p>
-                `;
-
-                customerList.appendChild(customerCard);
-            });
-        }
-
-        document.addEventListener('DOMContentLoaded', generateCustomerCards);
     </script>
+
 </body>
+
 </html>

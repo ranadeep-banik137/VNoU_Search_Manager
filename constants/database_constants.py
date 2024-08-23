@@ -58,19 +58,24 @@ class Search_table_queries:
     search_column_for_value_in_dp = """SELECT %s from dp_table where %s = '%s'"""
     search_history_with_id = """SELECT * from user_creds_history where UserID = '%s'"""
     get_role_with_id = """SELECT RoleType from roles where RoleID = '%s'"""
-
+    search_records_with_cust_id = """SELECT * FROM identifiers where CustID = '%s'"""
+    search_record_history_with_cust_id = """SELECT * FROM identifier_records where CustID = '%s'"""
 
 class Table_name:
     user_creds = 'user_creds'
     user_records = 'user_records'
     dp_table = 'dp_table'
+    identifiers = 'identifiers'
+    identifier_records = 'identifier_records'
 
 
 class Search_variable:
+    name = 'Name'
     username = 'UserName'
     email = 'Email'
     phone = 'Phone'
     userid = 'UserID'
+    custid = 'CustID'
 
 
 class User_creds:

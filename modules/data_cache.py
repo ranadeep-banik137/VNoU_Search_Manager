@@ -2,7 +2,7 @@ import os
 import time
 import datetime
 from modules.database_util import get_data_in_tuples, get_pk_id, update_data, insert_data
-from constants.database_constants import Table_name, Search_variable, Search_table_queries, User_creds, Dp_data, Update_table_queries, Insert_table_queries
+from constants.database_constants import Table_name, Search_variable, Search_table_queries, User_creds, Dp_data, Update_table_queries, Insert_table_queries, User_records
 from constants.database_constants import Roles
 from modules.config_reader import read_config
 from modules.image_utils import get_picture_url_from_binary, get_default_no_img_binary
@@ -61,6 +61,29 @@ def get_all_db_data():
         row_data['Img'] = None if len(data_tuple_dp_table) <= 0 else data_tuple_dp_table[0][1]
         row_data['Img_URL'] = None if len(data_tuple_dp_table) <= 0 else get_picture_url_from_binary(data_tuple_dp_table[0][1])
         data[userid] = row_data
+    return data
+
+
+def get_all_identifiers_data():
+    data_tuple_identifiers = get_data_in_tuples(Table_name.identifiers)
+    data = {}
+    for row in data_tuple_identifiers:
+        row_data = {}
+        cust_id = row[0]
+        data_tuple_identifier_records = get_data_in_tuples(query=Search_table_queries.search_record_history_with_cust_id % cust_id)[0]
+        row_data['Name'] = row[1]
+        row_data['CustImg'] = get_picture_url_from_binary(row[2])
+        row_data['Contact'] = row[3]
+        row_data['DOB'] = row[4]
+        row_data['Email'] = row[5]
+        row_data['Address'] = row[6]
+        row_data['City'] = row[7]
+        row_data['State'] = row[8]
+        row_data['Country'] = row[9]
+        row_data['EnrollDate'] = data_tuple_identifier_records[1]
+        row_data['EnrolledBy'] = get_searched_column_data(data_tuple_identifier_records[2], User_records.name)
+        data[cust_id] = row_data
+
     return data
 
 

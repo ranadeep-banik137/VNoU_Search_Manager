@@ -1,3 +1,4 @@
+import datetime
 import os
 from flask import Flask, request, render_template, redirect, url_for, flash, send_file
 from page_object.search_utils import search_data
@@ -6,6 +7,7 @@ from page_object.signup_utils import is_identifier_already_used, is_email_used, 
 from page_object.dashboard_utils import get_user_details
 from page_object.edit_details_utils import update_user_details
 from page_object.onboarding_utils import onboard_users
+from page_object.customer_utils import get_all_customer_data
 from page_object.change_password_utils import validate_email_and_get_id, validate_dob_and_name, validate_username, is_password_existing, update_new_password_for_user
 from modules.image_utils import convert_img_to_binary
 from modules.session_manager import get_session
@@ -353,21 +355,7 @@ def customer_details():
         return redirect(url_for('home'))
     if not session.get('logged_in'):
         return redirect(url_for('home'))
-    customers = [
-    {
-        "name": "John Doe",
-        "profilePicture": "https://via.placeholder.com/150",
-        "contactNumber": "(123) 456-7890",
-        "dob": "January 1, 1990",
-        "email": "johndoe@example.com",
-        "address": "123 Main St, Apt 4B",
-        "city": "Springfield",
-        "state": "IL",
-        "country": "USA",
-        "enrolledAt": "August 1, 2022",
-        "addedBy": "Jane Smith"
-    },
-    ]
+    customers = get_all_customer_data()
     return render_template('customer_details.html', customers=customers)
 
 
