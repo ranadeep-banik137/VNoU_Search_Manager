@@ -90,7 +90,7 @@ def update_data(update_sql, data):
 
 def get_data_in_tuples(table_name=None, query=None):
     conn, cursor = connect()
-    records = tuple
+    records = None
     try:
         if query is None:
             cursor.execute(f""" SELECT * from {table_name} """)
