@@ -137,25 +137,29 @@ def update_cache(userid, picture_binary, name, gender, email, phone, address_l1,
     cached_data.get(userid).update(updated_details)
 
 
-def update_identifiers_db(userid, picture_binary, name, gender, email, phone, address_l1, address_l2, dob, city, country, state):
-    update_data(Update_table_queries.update_all_in_user_records_with_id, (name, gender, email, phone, dob, address_l1, address_l2, city, state, country, userid))
-    if picture_binary is not None:
-        update_data(Update_table_queries.update_all_in_dp_table_with_id, (picture_binary, userid))
-
-
-def remove_identifier_from_db(cust_id):
-    success = True
-    data = get_all_identifiers_data()
+def update_identifiers_db(user_id, cust_id, picture_binary, name, email, contact, address, dob, city, country, state):
     time_current = time.time()
     timestamp = datetime.datetime.fromtimestamp(time_current).strftime('%Y-%m-%d %H:%M:%S')
-    cust_data = data.get(cust_id)
-    if cust_data:
-        insert_data(Insert_table_queries.insert_all_into_deleted_identifiers, (cust_id, timestamp, cust_data.get('EnrollerID')))
-        error = update_data(Delete_table_data_queries.delete_identifier_records_with_id, (cust_id,))
-        if error == '':
-            error2 = update_data(Delete_table_data_queries.delete_identifier_with_id, (cust_id,))
-            success = error2 == ''
-            error = error2
+    error = update_data(Update_table_queries.update_all_in_identifiers_with_id, (name, contact, dob, email, address, city, state, country, cust_id))
+    print(f'error1: {error}')
+    if picture_binary is not None and error == '':
+        error = update_data(Update_table_queries.update_img_in_identifiers_with_id, (picture_binary, cust_id))
+        print(f'error2: {error}')
+    id_err = update_data(Update_table_queries.update_all_in_identifier_records_with_id, (timestamp, user_id, cust_id)) if error == '' else error
+    print(f'error3: {id_err}')
+    return id_err == '', id_err,
+
+
+def remove_identifier_from_db(cust_id, user_id):
+    success = True
+    time_current = time.time()
+    timestamp = datetime.datetime.fromtimestamp(time_current).strftime('%Y-%m-%d %H:%M:%S')
+    insert_data(Insert_table_queries.insert_all_into_deleted_identifiers, (cust_id, timestamp, user_id))
+    error = update_data(Delete_table_data_queries.delete_identifier_records_with_id, (cust_id,))
+    if error == '':
+        error2 = update_data(Delete_table_data_queries.delete_identifier_with_id, (cust_id,))
+        success = error2 == ''
+        error = error2
     return success, error
 
 

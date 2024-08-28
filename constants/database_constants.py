@@ -46,6 +46,9 @@ class Update_table_queries:  # UserID and Username cannot be updated
     update_all_in_user_creds_with_id = """UPDATE user_creds SET Salt = %s WHERE UserID = %s"""
     update_all_in_user_records_with_id = """UPDATE user_records SET Name = %s, Gender = %s, Email = %s, Phone = %s, DOB = %s, Address_L1 = %s, Address_L2 = %s, City = %s, State = %s, Country = %s WHERE UserID = %s"""
     update_all_in_dp_table_with_id = """UPDATE dp_table SET Img = %s WHERE UserID = %s"""
+    update_all_in_identifiers_with_id = """UPDATE identifiers SET Name = %s, Contact = %s, DOB = %s, Email = %s, Address = %s, City = %s, State = %s, Country = %s WHERE CustID = %s"""
+    update_img_in_identifiers_with_id = """UPDATE identifiers SET CustImg = %s WHERE CustID = %s"""
+    update_all_in_identifier_records_with_id = """UPDATE identifier_records SET UpdatedOn = %s, UpdatedBy = %s WHERE CustID = %s"""
 
 
 class Delete_table_data_queries:

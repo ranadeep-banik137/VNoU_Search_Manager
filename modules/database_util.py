@@ -73,6 +73,7 @@ def update_data(update_sql, data):
     error = ''
     conn, cursor = connect()
     try:
+        print(update_sql, data)
         cursor.execute(update_sql, data)
         conn.commit()
         print("Table updated successfully.")

@@ -7,7 +7,7 @@ from page_object.signup_utils import is_identifier_already_used, is_email_used, 
 from page_object.dashboard_utils import get_user_details
 from page_object.edit_details_utils import update_user_details
 from page_object.onboarding_utils import onboard_users
-from page_object.customer_utils import get_all_customer_data, delete_customer_by_id
+from page_object.customer_utils import get_all_customer_data, delete_customer_by_id, update_customer_details
 from page_object.change_password_utils import validate_email_and_get_id, validate_dob_and_name, validate_username, is_password_existing, update_new_password_for_user
 from modules.image_utils import convert_img_to_binary
 from modules.session_manager import get_session
@@ -367,10 +367,18 @@ def remove_customer(customer_id):
         return redirect(url_for('home'))
 
     # Call a function to remove the customer from the database
-    result, err = delete_customer_by_id(customer_id)
+    user_id = session.get('user_id')
+    result, err = delete_customer_by_id(customer_id=customer_id, user_id=user_id)
     flash(f'Customer {customer_id} removed successfully' if result else err, 'success' if result else 'danger')
     # Redirect back to the customer portal after deletion
     return redirect(url_for('customer_details'))
+
+
+@app.route('/update_customer')
+def update_customers():
+    if 'logged_in' not in session:
+        return redirect(url_for('home'))
+    return render_template('edit_cust_details.html')
 
 
 @app.route('/edit_customer/<customer_id>', methods=['GET', 'POST'])
@@ -379,12 +387,29 @@ def edit_customer(customer_id):
         return redirect(url_for('home'))
     if not session.get('logged_in'):
         return redirect(url_for('home'))
-
-    # Call a function to remove the customer from the database
-    # delete_customer_by_id(customer_id)
-    flash(f'Details for {customer_id} updated successfully', 'success')
-    # Redirect back to the customer portal after deletion
-    return redirect(url_for('customer_details'))
+    user_id = session.get('user_id')
+    if request.method == 'POST':
+        # Handle POST request to update customer data
+        data = request.form
+        name = data.get('name')
+        contact = data.get('contact')
+        email = data.get('email')
+        address = data.get('address')
+        dob = data.get('dob')
+        city = data.get('city')
+        country = data.get('country')
+        state = data.get('state')
+        image_edited = request.form.get('image_edited') == 'true'
+        profile_picture_binary = None
+        profile_picture = request.files['profile_picture'] if 'profile_picture' in request.files else None
+        if profile_picture and image_edited:
+            # filename = secure_filename(profile_picture.filename)
+            profile_picture_binary = convert_img_to_binary(profile_picture)
+        status, err = update_customer_details(customer_id=customer_id, user_id=user_id, img=profile_picture_binary, name=name, contact=contact, email=email, address=address, dob=dob, city=city, state=state, country=country)
+        flash(f'Customer data for {name} is updated successfully!' if status else err, 'success' if status else 'danger')
+        #return redirect(url_for('customer_details'))
+    customer_data = get_all_customer_data(customer_id=customer_id)[0]
+    return render_template('edit_cust_details.html', customer_id=customer_id, **customer_data)
 
 
 if __name__ == '__main__':
