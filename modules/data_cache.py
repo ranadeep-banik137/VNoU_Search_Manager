@@ -2,7 +2,7 @@ import os
 import time
 import datetime
 from modules.database_util import get_data_in_tuples, get_pk_id, update_data, insert_data
-from constants.database_constants import Table_name, Search_variable, Search_table_queries, User_creds, Dp_data, Update_table_queries, Insert_table_queries, User_records
+from constants.database_constants import Table_name, Search_variable, Search_table_queries, User_creds, Dp_data, Update_table_queries, Insert_table_queries, User_records, Delete_table_data_queries
 from constants.database_constants import Roles
 from modules.config_reader import read_config
 from modules.image_utils import get_picture_url_from_binary, get_default_no_img_binary
@@ -71,6 +71,7 @@ def get_all_identifiers_data():
         row_data = {}
         cust_id = row[0]
         data_tuple_identifier_records = get_data_in_tuples(query=Search_table_queries.search_record_history_with_cust_id % cust_id)[0]
+        row_data['CustID'] = cust_id
         row_data['Name'] = row[1]
         row_data['CustImg'] = get_picture_url_from_binary(row[2])
         row_data['Contact'] = row[3]
@@ -81,6 +82,7 @@ def get_all_identifiers_data():
         row_data['State'] = row[8]
         row_data['Country'] = row[9]
         row_data['EnrollDate'] = data_tuple_identifier_records[1]
+        row_data['EnrollerID'] = data_tuple_identifier_records[2]
         row_data['EnrolledBy'] = get_searched_column_data(data_tuple_identifier_records[2], User_records.name)
         data[cust_id] = row_data
 
@@ -133,6 +135,28 @@ def update_cache(userid, picture_binary, name, gender, email, phone, address_l1,
             updated_details['Img_URL'] = get_picture_url_from_binary(updated_details.get('Img'))
             break
     cached_data.get(userid).update(updated_details)
+
+
+def update_identifiers_db(userid, picture_binary, name, gender, email, phone, address_l1, address_l2, dob, city, country, state):
+    update_data(Update_table_queries.update_all_in_user_records_with_id, (name, gender, email, phone, dob, address_l1, address_l2, city, state, country, userid))
+    if picture_binary is not None:
+        update_data(Update_table_queries.update_all_in_dp_table_with_id, (picture_binary, userid))
+
+
+def remove_identifier_from_db(cust_id):
+    success = True
+    data = get_all_identifiers_data()
+    time_current = time.time()
+    timestamp = datetime.datetime.fromtimestamp(time_current).strftime('%Y-%m-%d %H:%M:%S')
+    cust_data = data.get(cust_id)
+    if cust_data:
+        insert_data(Insert_table_queries.insert_all_into_deleted_identifiers, (cust_id, timestamp, cust_data.get('EnrollerID')))
+        error = update_data(Delete_table_data_queries.delete_identifier_records_with_id, (cust_id,))
+        if error == '':
+            error2 = update_data(Delete_table_data_queries.delete_identifier_with_id, (cust_id,))
+            success = error2 == ''
+            error = error2
+    return success, error
 
 
 def update_db(userid, picture_binary, name, gender, email, phone, address_l1, address_l2, dob, city, country, state):

@@ -27,6 +27,7 @@ class Create_table_queries:
 			identifiers (CustID VARCHAR(255) PRIMARY KEY, Name VARCHAR(255) NOT NULL,\
 			CustImg LONGBLOB NOT NULL, Contact VARCHAR(255), DOB VARCHAR(255), Email VARCHAR(255), Address VARCHAR(255), City VARCHAR(255), State VARCHAR(255), Country VARCHAR(255))"
     identifier_records = "CREATE TABLE IF NOT EXISTS identifier_records (CustID VARCHAR(255), FOREIGN KEY (CustID) REFERENCES identifiers(CustID), EnrollDate TIMESTAMP NOT NULL, EnrollerId VARCHAR(255))"
+    deleted_identifiers = "CREATE TABLE IF NOT EXISTS deleted_identifiers (CustID VARCHAR(255) NOT NULL, RemovalDate TIMESTAMP NOT NULL, RemoverID VARCHAR(255) NOT NULL)"
 
 
 class Insert_table_queries:
@@ -38,12 +39,18 @@ class Insert_table_queries:
     insert_all_into_identifier_records = """INSERT INTO identifier_records (CustID, EnrollDate, EnrollerId) VALUES (%s, %s, %s)"""
     insert_all_into_identifiers = """INSERT INTO identifiers (CustID, Name, CustImg, Contact, DOB, Email, Address, City, State, Country)
                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+    insert_all_into_deleted_identifiers = """INSERT INTO deleted_identifiers (CustID, RemovalDate, RemoverID) VALUES (%s, %s, %s)"""
 
 
 class Update_table_queries:  # UserID and Username cannot be updated
     update_all_in_user_creds_with_id = """UPDATE user_creds SET Salt = %s WHERE UserID = %s"""
     update_all_in_user_records_with_id = """UPDATE user_records SET Name = %s, Gender = %s, Email = %s, Phone = %s, DOB = %s, Address_L1 = %s, Address_L2 = %s, City = %s, State = %s, Country = %s WHERE UserID = %s"""
     update_all_in_dp_table_with_id = """UPDATE dp_table SET Img = %s WHERE UserID = %s"""
+
+
+class Delete_table_data_queries:
+    delete_identifier_with_id = """DELETE FROM identifiers WHERE CustID = %s"""
+    delete_identifier_records_with_id = """DELETE FROM identifier_records WHERE CustID = %s"""
 
 
 class Search_table_queries:

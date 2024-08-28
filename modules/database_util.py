@@ -70,6 +70,7 @@ def insert_data(insert_sql, data):
 
 
 def update_data(update_sql, data):
+    error = ''
     conn, cursor = connect()
     try:
         cursor.execute(update_sql, data)
@@ -77,15 +78,19 @@ def update_data(update_sql, data):
         print("Table updated successfully.")
     except mysql.connector.Error as err:
         if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-            print("Something is wrong with your user name or password.")
+            error = 'Something is wrong with your user name or password.'
+            print(error)
         elif err.errno == errorcode.ER_BAD_DB_ERROR:
-            print("Database does not exist.")
+            error = "Database does not exist."
+            print(error)
         else:
+            error = err
             print(err)
     finally:
         if conn.is_connected():
             cursor.close()
             conn.close()
+        return error
 
 
 def get_data_in_tuples(table_name=None, query=None):

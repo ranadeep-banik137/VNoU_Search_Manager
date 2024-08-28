@@ -7,7 +7,7 @@ from page_object.signup_utils import is_identifier_already_used, is_email_used, 
 from page_object.dashboard_utils import get_user_details
 from page_object.edit_details_utils import update_user_details
 from page_object.onboarding_utils import onboard_users
-from page_object.customer_utils import get_all_customer_data
+from page_object.customer_utils import get_all_customer_data, delete_customer_by_id
 from page_object.change_password_utils import validate_email_and_get_id, validate_dob_and_name, validate_username, is_password_existing, update_new_password_for_user
 from modules.image_utils import convert_img_to_binary
 from modules.session_manager import get_session
@@ -359,6 +359,34 @@ def customer_details():
     return render_template('customer_details.html', customers=customers)
 
 
+@app.route('/remove_customer/<customer_id>', methods=['GET', 'POST'])
+def remove_customer(customer_id):
+    if 'logged_in' not in session:
+        return redirect(url_for('home'))
+    if not session.get('logged_in'):
+        return redirect(url_for('home'))
+
+    # Call a function to remove the customer from the database
+    result, err = delete_customer_by_id(customer_id)
+    flash(f'Customer {customer_id} removed successfully' if result else err, 'success' if result else 'danger')
+    # Redirect back to the customer portal after deletion
+    return redirect(url_for('customer_details'))
+
+
+@app.route('/edit_customer/<customer_id>', methods=['GET', 'POST'])
+def edit_customer(customer_id):
+    if 'logged_in' not in session:
+        return redirect(url_for('home'))
+    if not session.get('logged_in'):
+        return redirect(url_for('home'))
+
+    # Call a function to remove the customer from the database
+    # delete_customer_by_id(customer_id)
+    flash(f'Details for {customer_id} updated successfully', 'success')
+    # Redirect back to the customer portal after deletion
+    return redirect(url_for('customer_details'))
+
+
 if __name__ == '__main__':
     create_table(Create_table_queries.user_creds)
     create_table(Create_table_queries.dp_table)
@@ -367,4 +395,5 @@ if __name__ == '__main__':
     create_table(Create_table_queries.user_creds_history)
     create_table(Create_table_queries.identifiers)
     create_table(Create_table_queries.identifier_records)
+    create_table(Create_table_queries.deleted_identifiers)
     app.run(debug=True)

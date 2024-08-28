@@ -5,7 +5,7 @@ from modules.json_filtering import filter_jsons_by_range, filter_jsons_by_attr, 
     filter_jsons_by_ranges
 from modules.search_util import search_value_by_attributes, search_value_by_attr
 from page_object.login_utils import search_identifier, is_password_valid, validate_creds
-from modules.data_cache import get_all_db_data, search_merged_data, cache_db_data, get_searched_column_data, get_searched_column_data_from_db
+from modules.data_cache import get_all_db_data, search_merged_data, cache_db_data, get_searched_column_data, get_searched_column_data_from_db, remove_identifier_from_db
 from constants.database_constants import Search_variable, Search_table_queries, Table_name, User_creds
 from modules.database_util import create_table, insert_data, get_data_in_tuples, get_pk_id, update_data
 from modules.image_utils import get_picture_url_from_binary, convert_img_file_to_binary
@@ -158,6 +158,7 @@ if __name__ == '__main__':
     #test = get_pk_id(Search_variable.username, None)
     #print(f'test {test}')
 
-    search_data(name='Ranadeep Banik')
-    get_pk_id(Search_variable.phone, 'ranadeep.banik')
-
+    # search_data(name='Ranadeep Banik')
+    #get_pk_id(Search_variable.phone, 'ranadeep.banik')
+    #CUST_8P6SH0P6
+    remove_identifier_from_db('CUST_8P6SH0P6')
