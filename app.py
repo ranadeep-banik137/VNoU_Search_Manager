@@ -407,7 +407,7 @@ def edit_customer(customer_id):
             profile_picture_binary = convert_img_to_binary(profile_picture)
         status, err = update_customer_details(customer_id=customer_id, user_id=user_id, img=profile_picture_binary, name=name, contact=contact, email=email, address=address, dob=dob, city=city, state=state, country=country)
         flash(f'Customer data for {name} is updated successfully!' if status else err, 'success' if status else 'danger')
-        #return redirect(url_for('customer_details'))
+
     customer_data = get_all_customer_data(customer_id=customer_id)[0]
     return render_template('edit_cust_details.html', customer_id=customer_id, **customer_data)
 
