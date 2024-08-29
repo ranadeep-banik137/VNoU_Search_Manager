@@ -7,7 +7,7 @@ from page_object.signup_utils import is_identifier_already_used, is_email_used, 
 from page_object.dashboard_utils import get_user_details
 from page_object.edit_details_utils import update_user_details
 from page_object.onboarding_utils import onboard_users
-from page_object.customer_utils import get_all_customer_data, delete_customer_by_id, update_customer_details
+from page_object.customer_utils import get_all_customer_data, delete_customer_by_id, update_customer_details, get_all_mapped_customers
 from page_object.change_password_utils import validate_email_and_get_id, validate_dob_and_name, validate_username, is_password_existing, update_new_password_for_user
 from modules.image_utils import convert_img_to_binary
 from modules.session_manager import get_session
@@ -374,11 +374,20 @@ def remove_customer(customer_id):
     return redirect(url_for('customer_details'))
 
 
-@app.route('/update_customer')
-def update_customers():
-    if 'logged_in' not in session:
-        return redirect(url_for('home'))
-    return render_template('edit_cust_details.html')
+@app.route('/update_customer', methods=['GET', 'POST'])
+def update_customer():
+    customers = get_all_mapped_customers()
+    return render_template('update_customers.html', customers=customers)
+
+
+@app.route('/select_customer', methods=['POST'])
+def select_customer():
+    customer_id = request.form.get('customer')
+    if customer_id:
+        return redirect(url_for('edit_customer', customer_id=customer_id))
+    else:
+        flash('Please select a customer.', 'error')
+        return redirect(url_for('update_customer'))
 
 
 @app.route('/edit_customer/<customer_id>', methods=['GET', 'POST'])

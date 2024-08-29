@@ -13,6 +13,9 @@ def get_all_customer_data(customer_id=None):
     return data
 
 
+def get_all_mapped_customers():
+    return get_all_identifiers_data()
+
 def delete_customer_by_id(customer_id, user_id):
     return remove_identifier_from_db(cust_id=customer_id, user_id=user_id)
 

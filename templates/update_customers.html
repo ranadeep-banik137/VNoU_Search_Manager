@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VNoU Search Box</title>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Raleway', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: auto;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.6);
+        }
+        .background-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 28px;
+            color: white;
+            position: relative;
+            font-weight: 700;
+        }
+        .header h1 {
+            margin: 0;
+            padding-bottom: 10px;
+            font-size: 1.5rem;
+        }
+        .header::after {
+            content: '';
+            display: block;
+            width: 100%;
+            height: 0.5px;
+            background: white;
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 10px;
+        }
+        .top-bar, .bottom-bar {
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.7);
+        }
+        .top-bar {
+            top: 0;
+            left: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 7px 20px;
+            z-index: 2;
+        }
+        .top-bar img {
+            max-height: 50px;
+            margin-left: 10px;
+        }
+        .top-bar a {
+            color: #fff;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 14px;
+        }
+        .top-bar .logout-btn {
+            background: #dc3545;
+            color: #fff;
+            padding: 7px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-right: 30px;
+        }
+        .top-bar .logout-btn:hover {
+            background: #c82333;
+        }
+        .top-bar .dashboard-link {
+            font-size: 12px;
+        }
+        .top-bar .dashboard-link:hover {
+            text-decoration: underline;
+        }
+        .top-bar .dashboard-link::before {
+            content: "← ";
+            margin-right: 5px;
+        }
+
+        .bottom-bar {
+            bottom: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            color: #fff;
+            font-size: 12px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .bottom-bar a {
+            color: #fff;
+            margin: 0 15px;
+            font-size: 11px;
+        }
+        .container {
+            width: 40%;
+            max-height: 70vh;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+            overflow: auto;
+            margin-top: 90px; /* Space for top tab */
+            margin-bottom: 60px; /* Space for bottom tab */
+            scrollbar-width: none;
+        }
+        .container::-webkit-scrollbar {
+            display: none;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 13px;
+            color: #fff;
+        }
+        .form-group input, .form-group select {
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            width: 100%;
+            padding: 6px;
+            border: 2px solid #007bff;
+            border-radius: 6px;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+        .form-group input:focus, .form-group select:focus {
+            border-color: #0056b3;
+            outline: none;
+        }
+        .form-group.inline-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .form-group.inline-group .form-group {
+            flex: 1 1 calc(50% - 20px);
+        }
+        .dropdown {
+            margin-bottom: 25px;
+            font-size: 18px;
+            padding: 12px;
+        }
+        .dropdown label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 13px;
+            color: white;
+        }
+        .dropdown select {
+            width: 100%;
+            padding: 5px;
+            border-radius: 6px;
+            border: 2px solid #007bff;
+            font-size: 15px;
+            #background: #fff;
+            box-sizing: border-box;
+            background: rgba(0, 0, 0, 0.5); /* semi-transparent black background */
+            color: white; /* make text white for better visibility */
+        }
+        button {
+            padding: 6px 11px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        button.reset {
+            background-color: #dc3545;
+        }
+        button.reset:hover {
+            background-color: #c82333;
+        }
+        @media (max-width: 768px) {
+            .container {
+                width: 90%; /* Adjusted for better spacing on small screens */
+                max-height: calc(100vh - 150px);
+                padding: 15px;
+                box-sizing: border-box; /* Ensures padding doesn't affect width calculation */
+            }
+            .top-bar {
+                top: 0;
+                left: 0;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 7px 15px; /* Reduced padding for better fit */
+                z-index: 2;
+                position: fixed; /* Ensures the top bar stays fixed at the top */
+                width: 100%; /* Ensures the top bar spans the full width of the screen */
+                box-sizing: border-box; /* Ensures padding doesn't affect width calculation */
+            }
+            .top-bar img {
+                max-height: 40px; /* Adjusted size for smaller screens */
+                margin-left: 0;
+            }
+            .top-bar .logout-btn {
+                background: #dc3545;
+                color: #fff;
+                padding: 4px 10px; /* Adjusted padding for better fit */
+                border-radius: 5px;
+                text-decoration: none;
+                margin-right: 0; /* Removed margin to avoid overflow */
+                font-size: 14px; /* Smaller font size for better mobile view */
+                white-space: nowrap; /* Prevents text from wrapping */
+            }
+        }
+        .form-container {
+            margin: 100px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            max-width: 400px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        select, input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <video autoplay muted loop class="background-video">
+        <source src="https://videos.pexels.com/video-files/3163534/3163534-uhd_2560_1440_30fps.mp4" type="video/mp4">
+        Your browser does not support HTML5 video.
+    </video>
+    <div class="top-bar">
+        <a href="/dashboard">
+            <img src="{{ url_for('inner_page_logo') }}" alt="VNoU Solutions">
+        </a>
+        <div>
+            <a href="/dashboard" class="dashboard-link">Dashboard</a>
+            <a href="{{ url_for('logout') }}" class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+        </div>
+    </div>
+    <div class="container">
+        <h3>Choose Customer by Name</h3>
+            <form method="POST" action="{{ url_for('select_customer') }}">
+                <div class="form-group">
+                    <label for="customer">Select Customer</label>
+                    <select id="customer" name="customer" required>
+                        <option value="">Choose...</option>
+                        {% for customer_id, customer_data in customers.items() %}
+                            <option value="{{ customer_id }}">{{ customer_data['Name'] }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit">Update Details</button>
+            </form>
+    </div>
+    <div class="bottom-bar">
+        &copy; 2024 VNoU Solutions. All rights reserved. |
+        <a href="/privacy-policy">Privacy Policy</a> |
+        <a href="/terms-of-service">Terms of Service</a>
+    </div>
+    <script>
+
+    </script>
+</body>
+</html>
