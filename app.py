@@ -374,6 +374,21 @@ def remove_customer(customer_id):
     return redirect(url_for('customer_details'))
 
 
+@app.route('/terms-of-service')
+def terms_of_service():
+    return render_template('terms_of_service.html')
+
+
+@app.route('/privacy-policy')
+def privacy_policy():
+    return render_template('privacy_policy.html')
+
+
+@app.route('/legal')
+def legal():
+    return render_template('legal.html')
+
+
 @app.route('/update_customer', methods=['GET', 'POST'])
 def update_customer():
     customers = get_all_mapped_customers()
