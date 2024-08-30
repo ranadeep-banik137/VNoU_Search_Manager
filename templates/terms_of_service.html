@@ -47,19 +47,6 @@
             margin-left: 20px;
             font-size: 14px;
         }
-        .top-bar .logout-btn {
-            background: #dc3545;
-            color: #fff;
-            padding: 7px 15px;
-            border-radius: 5px;
-            text-decoration: none;
-            margin-left: 30px;
-            position: relative;
-            left: -20px;
-        }
-        .top-bar .logout-btn:hover {
-            background: #c82333;
-        }
         .top-bar .dashboard-link {
             font-size: 12px;
         }
@@ -167,7 +154,7 @@
         .sidebar .dropdown-container a {
             font-size: 16px;
         }
-        .sidebar .logout-link {
+        .sidebar .version-link {
             position: absolute;
             top: 500px;
             width: 100%;
@@ -239,9 +226,7 @@
         </a>
         <div style="display: flex; align-items: center; margin-left: auto;">
             <a href="/dashboard" class="dashboard-link">Back</a>
-            <a href="{{ url_for('logout') }}" class="logout-btn">
-                <i class="fas fa-sign-out-alt"></i> Logout
-            </a>
+            <a href="/" class="home-button"><i class="fas fa-home"></i></a>
         </div>
     </div>
 
@@ -272,8 +257,8 @@
             <a href="#">Chat with Us</a>
             <a href="/support">Contact Support</a>
         </div>
-        <a href="{{ url_for('logout') }}" class="logout-link">
-            <i class="fas fa-sign-out-alt"></i> Logout
+        <a href="#" class="version-link">
+            <i class="fas fa-sign-out-alt"></i> Version 2.0.1
         </a>
     </div>
 
