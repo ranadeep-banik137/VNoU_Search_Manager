@@ -88,7 +88,7 @@
         }
         @media (max-width: 768px) {
             .container {
-                width: 75%;
+                width: 50%;
                 padding: 15px;
                 top: 75px; /* Adjust for smaller screens */
                 bottom: 50px; /* Adjust for smaller screens */
@@ -202,42 +202,78 @@
             position: relative;
             z-index: 1;
             width: 90%;
-            max-width: 600px;
+            max-width: 500px;
             margin: 100px auto;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.7);
-            border-radius: 10px;
-            top: 60px; /* Offset for the top bar */
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 15px;
+            top: 20px; /* Offset for the top bar */
             bottom: 50px; /* Offset for the bottom bar */
             overflow-y: auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
         .container h3 {
-            margin-bottom: 20px;
+            position: relative;
+            top: 0px;
+            margin-bottom: 50px;
+            font-size: 24px;
+            color: #f0f0f0;
+            text-align: center;
+            font-weight: 550;
         }
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
         .form-group label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #ddd;
         }
         .form-group select {
             width: 100%;
-            padding: 8px;
-            font-size: 14px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
+            padding: 10px;
+            font-size: 13px;
+            border-radius: 8px;
+            border: 1px solid #444;
+            #background-color: #333;
+            background: rgba(0, 0, 0, 0.6);
+            color: #eee;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        .form-group select:focus {
+            background-color: #444;
+            #background: rgba(0, 0, 0, 0.6);
+            border-color: #555;
+            outline: none;
         }
         button[type="submit"] {
-            background-color: #28a745;
+            background-color: #007bff;
             color: white;
             border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
+            padding: 9px 20px;
+            border-radius: 8px;
             cursor: pointer;
+            font-size: 16px;
+            display: block;
+            margin: 20px auto;
+            transition: background-color 0.3s, transform 0.2s;
         }
         button[type="submit"]:hover {
-            background-color: #218838;
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+        button[type="submit"]:active {
+            transform: translateY(0);
+        }
+        .separator {
+            width: 100%;
+            height: 0.5px;
+            background-color: #fff;
+            margin-top: 10px;
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
         }
     </style>
 </head>
@@ -292,10 +328,12 @@
     </div>
 
     <div class="container">
-        <h3>Choose Customer by Name</h3>
+        <h3>Update Customer Details
+            <div class="separator"></div>
+        </h3>
         <form method="POST" action="{{ url_for('select_customer') }}">
             <div class="form-group">
-                <label for="customer">Select Customer</label>
+                <label for="customer">Choose Customer Name</label>
                 <select id="customer" name="customer" required>
                     <option value="">Choose...</option>
                     {% for customer_id, customer_data in customers.items() %}
