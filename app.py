@@ -385,6 +385,11 @@ def privacy_policy():
     return render_template('privacy_policy.html')
 
 
+@app.route('/contact')
+def contact_us():
+    return render_template('contact_us.html')
+
+
 @app.route('/legal')
 def legal():
     return render_template('legal.html')
