@@ -395,6 +395,16 @@ def legal():
     return render_template('legal.html')
 
 
+@app.route('/locations')
+def locations():
+    return render_template('locations.html')
+
+
+@app.route('/write-us')
+def write_us():
+    return render_template('write_us.html')
+
+
 @app.route('/about_us')
 def about_us():
     team_members = get_team_details()
