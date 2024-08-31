@@ -33,6 +33,12 @@ def homepage_logo():
     return send_file(logo_path, mimetype='image/png')
 
 
+@app.route('/background')
+def background():
+    background_path = os.path.join(app.root_path, 'static', 'videos', 'background.mp4')
+    return send_file(background_path, mimetype='video/mp4')
+
+
 @app.route('/upload_img')
 def upload_img():
     img_path = os.path.join(app.root_path, 'static', 'images', 'Upload DP.png')
