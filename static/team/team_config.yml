@@ -1,0 +1,63 @@
+ceo:
+  name: 'Sushant Singh Rajput'
+  details: 'Missing gem of bollywood'
+  bio: 'Movies like M.S Dhoni The untold Story, Kai Po Che, Raabta, Chhichhore'
+  place: 'Patna, India'
+  image: 'static/team/CEO.jpg'
+  designation: 'Chief Executive Officer'
+
+cto:
+  name: 'Ranadeep Banik'
+  details: 'Ghar ka CTO :D'
+  bio: 'Kya hi bataye'
+  place: 'Tripura, India'
+  image: 'static/team/CTO.jpg'
+  designation: 'Chief Technology Officer'
+
+mo:
+  name: 'Mamata Di'
+  details: 'West Bengal Destroyer'
+  bio: 'Jhaatu didi'
+  place: 'WB, India'
+  image: 'static/team/MO.png'
+  designation: 'Medical Officer'
+
+doc:
+  name: 'R.G Kar - Sanjib Ghosh'
+  details: 'Murderer, Rapist'
+  bio: 'Asshole'
+  place: 'WB, India'
+  image: 'static/team/DOC.png'
+  designation: 'TheRapist'
+
+cfo:
+  name: 'Monami Ghosh'
+  details: 'I dont know why i put her in here'
+  bio: 'Model'
+  place: 'WB, India'
+  image: 'static/team/CFO.jpg'
+  designation: 'Chief Financial Officer'
+
+cpo:
+  name: 'KAKA'
+  details: 'Random Image'
+  bio: 'Anonymous Image'
+  place: 'Tripura, India'
+  image: 'static/team/CPO.jpg'
+  designation: 'Chief Product Officer'
+
+doo:
+  name: 'SARKATE'
+  details: 'Sarkate ka sar kata hua hai'
+  bio: 'Stree murderer & Womanizer in past'
+  place: 'Tripura, India'
+  image: 'static/team/DOO.png'
+  designation: 'Director Of Operations'
+
+dom:
+  name: 'Dhruv Kutreya'
+  details: 'Kutreya'
+  bio: 'Kutreya Sala'
+  place: 'Tripura, India'
+  image: 'static/team/DOM.png'
+  designation: 'Director Of Marketing'

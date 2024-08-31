@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Company Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            font-family: 'Noto Sans', sans-serif;
+            overflow-y: scroll;
+        }
+
+        /* Background Video */
+        .video-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            opacity: 0.9;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            text-align: center;
+            padding: 0px 0;
+            z-index: 2;
+        }
+        .top-bar img {
+            max-height: 50px;
+        }
+        .home-button {
+            position: absolute;
+            left: 15px; /* Adjusted to move away from the edge */
+            top: 50%;
+            transform: translateY(-50%);
+            color: white; /* Ensure the color is visible */
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 10px; /* Add padding to increase clickable area */
+            background-color: rgba(0, 0, 0, 0.3); /* Add a background color for better visibility */
+            border-radius: 5px; /* Optional: rounded corners for aesthetics */
+        }
+
+        /* Bottom Bar */
+        .bottom-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            z-index: 2;
+            font-size: 0.7rem;
+            color: #ffffff;
+        }
+
+        .bottom-bar a {
+            color: #ffffff;
+            text-decoration: none;
+            margin-left: 15px;
+        }
+
+        .bottom-bar a:hover {
+            text-decoration: underline;
+        }
+
+        /* Content Container */
+        .content {
+            margin: 80px 20px 60px; /* Adjusting top and bottom margins to prevent overlap */
+            padding: 20px;
+            color: #ffffff;
+            max-width: 1200px; /* Limit content width for a more centered look */
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .content h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2rem;
+            text-transform: uppercase;
+        }
+
+        .description {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 0.8rem;
+            line-height: 1.5;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            color: #e0e0e0;
+        }
+
+        .description h2 {
+            font-size: 1.7rem;
+            margin-bottom: 25px;
+            font-weight: 500;
+            color: #ffffff;
+        }
+
+        /* Team Members Section */
+        .team {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .card {
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            width: 250px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+        }
+
+        .card img {
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            margin-bottom: 15px;
+        }
+
+        .card h2 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .card p {
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            color: #cccccc;
+        }
+
+        .card button {
+            padding: 10px 15px;
+            background-color: #ff5c5c;
+            color: #ffffff;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .card button:hover {
+            background-color: #ff2c2c;
+        }
+
+        /* Bio and Blog Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 3;
+        }
+
+        .modal-content {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            width: 80%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        .modal h2 {
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+            color: #333333;
+        }
+
+        .modal p {
+            font-size: 1rem;
+            color: #666666;
+            margin-bottom: 20px;
+        }
+
+        .modal button {
+            padding: 8px 16px;
+            background-color: #333333;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .modal button:hover {
+            background-color: #555555;
+        }
+        .separator {
+            width: 100%;
+            height: 0.5px;
+            background-color: #fff;
+            margin-top: 10px;
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        @media (max-width: 768px) {
+        .card {
+            width: 500px; /* Adjust card width for mobile */
+        }
+    }
+    </style>
+</head>
+<body>
+    <!-- Background Video -->
+    <video class="video-bg" src="https://videos.pexels.com/video-files/3163534/3163534-uhd_2560_1440_30fps.mp4" autoplay loop muted></video>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <a href="/" class="home-button"><i class="fas fa-home"></i></a>
+        <img src="{{ url_for('inner_page_logo') }}" alt="VNoU Solutions">
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <!-- Descriptive Heading -->
+        <div class="description">
+            <h2>Our leadership team:</h2>
+            <p>We are dedicated to helping you identify opportunities, navigate disruptive markets, and make easier solutions for your business.</p>
+            <p>We,</p>
+            <p>At VnoU Solutions, our leadership team is comprised of visionary professionals dedicated to driving innovation and excellence. With decades of combined experience in Software Engineering, our leaders are committed to guiding our company towards success through strategic thinking, collaborative efforts, and a relentless pursuit of excellence.</p>
+        </div>
+
+        <h1>Meet Our Team
+            <div class="separator"></div>
+        </h1>
+        <div class="team">
+            {% for member in team_members %}
+            <!-- Team Member -->
+            <div class="card">
+                <img src="{{ member.dp }}" alt="{{ member.name }} Image">
+                <h2>{{ member.name }}</h2>
+                <p>{{ member.des }}</p>
+                <button onclick="showModal('modal-{{ loop.index }}')">Details</button>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="bottom-bar">
+        <div>Copyright © 2024 VNoU Solutions. All rights reserved.</div>
+        <div>
+            <a href="/legal">Legal</a>
+            <a href="/privacy-policy">Privacy Policy</a>
+            <a href="/terms-of-service">Terms of Service</a>
+        </div>
+    </div>
+
+    <!-- Modals for each team member -->
+    {% for member in team_members %}
+    <div id="modal-{{ loop.index }}" class="modal">
+        <div class="modal-content">
+            <h2>{{ member.name }}</h2>
+            <p>{{ member.bio }}</p>
+            <p>{{ member.details }}</p>
+            <p>{{ member.place }}</p>
+            <button onclick="closeModal('modal-{{ loop.index }}')">Close</button>
+        </div>
+    </div>
+    {% endfor %}
+
+    <script>
+        function showModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+    </script>
+</body>
+</html>

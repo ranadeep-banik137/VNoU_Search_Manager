@@ -9,6 +9,7 @@ from page_object.edit_details_utils import update_user_details
 from page_object.onboarding_utils import onboard_users
 from page_object.customer_utils import get_all_customer_data, delete_customer_by_id, update_customer_details, get_all_mapped_customers
 from page_object.change_password_utils import validate_email_and_get_id, validate_dob_and_name, validate_username, is_password_existing, update_new_password_for_user
+from page_object.about_us_utils import get_team_details
 from modules.image_utils import convert_img_to_binary
 from modules.session_manager import get_session
 from modules.database_util import create_table
@@ -387,6 +388,12 @@ def privacy_policy():
 @app.route('/legal')
 def legal():
     return render_template('legal.html')
+
+
+@app.route('/about_us')
+def about_us():
+    team_members = get_team_details()
+    return render_template('about_us.html', team_members=team_members)
 
 
 @app.route('/update_customer', methods=['GET', 'POST'])
