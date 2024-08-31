@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legal - Company Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            font-family: 'Noto Sans', sans-serif;
+            overflow-y: scroll;
+        }
+
+        /* Background Video */
+        .video-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            opacity: 0.9;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 2px 0;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .home-button {
+            position: absolute;
+            left: 15px;
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+        }
+
+        .top-bar img {
+            max-height: 50px;
+            margin: 0 auto;
+        }
+
+        /* Bottom Bar */
+        .bottom-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            z-index: 2;
+            font-size: 0.7rem;
+            color: #ffffff;
+        }
+
+        .bottom-bar a {
+            color: #ffffff;
+            text-decoration: none;
+            margin-left: 15px;
+        }
+
+        .bottom-bar a:hover {
+            text-decoration: underline;
+        }
+
+        /* Content Container */
+        .content {
+            margin: 80px 20px 60px;
+            padding: 20px;
+            color: #ffffff;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .content h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2rem;
+            text-transform: uppercase;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: 500;
+            color: #ffffff;
+        }
+
+        .section p {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Video -->
+    <video class="video-bg" src="https://videos.pexels.com/video-files/3163534/3163534-uhd_2560_1440_30fps.mp4" autoplay loop muted></video>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <a href="/" class="home-button"><i class="fas fa-home"></i></a>
+        <img src="{{ url_for('inner_page_logo') }}" alt="VNoU Solutions">
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <h1>Legal Information</h1>
+
+        <!-- Terms of Service Section -->
+        <div class="section">
+            <h2>Terms of Service</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        </div>
+
+        <!-- Privacy Policy Section -->
+        <div class="section">
+            <h2>Privacy Policy</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        </div>
+
+        <!-- Cookie Policy Section -->
+        <div class="section">
+            <h2>Cookie Policy</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        </div>
+
+        <!-- Disclaimer Section -->
+        <div class="section">
+            <h2>Disclaimer</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="bottom-bar">
+        <div>Copyright © 2024 VNoU Solutions. All rights reserved.</div>
+        <div>
+            <a href="/legal">Legal</a>
+            <a href="/privacy-policy">Privacy Policy</a>
+            <a href="/terms-of-service">Terms of Service</a>
+        </div>
+    </div>
+</body>
+</html>
