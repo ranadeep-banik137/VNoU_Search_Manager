@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Privacy Policy</title>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body, html {
             height: 100%;
@@ -47,15 +48,18 @@
             margin-left: 20px;
             font-size: 14px;
         }
-        .top-bar .dashboard-link {
-            font-size: 12px;
-        }
-        .top-bar .dashboard-link:hover {
-            text-decoration: underline;
-        }
-        .top-bar .dashboard-link::before {
-            content: "← ";
-            margin-right: 5px;
+        .home-button {
+            position: absolute;
+            right: 20px; /* Adjusted to move away from the edge */
+            top: 50%;
+            transform: translateY(-50%);
+            color: white; /* Ensure the color is visible */
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: bold;
+            padding: 10px; /* Add padding to increase clickable area */
+            background-color: rgba(0, 0, 0, 0.3); /* Add a background color for better visibility */
+            border-radius: 5px; /* Optional: rounded corners for aesthetics */
         }
 
         .bottom-bar {
@@ -76,6 +80,8 @@
         @media (max-width: 768px) {
             .container {
                 position: relative;
+                left: 30px;
+                right: 30px;
                 top: 100px; /* Adjust as needed to fit between top bar and bottom bar */
                 bottom: 45px; /* Adjust as needed to fit between top bar and bottom bar */
                 width: 100%;
@@ -225,7 +231,6 @@
             <img src="{{ url_for('inner_page_logo') }}" alt="VNoU Solutions">
         </a>
         <div style="display: flex; align-items: center; margin-left: auto;">
-            <a href="/dashboard" class="dashboard-link">Back</a>
             <a href="/" class="home-button"><i class="fas fa-home"></i></a>
         </div>
     </div>
